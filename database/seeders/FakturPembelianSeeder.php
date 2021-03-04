@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\FakturPenjualan;
+use App\Models\FakturPembelian;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class FakturPenjualanSeeder extends Seeder
+class FakturPembelianSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +17,7 @@ class FakturPenjualanSeeder extends Seeder
     {
         DB::beginTransaction();
 
-        FakturPenjualan::factory()
+        FakturPembelian::factory()
             ->count(100)
             ->create();
 

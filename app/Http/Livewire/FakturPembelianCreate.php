@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
-class FakturPenjualanCreate extends Component
+class FakturPembelianCreate extends Component
 {
     public Collection $item_faktur_penjualans;
     public float $persentase_diskon_grosir;
@@ -61,9 +61,10 @@ class FakturPenjualanCreate extends Component
                 ]);
             });
 
-        return view('livewire.faktur-penjualan-create', [
+        return view('livewire.faktur-pembelian-create', [
             "item_faktur_penjualans" => $itemFakturPenjualans,
             "total_before_bulk_discount" => $itemFakturPenjualans->sum("subtotal"),
+            "total" => $itemFakturPenjualans->sum("subtotal") * (1 - ($this->persentase_diskon_grosir / 100))
         ]);
     }
 }

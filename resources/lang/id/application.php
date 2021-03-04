@@ -18,6 +18,7 @@ return [
 
     "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",
     "bulk_discount" => "Diskon Grosir",
+    "bulk_discount_percentage" => "Persentase Diskon Grosir",
     "total" => "Total",
 
     "filter" => "Filter",

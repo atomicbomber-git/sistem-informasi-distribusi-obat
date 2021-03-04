@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FakturPenjualan;
+use App\Models\FakturPembelian;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
-class FakturPenjualanController extends Controller
+class FakturPembelianController extends Controller
 {
     private ResponseFactory $responseFactory;
 
@@ -23,7 +23,7 @@ class FakturPenjualanController extends Controller
      */
     public function index()
     {
-        return $this->responseFactory->view("faktur-penjualan.index");
+        return $this->responseFactory->view("faktur-pembelian.index");
     }
 
     /**
@@ -33,7 +33,7 @@ class FakturPenjualanController extends Controller
      */
     public function create()
     {
-        return $this->responseFactory->view("faktur-penjualan.create");
+        return $this->responseFactory->view("faktur-pembelian.create");
     }
 
     /**
@@ -50,10 +50,10 @@ class FakturPenjualanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(FakturPenjualan $fakturPenjualan)
+    public function show(FakturPembelian $fakturPenjualan)
     {
         //
     }
@@ -61,10 +61,10 @@ class FakturPenjualanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(FakturPenjualan $fakturPenjualan)
+    public function edit(FakturPembelian $fakturPenjualan)
     {
         //
     }
@@ -73,10 +73,10 @@ class FakturPenjualanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FakturPenjualan $fakturPenjualan)
+    public function update(Request $request, FakturPembelian $fakturPenjualan)
     {
         //
     }
@@ -84,10 +84,10 @@ class FakturPenjualanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FakturPenjualan $fakturPenjualan)
+    public function destroy(FakturPembelian $fakturPenjualan)
     {
         //
     }

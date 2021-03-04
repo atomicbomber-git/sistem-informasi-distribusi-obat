@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemFakturPenjualansTable extends Migration
+class CreateItemFakturPembelianTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateItemFakturPenjualansTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_faktur_penjualan', function (Blueprint $table) {
+        Schema::create('item_faktur_pembelian', function (Blueprint $table) {
             $table->increments('id');
             $table->string('produk_kode')->index();
             $table->decimal('jumlah');
@@ -31,6 +31,6 @@ class CreateItemFakturPenjualansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_faktur_penjualan');
+        Schema::dropIfExists('item_faktur_pembelian');
     }
 }

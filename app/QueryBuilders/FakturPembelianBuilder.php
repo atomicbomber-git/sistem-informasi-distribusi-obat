@@ -6,7 +6,7 @@ namespace App\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class FakturPenjualanBuilder extends Builder
+class FakturPembelianBuilder extends Builder
 {
     use WithQueryBuilderHelpers;
 }

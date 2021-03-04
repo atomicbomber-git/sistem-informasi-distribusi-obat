@@ -1,21 +1,21 @@
 <article>
     <x-feature-title>
         <i class="bi-card-list"></i>
-        @lang("application.sales_invoice")
+        @lang("application.purchase_invoice")
     </x-feature-title>
 
     <x-breadcrumb>
         <li class="breadcrumb-item active"
             aria-current="page"
         >
-            @lang("application.sales_invoice")
+            @lang("application.purchase_invoice")
         </li>
     </x-breadcrumb>
 
     <x-control-bar>
         <x-filter-input/>
 
-        <x-button-link :href="route('faktur-penjualan.create')">
+        <x-button-link :href="route('faktur-pembelian.create')">
             @lang("application.create")
             <i class="bi-plus-circle"></i>
         </x-button-link>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\FakturPenjualanController;
+use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukSearchController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +27,4 @@ Route::redirect("/", "produk");
 
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");
 Route::resource("produk", ProdukController::class);
-
-
-Route::resource("faktur-penjualan", FakturPenjualanController::class);
+Route::resource("faktur-pembelian", FakturPembelianController::class);

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ItemFakturPenjualan;
+use App\Models\ItemFakturPembelian;
 use Illuminate\Http\Request;
 
-class ItemFakturPenjualanController extends Controller
+class ItemFakturPembelianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ItemFakturPenjualanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ItemFakturPenjualan  $itemFakturPenjualan
+     * @param  \App\Models\ItemFakturPembelian  $itemFakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(ItemFakturPenjualan $itemFakturPenjualan)
+    public function show(ItemFakturPembelian $itemFakturPenjualan)
     {
         //
     }
@@ -52,10 +52,10 @@ class ItemFakturPenjualanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ItemFakturPenjualan  $itemFakturPenjualan
+     * @param  \App\Models\ItemFakturPembelian  $itemFakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(ItemFakturPenjualan $itemFakturPenjualan)
+    public function edit(ItemFakturPembelian $itemFakturPenjualan)
     {
         //
     }
@@ -64,10 +64,10 @@ class ItemFakturPenjualanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ItemFakturPenjualan  $itemFakturPenjualan
+     * @param  \App\Models\ItemFakturPembelian  $itemFakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ItemFakturPenjualan $itemFakturPenjualan)
+    public function update(Request $request, ItemFakturPembelian $itemFakturPenjualan)
     {
         //
     }
@@ -75,10 +75,10 @@ class ItemFakturPenjualanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ItemFakturPenjualan  $itemFakturPenjualan
+     * @param  \App\Models\ItemFakturPembelian  $itemFakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemFakturPenjualan $itemFakturPenjualan)
+    public function destroy(ItemFakturPembelian $itemFakturPenjualan)
     {
         //
     }

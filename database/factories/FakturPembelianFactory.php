@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\FakturPenjualan;
+use App\Models\FakturPembelian;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FakturPenjualanFactory extends Factory
+class FakturPembelianFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = FakturPenjualan::class;
+    protected $model = FakturPembelian::class;
 
     /**
      * Define the model's default state.

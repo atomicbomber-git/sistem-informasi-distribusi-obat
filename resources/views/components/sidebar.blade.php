@@ -8,8 +8,8 @@
         @lang("application.product")
     </x-menu-item>
 
-    <x-menu-item :href="route('faktur-penjualan.index')" routeIs='faktur-penjualan.*' >
+    <x-menu-item :href="route('faktur-pembelian.index')" routeIs='faktur-pembelian.*' >
         <i class="bi-card-list"></i>
-        @lang("application.sales_invoice")
+        @lang("application.purchase_invoice")
     </x-menu-item>
 </nav>
