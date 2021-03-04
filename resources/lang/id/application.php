@@ -2,9 +2,25 @@
 
 return [
     "product" => "Produk",
+    "sales_invoice" => "Faktur Penjualan",
+    "purchase_invoice" => "Faktur Pembelian",
+
+    "customer" => "Pelanggan",
+    "discount_percentage" => "Persentase Diskon",
+    "sold_at" => "Waktu Penjualan",
+
+    "add_item" => "Tambah Item",
+
+    "subtotal" => "Sub Total",
+
+    "unit_price" => "Harga Satuan",
+    "quantity" => "Jumlah",
+
+    "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",
+    "bulk_discount" => "Diskon Grosir",
+    "total" => "Total",
 
     "filter" => "Filter",
-
     "word_content_not_regex" => "Format isi hanya boleh mengandung huruf",
     "search_feature" => "Pencarian",
     "search" => "Cari",

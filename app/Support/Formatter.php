@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Date;
 
 class Formatter
 {
+    public static function percentage($number): string
+    {
+        return number_format($number  * 100) . " %";
+    }
+
     public static function dayMonthYear($value): string
     {
         if (!empty($value)) {

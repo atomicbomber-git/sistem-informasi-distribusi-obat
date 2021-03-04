@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FakturPenjualan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         $this->call(ProdukSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(FakturPenjualanSeeder::class);
     }
 }

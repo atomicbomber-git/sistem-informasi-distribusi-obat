@@ -26,18 +26,7 @@
             <div class="row">
                 @auth
 
-                <nav class="nav col-md-2 flex-column">
-                    <x-menu-title>
-                        @lang("application.menu")
-                    </x-menu-title>
-
-                    <x-menu-item :href="route('produk.index')" routeIs="produk.*" >
-                        <i class="bi-box"></i>
-                        @lang("application.product")
-                    </x-menu-item>
-
-
-                </nav>
+                <x-sidebar/>
 
                 @endauth
 
@@ -52,6 +41,7 @@
 @livewireScripts
 <script src="{{ asset('js/app.js') }}"></script>
 
+@stack("scripts")
 
 
 <!-- Scripts -->

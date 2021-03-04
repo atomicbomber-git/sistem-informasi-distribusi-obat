@@ -4,10 +4,9 @@
 // Variables
 @import 'variables';
 
-div.form-group {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
+// Select 2 Styling
+@import '~select2/src/scss/core';
+@import '~select2-bootstrap-5-theme/src/select2-bootstrap-5-theme';
 
 // Bootstrap
 @import '~bootstrap/dist/css/bootstrap.css';
