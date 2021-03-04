@@ -1,0 +1,45 @@
+<?php
+
+return [
+    "product" => "Produk",
+
+    "filter" => "Filter",
+
+    "word_content_not_regex" => "Format isi hanya boleh mengandung huruf",
+    "search_feature" => "Pencarian",
+    "search" => "Cari",
+    "word" => "Kata",
+    "document" => "Dokumen",
+    "menu" => "Menu",
+    "edit" => "Ubah",
+    "update" => "Perbarui",
+    "created_at" => "Waktu Pembuatan",
+    "updated_at" => "Waktu Terakhir Revisi",
+    "download" => "Download",
+    "show" => "Detail",
+    "number_symbol" => "#",
+    "file_word" => "File Word",
+    "mahasiswa" => "Mahasiswa",
+    "word_list" => "Word List",
+    "controls" => "Kendali",
+    "title" => "Judul",
+    "destroy" => "Hapus",
+    "description" => "Deskripsi",
+    "log_out" => "Keluar",
+    "log_in" => "Masuk",
+    "login" => "Halaman Masuk",
+    "logout" => "Halaman Keluar",
+    "content" => "Isi",
+    "create" => "Tambah",
+
+    "name" => "Nama",
+    "code" => "Kode",
+
+    "real_name" => "Nama Asli",
+    "username" => "Nama Pengguna",
+    "student_id" => "Nomor Induk Mahasiswa",
+    "file" => "Berkas",
+    "word_upload_help_text" => "Berkas dokumen wajib dalam format *.docx",
+    "password" => "Password",
+    "password_confirmation" => "Konfirmasi Password",
+];
