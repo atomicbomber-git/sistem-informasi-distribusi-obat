@@ -17,7 +17,7 @@ return [
     "updated_at" => "Waktu Terakhir Revisi",
     "download" => "Download",
     "show" => "Detail",
-    "number_symbol" => "#",
+    "number_symbol" => "No.",
     "file_word" => "File Word",
     "mahasiswa" => "Mahasiswa",
     "word_list" => "Word List",

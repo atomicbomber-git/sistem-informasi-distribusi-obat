@@ -51,6 +51,7 @@ class ProdukController extends Controller
         $data = $request->validate([
             "kode" => ["required", "string", Rule::unique(Produk::class)],
             "nama" => ["required", "string"],
+            "deskripsi" => ["nullable", "string"],
         ]);
 
         Produk::create($data);
@@ -88,6 +89,7 @@ class ProdukController extends Controller
         $data = $request->validate([
             "kode" => ["required", "string", Rule::unique(Produk::class)->ignoreModel($produk)],
             "nama" => ["required", "string"],
+            "deskripsi" => ["nullable", "string"],
         ]);
 
         $produk->update($data);
