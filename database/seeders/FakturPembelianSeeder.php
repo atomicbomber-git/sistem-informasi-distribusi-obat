@@ -18,7 +18,7 @@ class FakturPembelianSeeder extends Seeder
         DB::beginTransaction();
 
         FakturPembelian::factory()
-            ->count(100)
+            ->count(3)
             ->create();
 
         DB::commit();

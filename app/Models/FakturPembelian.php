@@ -30,8 +30,12 @@ class FakturPembelian extends Model
         return parent::query();
     }
 
-    public function items(): HasMany
+    public function item_faktur_pembelians(): HasMany
     {
-        return $this->hasMany(ItemFakturPembelian::class, "faktur_pembelian_kode", "kode");
+        return $this->hasMany(
+            ItemFakturPembelian::class,
+            "faktur_pembelian_kode",
+            "kode"
+        );
     }
 }

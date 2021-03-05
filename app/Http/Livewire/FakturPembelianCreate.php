@@ -11,9 +11,11 @@ use App\Support\SessionHelper;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class FakturPembelianCreate extends Component
@@ -38,7 +40,11 @@ class FakturPembelianCreate extends Component
             "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
             "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
             "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
-            "item_faktur_pembelians.*.kode_batch" => ["required", "string", Rule::unique(StockBatch::class, "kode_batch")],
+            "item_faktur_pembelians.*.kode_batch" => [
+                "required", "string", "distinct",
+                Rule::unique(StockBatch::class)
+                    ->whereNotNull("item_faktur_pembelian_id")
+            ],
         ]));
 
         DB::beginTransaction();
@@ -60,13 +66,41 @@ class FakturPembelianCreate extends Component
                 )->toArray()
             );
 
-            $fakturPembelian->items()->save($itemFakturPembelian);
+            $fakturPembelian->item_faktur_pembelians()->save($itemFakturPembelian);
 
-            $itemFakturPembelian->stock_batch()->create([
-                "kode_batch" => $data_item_faktur_pembelian["kode_batch"],
-                "produk_kode" => $itemFakturPembelian->produk_kode,
+            $stockBatch = StockBatch::query()
+                /* TODO: Figure out edge cases */
+                ->whereNull("item_faktur_pembelian_id")
+                ->where("kode_batch", $data_item_faktur_pembelian["kode_batch"])
+                ->first();
+
+            if ($stockBatch === null) {
+                $stockBatch = new StockBatch([
+                    "kode_batch" => $data_item_faktur_pembelian["kode_batch"],
+                    "produk_kode" => $itemFakturPembelian->produk_kode,
+                    "jumlah" => $itemFakturPembelian->jumlah,
+                    "nilai_satuan" => $itemFakturPembelian->harga_satuan,
+                ]);
+
+                $itemFakturPembelian->stock_batch()->save($stockBatch);
+            } else {
+                if ($stockBatch->produk_kode !== $itemFakturPembelian->produk_kode) {
+                    throw ValidationException::withMessages([
+                        "item_faktur_pembelians.{$itemFakturPembelian->produk_kode}.harga_satuan" => [
+                            "Telah tercatat stok produk lain ({$stockBatch->produk->nama}) dengan kode batch ini"
+                        ]
+                    ]);
+                }
+
+                $stockBatch->increment("jumlah", $itemFakturPembelian->jumlah);
+                $stockBatch->update([
+                    "item_faktur_pembelian_id" => $itemFakturPembelian->getKey(),
+                    "nilai_satuan" => $itemFakturPembelian->harga_satuan,
+                ]);
+            }
+
+            $stockBatch->transaksi_stock()->create([
                 "jumlah" => $itemFakturPembelian->jumlah,
-                "nilai_satuan" => $itemFakturPembelian->harga_satuan,
             ]);
         }
 

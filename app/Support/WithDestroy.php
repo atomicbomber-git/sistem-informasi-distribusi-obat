@@ -33,8 +33,6 @@ trait WithDestroy
                 MessageState::STATE_SUCCESS,
             );
         } catch (\Throwable $throwable) {
-            ray($throwable);
-
             SessionHelper::flashMessage(
                 __("messages.delete.failure"),
                 MessageState::STATE_DANGER,

@@ -147,6 +147,7 @@ return [
         'item_faktur_pembelians' => 'daftar item faktur pembelian',
         'item_faktur_pembelians.*.harga_satuan' => 'harga satuan',
         'item_faktur_pembelians.*.jumlah' => 'jumlah',
+        'item_faktur_pembelians.*.kode_batch' => 'kode batch',
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
         'document' => 'dokumen',

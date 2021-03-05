@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StockBatch extends Model
 {
@@ -18,4 +20,14 @@ class StockBatch extends Model
     ];
 
     protected $guarded = [];
+
+    public function produk(): BelongsTo
+    {
+        return $this->belongsTo(Produk::class);
+    }
+
+    public function transaksi_stock(): HasMany
+    {
+        return $this->hasMany(TransaksiStock::class, "stock_kode_batch");
+    }
 }
