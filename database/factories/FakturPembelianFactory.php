@@ -24,7 +24,7 @@ class FakturPembelianFactory extends Factory
         return [
             "kode" => $this->faker->unique()->uuid,
             "pemasok" => $this->faker->company,
-            "waktu_pembelian" => now()->subMinutes(rand(0, 1_000_000)),
+            "waktu_penerimaan" => now()->subMinutes(rand(0, 1_000_000)),
         ];
     }
 }
