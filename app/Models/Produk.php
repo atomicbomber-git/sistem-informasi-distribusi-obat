@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Produk extends Model
 {
     protected $table = "produk";
+    public $incrementing = false;
     protected $primaryKey = "kode";
 
     protected $casts = [

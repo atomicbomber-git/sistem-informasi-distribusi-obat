@@ -18,6 +18,8 @@ return [
 
     "subtotal" => "Sub Total",
 
+    "batch_code" => "Kode Batch",
+
     "unit_price" => "Harga Satuan",
     "quantity" => "Jumlah",
 

@@ -144,6 +144,9 @@ return [
     */
 
     'attributes' => [
+        'item_faktur_pembelians' => 'daftar item faktur pembelian',
+        'item_faktur_pembelians.*.harga_satuan' => 'harga satuan',
+        'item_faktur_pembelians.*.jumlah' => 'jumlah',
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
         'document' => 'dokumen',

@@ -15,11 +15,14 @@ class CreateItemFakturPembelianTable extends Migration
     {
         Schema::create('item_faktur_pembelian', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('faktur_pembelian_kode')->index();
             $table->string('produk_kode')->index();
             $table->decimal('jumlah');
             $table->decimal('harga_satuan');
             $table->timestamps();
+
             $table->foreign('produk_kode')->references('kode')->on('produk');
+            $table->foreign('faktur_pembelian_kode')->references('kode')->on('faktur_pembelian');
         });
     }
 

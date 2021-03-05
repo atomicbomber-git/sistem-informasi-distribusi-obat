@@ -31,8 +31,7 @@
                         <th> @lang("application.number_symbol") </th>
                         <th> @lang("application.code") </th>
                         <th> @lang("application.supplier") </th>
-                        <th class="text-end"> @lang("application.discount_percentage") </th>
-                        <th> @lang("application.sold_at") </th>
+                        <th> @lang("application.arrived_at") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
@@ -43,8 +42,7 @@
                         <td> {{ $faktur_pembelians->firstItem() + $loop->index }} </td>
                         <td> {{ $faktur_pembelian->kode }} </td>
                         <td> {{ $faktur_pembelian->pemasok }} </td>
-                        <td class="text-end"> {{ \App\Support\Formatter::percentage($faktur_pembelian->persentase_diskon) }} </td>
-                        <td> {{ $faktur_pembelian->waktu_penjualan }} </td>
+                        <td> {{ \App\Support\Formatter::dayMonthYear($faktur_pembelian->waktu_penerimaan) }} </td>
                         <x-th-control>
                             <x-button-destroy
                                 :item="$faktur_pembelian"

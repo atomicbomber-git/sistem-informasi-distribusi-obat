@@ -1,14 +1,16 @@
-<div wire:ignore>
+<div>
     <label for="{{ $field }}" class="visually-hidden">
         {{ $label }}
     </label>
     <input
+            wire:ignore
             value="{{ data_get($this, $field) }}"
             class="form-control form-control-sm text-end @error($field) is-invalid @enderror"
+            placeholder="{{ $label }}"
             id="{{ $key }}"
             type="text">
     @error($field)
-    <span class="invalid-feedback text-danger">
+    <span class="text-danger">
         {{ $message }}
     </span>
     @enderror

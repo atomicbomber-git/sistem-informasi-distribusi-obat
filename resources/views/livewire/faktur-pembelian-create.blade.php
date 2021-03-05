@@ -18,14 +18,24 @@
         </li>
     </x-breadcrumb>
 
-    <div class="card">
+    <form wire:submit.prevent="submit"
+          class="card"
+    >
         <div class="card-body">
             <x-input
+                    livewire
+                    field="kode"
+                    :label="__('application.code')"
+            />
+
+            <x-input
+                    livewire
                     field="pemasok"
                     :label="__('application.supplier')"
             />
 
             <x-input
+                    livewire
                     field="waktu_penerimaan"
                     :label="__('application.arrived_at')"
                     type="datetime-local"
@@ -35,10 +45,17 @@
                 @lang("application.item_list")
             </h2>
 
+            @error("item_faktur_pembelians")
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
                     <th> @lang("application.product") </th>
+                    <th> @lang("application.batch_code") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
                     <th class="text-end"> @lang("application.unit_price") </th>
                     <th class="text-end"> @lang("application.subtotal") </th>
@@ -50,6 +67,13 @@
                     <tr wire:key="{{ $key }}">
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
+                        <td>
+                            <x-input
+                                    inline small livewire
+                                    :label='__("application.batch_code") . " " . $item_faktur_pembelian["produk"]["nama"]'
+                                    :field='"item_faktur_pembelians.{$key}.kode_batch"'
+                            />
+                        </td>
                         <td class="text-end">
                             <x-input-inline-numeric-lv
                                     :label='__("application.quantity") . " " . $item_faktur_pembelian["produk"]["nama"]'
@@ -83,9 +107,7 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="4"
-                        class="text-end fw-bold"
-                    >
+                    <td colspan="5" class="text-end fw-bold">
                         @lang("application.total")
                     </td>
                     <td class="text-end">
@@ -128,5 +150,12 @@
                 @endpush
             </div>
         </div>
-    </div>
+
+        <x-card-footer-submit>
+            <x-submit-button>
+                @lang("application.create")
+                <i class="bi-plus-circle"></i>
+            </x-submit-button>
+        </x-card-footer-submit>
+    </form>
 </article>
