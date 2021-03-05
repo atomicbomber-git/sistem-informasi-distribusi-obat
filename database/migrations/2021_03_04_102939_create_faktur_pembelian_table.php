@@ -13,11 +13,10 @@ class CreateFakturPembelianTable extends Migration
      */
     public function up()
     {
-        Schema::create('faktur_penjualan', function (Blueprint $table) {
+        Schema::create('faktur_pembelian', function (Blueprint $table) {
             $table->string('kode')->primary();
-            $table->string('pelanggan');
-            $table->decimal('persentase_diskon');
-            $table->dateTime('waktu_penjualan');
+            $table->string('pemasok');
+            $table->dateTime('waktu_penerimaan');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateFakturPembelianTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faktur_penjualan');
+        Schema::dropIfExists('faktur_pembelian');
     }
 }

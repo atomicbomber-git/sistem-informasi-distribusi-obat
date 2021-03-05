@@ -6,6 +6,11 @@ return [
     "purchase_invoice" => "Faktur Pembelian",
 
     "customer" => "Pelanggan",
+    "supplier" => "Pemasok",
+    "arrived_at" => "Waktu Penerimaan",
+    "item_list" => "Daftar Item",
+
+
     "discount_percentage" => "Persentase Diskon",
     "sold_at" => "Waktu Penjualan",
 

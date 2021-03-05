@@ -18,7 +18,6 @@ class CreateItemFakturPembelianTable extends Migration
             $table->string('produk_kode')->index();
             $table->decimal('jumlah');
             $table->decimal('harga_satuan');
-            $table->decimal('persentase_diskon');
             $table->timestamps();
             $table->foreign('produk_kode')->references('kode')->on('produk');
         });

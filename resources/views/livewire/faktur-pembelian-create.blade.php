@@ -20,45 +20,52 @@
 
     <div class="card">
         <div class="card-body">
+            <x-input
+                    field="pemasok"
+                    :label="__('application.supplier')"
+            />
+
+            <x-input
+                    field="waktu_penerimaan"
+                    :label="__('application.arrived_at')"
+                    type="datetime-local"
+            />
+
+            <h2 class="h4">
+                @lang("application.item_list")
+            </h2>
+
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
                     <th> @lang("application.product") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
                     <th class="text-end"> @lang("application.unit_price") </th>
-                    <th class="text-end"> @lang("application.discount_percentage") </th>
                     <th class="text-end"> @lang("application.subtotal") </th>
                     <x-th-control> @lang("application.controls") </x-th-control>
                 </x-thead>
 
                 <tbody>
-                @foreach ($item_faktur_penjualans as $key => $item_faktur_penjualan)
+                @foreach ($itemFakturPembelians as $key => $item_faktur_pembelian)
                     <tr wire:key="{{ $key }}">
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $item_faktur_penjualan["produk"]["nama"] }} </td>
+                        <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
                         <td class="text-end">
                             <x-input-inline-numeric-lv
-                                    :label='__("application.quantity") . " " . $item_faktur_penjualan["produk"]["nama"]'
+                                    :label='__("application.quantity") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"jumlah_{$loop->index}"'
-                                    :field='"item_faktur_penjualans.{$key}.jumlah"'
+                                    :field='"item_faktur_pembelians.{$key}.jumlah"'
                             />
                         </td>
                         <td class="text-end">
                             <x-input-inline-numeric-lv
-                                    :label='__("application.unit_price") . " " . $item_faktur_penjualan["produk"]["nama"]'
+                                    :label='__("application.unit_price") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"harga_satuan_{$loop->index}"'
-                                    :field='"item_faktur_penjualans.{$key}.harga_satuan"'
+                                    :field='"item_faktur_pembelians.{$key}.harga_satuan"'
                             />
                         </td>
                         <td class="text-end">
-                            <x-input-inline-numeric-lv
-                                    :label='__("application.discount_percentage") . " " . $item_faktur_penjualan["produk"]["nama"]'
-                                    :key='"persentase_diskon_{$loop->index}"'
-                                    :field='"item_faktur_penjualans.{$key}.persentase_diskon"'
-                            />
-                        </td>
-                        <td class="text-end">
-                            {{ \App\Support\Formatter::currency($item_faktur_penjualan["subtotal"]) }}
+                            {{ \App\Support\Formatter::currency($item_faktur_pembelian["subtotal"]) }}
                         </td>
                         <x-td-control>
                             <button
@@ -76,34 +83,13 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="5" class="text-end fw-bold">
-                        @lang("application.total_before_bulk_discount")
-                    </td>
-                    <td class="text-end">
-                        {{ \App\Support\Formatter::currency($total_before_bulk_discount) }}
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="5" class="text-end fw-bold">
-                        @lang("application.bulk_discount_percentage")
-                    </td>
-                    <td class="text-end">
-                        <x-input-inline-numeric-lv
-                                :label='__("application.bulk_discount")'
-                                key="persentase_diskon_grosir"
-                                field="persentase_diskon_grosir"
-                        />
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr>
-                    <td colspan="5" class="text-end fw-bold">
+                    <td colspan="4"
+                        class="text-end fw-bold"
+                    >
                         @lang("application.total")
                     </td>
                     <td class="text-end">
-
+                        {{ \App\Support\Formatter::currency($total) }}
                     </td>
                     <td></td>
                 </tr>
@@ -130,7 +116,7 @@
                 @push("scripts")
                     <script type="application/javascript">
                         $("#barang_id").select2({
-                            ajax: { url: "{{ route("produk.search") }}",},
+                            ajax: {url: "{{ route("produk.search") }}",},
                             theme: 'bootstrap-5',
                         }).change(function (e) {
                             if (e.target.value) {
@@ -143,5 +129,4 @@
             </div>
         </div>
     </div>
-
 </article>

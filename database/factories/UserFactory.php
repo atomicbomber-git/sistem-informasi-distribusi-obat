@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'username' => $username,
             'name' => $name,
             'level' => $this->faker->randomElement(User::LEVELS),
-            'password' => Hash::make($username),
+            'password' => '$2y$10$FWWmRwXNVgWZgMzl5g82fuYsiMZUO3Rqy95jtSjxf8HL1wkXkdbZG' /* hash for 'password' */,
         ];
     }
 }

@@ -16,9 +16,9 @@ class FakturPembelianIndex extends Component
     public function render()
     {
         return view('livewire.faktur-pembelian-index', [
-            "faktur_penjualans" => FakturPembelian::query()
-                ->filterBy($this->filter, ["kode", "pelanggan"])
-                ->sortBy($this->sortBy, $this->sortDirection, "pelanggan")
+            "faktur_pembelians" => FakturPembelian::query()
+                ->filterBy($this->filter, ["kode", "pemasok"])
+                ->sortBy($this->sortBy, $this->sortDirection, "pemasok")
                 ->paginate()
         ]);
     }

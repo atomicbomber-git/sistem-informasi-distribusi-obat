@@ -19,13 +19,12 @@ class FakturPembelianFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             "kode" => $this->faker->unique()->uuid,
-            "pelanggan" => $this->faker->company,
-            "persentase_diskon" => rand(0, 100) / 100,
-            "waktu_penjualan" => now()->subMinutes(rand(0, 1_000_000)),
+            "pemasok" => $this->faker->company,
+            "waktu_pembelian" => now()->subMinutes(rand(0, 1_000_000)),
         ];
     }
 }

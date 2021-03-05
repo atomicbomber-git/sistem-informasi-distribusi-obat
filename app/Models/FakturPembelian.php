@@ -9,7 +9,7 @@ class FakturPembelian extends Model
 {
     use HasFactory;
 
-    protected $table = "faktur_penjualan";
+    protected $table = "faktur_pembelian";
     protected $primaryKey = "kode";
     protected $casts = [
         "kode" => "string"

@@ -23,14 +23,14 @@
 
     <x-messages></x-messages>
 
-    @if($faktur_penjualans->isNotEmpty())
+    @if($faktur_pembelians->isNotEmpty())
         <div class="table-responsive">
             <x-table>
                 <x-thead>
                     <tr>
                         <th> @lang("application.number_symbol") </th>
                         <th> @lang("application.code") </th>
-                        <th> @lang("application.customer") </th>
+                        <th> @lang("application.supplier") </th>
                         <th class="text-end"> @lang("application.discount_percentage") </th>
                         <th> @lang("application.sold_at") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
@@ -38,16 +38,16 @@
                 </x-thead>
 
                 <tbody>
-                @foreach ($faktur_penjualans as $faktur_penjualan)
+                @foreach ($faktur_pembelians as $faktur_pembelian)
                     <tr>
-                        <td> {{ $faktur_penjualans->firstItem() + $loop->index }} </td>
-                        <td> {{ $faktur_penjualan->kode }} </td>
-                        <td> {{ $faktur_penjualan->pelanggan }} </td>
-                        <td class="text-end"> {{ \App\Support\Formatter::percentage($faktur_penjualan->persentase_diskon) }} </td>
-                        <td> {{ $faktur_penjualan->waktu_penjualan }} </td>
+                        <td> {{ $faktur_pembelians->firstItem() + $loop->index }} </td>
+                        <td> {{ $faktur_pembelian->kode }} </td>
+                        <td> {{ $faktur_pembelian->pemasok }} </td>
+                        <td class="text-end"> {{ \App\Support\Formatter::percentage($faktur_pembelian->persentase_diskon) }} </td>
+                        <td> {{ $faktur_pembelian->waktu_penjualan }} </td>
                         <x-th-control>
                             <x-button-destroy
-                                :item="$faktur_penjualan"
+                                :item="$faktur_pembelian"
                             />
                         </x-th-control>
                     </tr>
@@ -57,7 +57,7 @@
         </div>
 
         <x-pagination-links-container>
-            {{ $faktur_penjualans->links() }}
+            {{ $faktur_pembelians->links() }}
         </x-pagination-links-container>
     @else
         <x-alert-no-data/>
