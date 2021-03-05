@@ -11,6 +11,10 @@ return [
     "item_list" => "Daftar Item",
 
 
+    "product_stock" => "Stok Produk",
+    "quantity_in_hand" => "Jumlah Tersedia",
+    "detail" => "Detail",
+
     "discount_percentage" => "Persentase Diskon",
     "sold_at" => "Waktu Penjualan",
 

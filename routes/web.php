@@ -3,6 +3,7 @@
 use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukSearchController;
+use App\Http\Controllers\StockProdukController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,6 @@ Route::redirect("/", "produk");
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");
 Route::resource("produk", ProdukController::class);
 Route::resource("faktur-pembelian", FakturPembelianController::class);
+
+Route::resource("stock-produk", StockProdukController::class)->only("index", "show");
+

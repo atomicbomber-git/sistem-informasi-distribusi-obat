@@ -50,7 +50,7 @@ trait WithQueryBuilderHelpers
         });
     }
 
-    public function sortBy(?string $field, string $sortDirection, string $defaultField = null): self
+    public function sortBy(?string $field, string $sortDirection, string $defaultField = null): Builder
     {
         if ($field === null) {
             return $defaultField === null?
