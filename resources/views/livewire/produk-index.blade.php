@@ -37,12 +37,12 @@
 
                 <tbody>
                 @foreach ($produks as $produk)
-                    <tr>
+                    <tr wire:key="{{ $produk->getKey() }}">
                         <td> {{ $produks->firstItem() + $loop->index }} </td>
                         <td> {{ $produk->nama }} </td>
                         <td> {{ $produk->kode }} </td>
                         <td class="text-end">
-                            {{ $produk->quantity_in_hand }}
+                            {{ \App\Support\Formatter::quantity($produk->quantity_in_hand) }}
                         </td>
                         <x-td-control>
                             <x-button-detail :href="route('produk.stock.index', $produk)">

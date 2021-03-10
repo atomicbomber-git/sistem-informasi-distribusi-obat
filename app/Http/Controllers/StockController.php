@@ -25,9 +25,6 @@ class StockController extends Controller
      */
     public function index(Produk $produk)
     {
-        return StockBatch::query()
-            ->get();
-
         return $this->responseFactory->view("stock.index");
     }
 

@@ -29,6 +29,7 @@ return [
     "batch_code" => "Kode Batch",
 
     "unit_price" => "Harga Satuan",
+    "unit_value" => "Nilai Satuan",
     "quantity" => "Jumlah",
 
     "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",

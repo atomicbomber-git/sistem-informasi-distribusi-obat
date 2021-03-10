@@ -38,7 +38,7 @@
 
                 <tbody>
                 @foreach ($faktur_pembelians as $faktur_pembelian)
-                    <tr>
+                    <tr wire:key="{{ $faktur_pembelian->getKey() }}">
                         <td> {{ $faktur_pembelians->firstItem() + $loop->index }} </td>
                         <td> {{ $faktur_pembelian->kode }} </td>
                         <td> {{ $faktur_pembelian->pemasok }} </td>

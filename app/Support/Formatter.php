@@ -50,6 +50,11 @@ class Formatter
         return number_format($input);
     }
 
+    public static function quantity($input): string
+    {
+        return number_format($input);
+    }
+
     public static function debitCredit(float $input): string
     {
         return self::currency(abs($input));
