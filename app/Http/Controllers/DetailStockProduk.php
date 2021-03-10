@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
-class StockProdukController extends Controller
+class DetailStockProduk extends Controller
 {
     private ResponseFactory $responseFactory;
 

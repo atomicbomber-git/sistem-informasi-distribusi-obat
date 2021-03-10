@@ -17,6 +17,7 @@ class ProdukIndex extends Component
     {
         return view('livewire.produk-index', [
             "produks" => Produk::query()
+                ->withQuantityInHand()
                 ->filterBy($this->filter, ["kode", "nama"])
                 ->sortBy($this->sortBy, $this->sortDirection, "nama")
                 ->paginate()

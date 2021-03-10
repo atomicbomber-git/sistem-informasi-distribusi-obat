@@ -38,6 +38,7 @@ class FakturPembelianCreate extends Component
             "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i"],
             "item_faktur_pembelians" => ["required", "array"],
             "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
+            "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
             "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
             "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
             "item_faktur_pembelians.*.kode_batch" => [
@@ -80,6 +81,7 @@ class FakturPembelianCreate extends Component
                     "produk_kode" => $itemFakturPembelian->produk_kode,
                     "jumlah" => $itemFakturPembelian->jumlah,
                     "nilai_satuan" => $itemFakturPembelian->harga_satuan,
+                    "expired_at" => $data_item_faktur_pembelian["expired_at"],
                 ]);
 
                 $itemFakturPembelian->stock_batch()->save($stockBatch);
@@ -121,6 +123,7 @@ class FakturPembelianCreate extends Component
         $this->item_faktur_pembelians[$key] ??= [
             "produk" => Produk::query()->findOrFail($key),
             "produk_kode" => $key,
+            "expired_at" => null,
             "kode_batch" => null,
             "jumlah" => 1,
             "harga_satuan" => null,

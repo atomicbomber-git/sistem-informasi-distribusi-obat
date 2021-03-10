@@ -14,10 +14,6 @@
 
     <x-control-bar>
         <x-filter-input/>
-        <x-button-link :href="route('produk.create')">
-            @lang("application.create")
-            <i class="bi-plus-circle"></i>
-        </x-button-link>
     </x-control-bar>
 
     <x-messages></x-messages>
@@ -30,7 +26,7 @@
                         <th> @lang("application.number_symbol") </th>
                         <th> @lang("application.name") </th>
                         <th> @lang("application.code") </th>
-                        <th class="text-end"> @lang("application.quantity_in_hand") </th>
+                        <th> @lang("application.quantity_in_hand") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
@@ -41,18 +37,12 @@
                         <td> {{ $produks->firstItem() + $loop->index }} </td>
                         <td> {{ $produk->nama }} </td>
                         <td> {{ $produk->kode }} </td>
-                        <td class="text-end">
-                            {{ $produk->quantity_in_hand }}
-                        </td>
+                        <td> {{ $produk->quantity_in_hand }} </td>
                         <x-td-control>
-                            <x-button-detail :href="route('produk.stock.index', $produk)">
-                                @lang("application.stock")
-                            </x-button-detail>
-
-                            <x-button-edit :href="route('produk.edit', $produk)">
-                                @lang("application.edit")
-                            </x-button-edit>
-                            <x-button-destroy :item="$produk" />
+                            <x-button-link href="">
+                                @lang("application.detail")
+                                <i class="bi-list-nested"></i>
+                            </x-button-link>
                         </x-td-control>
                     </tr>
                 @endforeach

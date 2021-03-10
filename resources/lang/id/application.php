@@ -10,10 +10,14 @@ return [
     "arrived_at" => "Waktu Penerimaan",
     "item_list" => "Daftar Item",
 
+    "expired_at" => "Expired At",
+
 
     "product_stock" => "Stok Produk",
     "quantity_in_hand" => "Jumlah Tersedia",
     "detail" => "Detail",
+
+    "stock" => "Stock",
 
     "discount_percentage" => "Persentase Diskon",
     "sold_at" => "Waktu Penjualan",

@@ -50,7 +50,13 @@ trait WithQueryBuilderHelpers
         });
     }
 
-    public function sortBy(?string $field, string $sortDirection, string $defaultField = null): Builder
+    /**
+     * @param string|null $field
+     * @param string $sortDirection
+     * @param string|null $defaultField
+     * @return WithQueryBuilderHelpers|Builder
+     */
+    public function sortBy(?string $field, string $sortDirection, string $defaultField = null): self
     {
         if ($field === null) {
             return $defaultField === null?

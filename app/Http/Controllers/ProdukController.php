@@ -54,7 +54,7 @@ class ProdukController extends Controller
             "deskripsi" => ["nullable", "string"],
         ]);
 
-        Produk::create($data);
+        Produk::query()->create($data);
 
         SessionHelper::flashMessage(
             __("messages.create.success"),

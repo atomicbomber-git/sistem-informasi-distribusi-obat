@@ -56,6 +56,7 @@
                     <th> @lang("application.number_symbol") </th>
                     <th> @lang("application.product") </th>
                     <th> @lang("application.batch_code") </th>
+                    <th> @lang("application.expired_at") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
                     <th class="text-end"> @lang("application.unit_price") </th>
                     <th class="text-end"> @lang("application.subtotal") </th>
@@ -72,6 +73,14 @@
                                     inline small livewire
                                     :label='__("application.batch_code") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :field='"item_faktur_pembelians.{$key}.kode_batch"'
+                            />
+                        </td>
+                        <td>
+                            <x-input
+                                    inline small livewire
+                                    type="date"
+                                    :label='__("application.expired_at") . " " . $item_faktur_pembelian["expired_at"]'
+                                    :field='"item_faktur_pembelians.{$key}.expired_at"'
                             />
                         </td>
                         <td class="text-end">
@@ -107,7 +116,7 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="5" class="text-end fw-bold">
+                    <td colspan="6" class="text-end fw-bold">
                         @lang("application.total")
                     </td>
                     <td class="text-end">
