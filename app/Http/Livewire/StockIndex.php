@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\StockBatch;
 use App\Support\WithCustomPagination;
-use App\Support\WithDestroy;
 use App\Support\WithFilter;
 use App\Support\WithSort;
 use Livewire\Component;

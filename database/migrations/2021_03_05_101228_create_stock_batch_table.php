@@ -21,7 +21,7 @@ class CreateStockBatchTable extends Migration
             $table->decimal('nilai_satuan', 19, 4);
             $table->dateTime("expired_at")->index();
             $table->timestamps();
-            $table->foreign('produk_kode')->references('kode')->on('produk');
+            $table->foreign('produk_kode')->references('kode')->on('produk')->cascadeOnUpdate();
             $table->foreign('item_faktur_pembelian_id')->references('id')->on('item_faktur_pembelian');
         });
     }

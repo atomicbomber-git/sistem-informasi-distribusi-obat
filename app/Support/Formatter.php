@@ -4,6 +4,7 @@
 namespace App\Support;
 
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 
 class Formatter
@@ -34,7 +35,10 @@ class Formatter
     public static function humanDiff($value): string
     {
         if (!empty($value)) {
-            return Date::make($value)->diffForHumans();
+            return Date::make($value)->diffForHumans(
+                today(),
+                CarbonInterface::DIFF_RELATIVE_TO_NOW
+            );
         }
 
         return "-";
