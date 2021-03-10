@@ -4,39 +4,28 @@ return [
     "product" => "Produk",
     "sales_invoice" => "Faktur Penjualan",
     "purchase_invoice" => "Faktur Pembelian",
-
     "customer" => "Pelanggan",
     "supplier" => "Pemasok",
     "arrived_at" => "Waktu Penerimaan",
     "item_list" => "Daftar Item",
-
     "expired_at" => "Expired At",
-
-
+    "dashboard" => "Dashboard",
     "product_stock" => "Stok Produk",
     "quantity_in_hand" => "Jumlah Tersedia",
     "detail" => "Detail",
-
     "stock" => "Stock",
-
     "discount_percentage" => "Persentase Diskon",
     "sold_at" => "Waktu Penjualan",
-
     "add_item" => "Tambah Item",
-
     "subtotal" => "Sub Total",
-
     "batch_code" => "Kode Batch",
-
     "unit_price" => "Harga Satuan",
     "unit_value" => "Nilai Satuan",
     "quantity" => "Jumlah",
-
     "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",
     "bulk_discount" => "Diskon Grosir",
     "bulk_discount_percentage" => "Persentase Diskon Grosir",
     "total" => "Total",
-
     "filter" => "Filter",
     "word_content_not_regex" => "Format isi hanya boleh mengandung huruf",
     "search_feature" => "Pencarian",
@@ -64,10 +53,8 @@ return [
     "logout" => "Halaman Keluar",
     "content" => "Isi",
     "create" => "Tambah",
-
     "name" => "Nama",
     "code" => "Kode",
-
     "real_name" => "Nama Asli",
     "username" => "Nama Pengguna",
     "student_id" => "Nomor Induk Mahasiswa",

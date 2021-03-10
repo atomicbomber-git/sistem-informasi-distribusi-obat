@@ -3,6 +3,11 @@
         @lang("application.menu")
     </x-menu-title>
 
+    <x-menu-item :href="route('dashboard')" routeIs="dashboard" >
+        <i class="bi-house-door-fill"></i>
+        @lang("application.dashboard")
+    </x-menu-item>
+
     <x-menu-item :href="route('produk.index')" routeIs="produk.*" >
         <i class="bi-box"></i>
         @lang("application.product")

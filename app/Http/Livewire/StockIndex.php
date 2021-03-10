@@ -16,6 +16,7 @@ class StockIndex extends Component
     {
         return view('livewire.stock-index', [
             "stocks" => StockBatch::query()
+                ->where("jumlah", ">", 0)
                 ->paginate()
         ]);
     }

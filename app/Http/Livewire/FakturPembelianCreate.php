@@ -24,6 +24,7 @@ class FakturPembelianCreate extends Component
     public $kode;
     public $pemasok;
     public $waktu_penerimaan;
+    public $item_faktur_pembelian_index = 0;
 
     public function mount()
     {
@@ -120,7 +121,7 @@ class FakturPembelianCreate extends Component
 
     public function addItem(mixed $key)
     {
-        $this->item_faktur_pembelians[$key] ??= [
+        $this->item_faktur_pembelians[$this->item_faktur_pembelian_index++] ??= [
             "produk" => Produk::query()->findOrFail($key),
             "produk_kode" => $key,
             "expired_at" => null,

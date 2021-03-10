@@ -35,10 +35,11 @@ class Formatter
     public static function humanDiff($value): string
     {
         if (!empty($value)) {
-            return Date::make($value)->diffForHumans(
-                today(),
-                CarbonInterface::DIFF_RELATIVE_TO_NOW
-            );
+            return Date::make($value)->diffForHumans([
+                "other" => today(),
+                "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                "options" => CarbonInterface::JUST_NOW,
+            ]);
         }
 
         return "-";

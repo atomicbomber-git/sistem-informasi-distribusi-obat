@@ -33,7 +33,7 @@
                 <tbody>
                 @foreach ($stocks as $stock)
                     <tr wire:key="{{ $stock->getKey() }}">
-                        <td> {{ $stocks->firstItem() + $stock->index }} </td>
+                        <td> {{ $stocks->firstItem() + $loop->index }} </td>
                         <td> {{ $stock->kode_batch }} </td>
                         <x-numeric-td> {{ $stock->jumlah }} </x-numeric-td>
                         <x-numeric-td> {{ \App\Support\Formatter::currency($stock->nilai_satuan) }} </x-numeric-td>

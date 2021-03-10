@@ -1,0 +1,4 @@
+TODO: Dashboard
+TODO: sales-invoices with a FIFO system
+TODO: Returning items
+TODO: Edit feature for purchase-invoices

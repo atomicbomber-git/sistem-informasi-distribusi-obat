@@ -1,6 +1,6 @@
 <article>
     <x-feature-title>
-        <i class="bi-box"></i>
+        <x-icon-product/>
         @lang("application.product")
     </x-feature-title>
 
