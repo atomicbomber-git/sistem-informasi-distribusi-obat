@@ -14,7 +14,8 @@ class FakturPembelian extends Model
     protected $primaryKey = "kode";
 
     protected $casts = [
-        "kode" => "string"
+        "kode" => "string",
+        "waktu_penerimaan" => "datetime:Y-m-d\TH:i",
     ];
 
     protected $guarded = [];

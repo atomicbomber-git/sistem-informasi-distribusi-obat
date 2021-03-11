@@ -1,4 +1,5 @@
-TODO: Dashboard
 TODO: sales-invoices with a FIFO system
 TODO: Returning items
+TODO: Print sales invoice
+TODO: Sales invoice sequential number
 TODO: Edit feature for purchase-invoices

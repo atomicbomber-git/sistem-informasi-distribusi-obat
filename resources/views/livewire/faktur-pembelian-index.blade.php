@@ -44,6 +44,10 @@
                         <td> {{ $faktur_pembelian->pemasok }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($faktur_pembelian->waktu_penerimaan) }} </td>
                         <x-th-control>
+                            <x-button-edit :href="route('faktur-pembelian.edit', $faktur_pembelian)">
+                                @lang("application.edit")
+                            </x-button-edit>
+
                             <x-button-destroy
                                 :item="$faktur_pembelian"
                             />

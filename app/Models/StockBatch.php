@@ -17,6 +17,7 @@ class StockBatch extends Model
 
     protected $casts = [
         "kode_batch" => "string",
+        "expired_at" => "datetime:Y-m-d",
     ];
 
     protected $guarded = [];

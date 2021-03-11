@@ -50,10 +50,10 @@ class FakturPembelianController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FakturPembelian  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $faktur_pembelian
      * @return \Illuminate\Http\Response
      */
-    public function show(FakturPembelian $fakturPenjualan)
+    public function show(FakturPembelian $faktur_pembelian)
     {
         //
     }
@@ -61,22 +61,24 @@ class FakturPembelianController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\FakturPembelian  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $faktur_pembelian
      * @return \Illuminate\Http\Response
      */
-    public function edit(FakturPembelian $fakturPenjualan)
+    public function edit(FakturPembelian $faktur_pembelian)
     {
-        //
+        return $this->responseFactory->view("faktur-pembelian.edit", [
+            "faktur_pembelian" => $faktur_pembelian,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FakturPembelian  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $faktur_pembelian
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FakturPembelian $fakturPenjualan)
+    public function update(Request $request, FakturPembelian $faktur_pembelian)
     {
         //
     }
@@ -84,10 +86,10 @@ class FakturPembelianController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FakturPembelian  $fakturPenjualan
+     * @param  \App\Models\FakturPembelian  $faktur_pembelian
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FakturPembelian $fakturPenjualan)
+    public function destroy(FakturPembelian $faktur_pembelian)
     {
         //
     }

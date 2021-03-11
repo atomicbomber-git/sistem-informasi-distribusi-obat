@@ -11,12 +11,12 @@ use App\Support\SessionHelper;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Str;
 
 class FakturPembelianCreate extends Component
 {
@@ -127,8 +127,8 @@ class FakturPembelianCreate extends Component
             "expired_at" => null,
             "kode_batch" => null,
             "jumlah" => 1,
-            "harga_satuan" => null,
-            "subtotal" => 0,
+            "harga_satuan" => 0,
+            "subtotal" => 200,
         ];
     }
 

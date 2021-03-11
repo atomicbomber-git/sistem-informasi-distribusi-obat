@@ -6,11 +6,13 @@
         {{ $label }}
     </label>
     <input
+            {{ $attributes->except(["inline", "field", "small", "type", "value", "livewire"]) }}
             @if($livewire ?? false) wire:model.lazy="{{ $field }}" @endif
+            {{ ($removed ?? false) ? "disabled" : "" }}
             id="{{ $field }}"
             type="{{ $type ?? 'text' }}"
             placeholder="{{ $label }}"
-            class="form-control {{ ($small ?? false) ? "form-control-sm" : ""   }}  @error($field) is-invalid @enderror"
+            class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} @error($field) is-invalid @enderror"
             name="{{ $field }}"
             value="{{ old($field, $value ?? null) }}"
     />

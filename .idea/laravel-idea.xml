@@ -8,6 +8,7 @@
       </map>
     </option>
     <option name="helperCodeCreateHighOrderCollectionProxies" value="true" />
+    <option name="helperCodeDatabaseMetaSource" value="connection" />
     <option name="userClassName" value="App\Models\User" />
   </component>
 </project>

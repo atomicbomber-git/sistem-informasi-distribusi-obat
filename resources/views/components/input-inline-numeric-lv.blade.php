@@ -1,45 +1,28 @@
-<div>
-    <label for="{{ $field }}" class="visually-hidden">
+<div
+        x-data="{ value: @entangle($field) }"
+        x-init="
+        (function () {
+            let cleave = new Cleave($refs.input, {
+                numeral: true,
+                onValueChanged: e => { value = e.target.rawValue }
+            })
+
+            cleave.setRawValue(value)
+
+            $watch('value', newValue => {
+                cleave.setRawValue(newValue)
+            })
+        })()
+    "
+>
+    <label for="{{ $key }}" class="visually-hidden">
         {{ $label }}
     </label>
+
     <input
-            wire:ignore
-            value="{{ data_get($this, $field) }}"
-            class="form-control form-control-sm text-end @error($field) is-invalid @enderror"
-            placeholder="{{ $label }}"
+            class="form-control form-control-sm text-end"
+            x-ref="input"
             id="{{ $key }}"
-            type="text">
-    @error($field)
-    <span class="text-danger">
-        {{ $message }}
-    </span>
-    @enderror
-
-    <script type="application/javascript">
-        (function() {
-            let old = null
-
-            let setup = () => {
-                let cleave = new Cleave("#{{ $key }}", {
-                    numeral: true,
-                    onValueChanged: function (e) {
-                    @this.set("{{ $field }}", e.target.rawValue)
-                        old = e.target.rawValue
-                    }
-                })
-
-                window.Livewire.on('set:{{ $field }}',  value => {
-                    if (old !== value) {
-                        cleave.setRawValue(value)
-                    }
-                })
-            }
-
-            if (document.readyState !== "complete") {
-                window.addEventListener("load", setup)
-            } else {
-                setup()
-            }
-        })()
-    </script>
+            type="text"
+    >
 </div>
