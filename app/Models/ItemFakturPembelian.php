@@ -13,6 +13,11 @@ class ItemFakturPembelian extends Model
     protected $table = "item_faktur_pembelian";
     protected $guarded = [];
 
+    protected $casts = [
+        "harga_satuan" => "float",
+        "jumlah" => "float",
+    ];
+
     public function produk(): BelongsTo
     {
         return $this->belongsTo(Produk::class);

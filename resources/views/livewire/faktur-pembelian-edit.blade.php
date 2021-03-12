@@ -64,12 +64,13 @@
                 </x-thead>
 
                 <tbody>
-                @foreach ($itemFakturPembelians as $key => $item_faktur_pembelian)
-                    <tr wire:key="{{ $key }}" class="{{ $item_faktur_pembelian["is_removed"] ? "text-decoration-line-through table-danger" : ""  }}">
+                @foreach ($item_faktur_pembelians as $key => $item_faktur_pembelian)
+                    <tr wire:key="{{ $key }}" class="{{ $item_faktur_pembelian["is_removed"] ? "table-danger" : ""  }}">
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
                         <td>
                             <x-input
+                                    :disabled="!$item_faktur_pembelian['is_new']"
                                     :removed="$item_faktur_pembelian['is_removed']"
                                     inline small livewire
                                     :label='__("application.batch_code") . " " . $item_faktur_pembelian["produk"]["nama"]'
@@ -100,12 +101,12 @@
                             />
                         </td>
                         <td class="text-end">
-                            {{ \App\Support\Formatter::currency($item_faktur_pembelian["subtotal"]) }}
+                            {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPembelianEdit::subTotal($item_faktur_pembelian)) }}
                         </td>
                         <x-td-control>
                             <button
                                     x-data="{}"
-                                    x-on:click="@this.call('toggleItemRemoval', '{{ $key }}')  "
+                                    x-on:click="@this.call('removeOrRestoreItem', '{{ $key }}')  "
                                     type="button"
                                     class="btn btn-sm {{ $item_faktur_pembelian["is_removed"] ? "btn-success" : "btn-danger" }}"
                             >
@@ -126,7 +127,7 @@
                         @lang("application.total")
                     </td>
                     <td class="text-end">
-                        {{ \App\Support\Formatter::currency($total) }}
+                        {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPembelianEdit::total($item_faktur_pembelians)) }}
                     </td>
                     <td></td>
                 </tr>

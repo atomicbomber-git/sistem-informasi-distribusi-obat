@@ -7,7 +7,9 @@ use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
 use App\Models\StockBatch;
+use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
+use App\Support\WithCustomPagination;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,6 +22,8 @@ use Str;
 
 class FakturPembelianCreate extends Component
 {
+    use HasValidatorThatEmitsErrors;
+
     public Collection $item_faktur_pembelians;
     public $kode;
     public $pemasok;
@@ -33,21 +37,23 @@ class FakturPembelianCreate extends Component
 
     public function submit()
     {
-        $data = collect($this->validate([
-            "kode" => ["required", "string", Rule::unique(FakturPembelian::class)],
-            "pemasok" => ["required", "string"],
-            "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i"],
-            "item_faktur_pembelians" => ["required", "array"],
-            "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
-            "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
-            "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
-            "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
-            "item_faktur_pembelians.*.kode_batch" => [
-                "required", "string", "distinct",
-                Rule::unique(StockBatch::class)
-                    ->whereNotNull("item_faktur_pembelian_id")
-            ],
-        ]));
+        $data = new Collection(
+            $this->validateAndEmitErrors([
+                "kode" => ["required", "string", Rule::unique(FakturPembelian::class)],
+                "pemasok" => ["required", "string"],
+                "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i"],
+                "item_faktur_pembelians" => ["required", "array"],
+                "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
+                "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
+                "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
+                "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
+                "item_faktur_pembelians.*.kode_batch" => [
+                    "required", "string", "distinct",
+                    Rule::unique(StockBatch::class)
+                        ->whereNotNull("item_faktur_pembelian_id")
+                ],
+            ])
+        );
 
         DB::beginTransaction();
 
@@ -128,13 +134,18 @@ class FakturPembelianCreate extends Component
             "kode_batch" => null,
             "jumlah" => 1,
             "harga_satuan" => 0,
-            "subtotal" => 200,
+            "subtotal" => 0,
         ];
     }
 
     public function removeItem(mixed $key)
     {
         unset($this->item_faktur_pembelians[$key]);
+    }
+
+    public function errors()
+    {
+        return $this->errorBag->getMessages();
     }
 
     public function render(): Factory|View|Application

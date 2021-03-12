@@ -18,6 +18,16 @@ class FakturPembelianEdit extends Component
     public $waktu_penerimaan;
     public $item_faktur_pembelian_index = 0;
 
+    public static function subTotal(array $item_faktur_pembelian): float {
+        return ($item_faktur_pembelian["harga_satuan"] ?: 0) * ($item_faktur_pembelian["jumlah"] ?: 0);
+    }
+
+    public static function total(Collection $item_faktur_pembelians): float {
+        return  $item_faktur_pembelians->sum(function (array $item_faktur_pembelian) {
+            return static::subTotal($item_faktur_pembelian);
+        });
+    }
+
     public function mount()
     {
 
@@ -40,42 +50,47 @@ class FakturPembelianEdit extends Component
                     "jumlah" => $itemFakturPembelian->jumlah,
                     "harga_satuan" => $itemFakturPembelian->harga_satuan,
                     "subtotal" => 0,
+
                     "is_removed" => false,
+                    "is_new" => false,
                 ]];
             });
 
         $this->item_faktur_pembelian_index = $this->item_faktur_pembelians->count();
     }
 
-    public function toggleItemRemoval(mixed $key)
+    public function addItem(mixed $key)
     {
-        $this->item_faktur_pembelians[$key] = array_merge($this->item_faktur_pembelians[$key], [
-            "is_removed" => !$this->item_faktur_pembelians[$key]["is_removed"],
-        ]);
+        $this->item_faktur_pembelians[++$this->item_faktur_pembelian_index] ??= [
+            "produk" => Produk::query()->findOrFail($key),
+            "produk_kode" => $key,
+            "expired_at" => null,
+            "kode_batch" => null,
+            "jumlah" => 1,
+            "harga_satuan" => 0,
+            "subtotal" => 0,
+
+            "is_removed" => false,
+            "is_new" => true,
+        ];
+    }
+
+    public function removeOrRestoreItem(mixed $key)
+    {
+        $item = $this->item_faktur_pembelians[$key];
+
+        if ($item["is_new"]) {
+            unset($this->item_faktur_pembelians[$key]);
+        } else {
+            $this->item_faktur_pembelians[$key] = array_merge($item, [
+                "is_removed" => !$this->item_faktur_pembelians[$key]["is_removed"],
+            ]);
+        }
     }
 
 
     public function render()
     {
-        $itemFakturPembelian = $this->item_faktur_pembelians
-            ->map(function (array $item_faktur_pembelian) {
-                return array_merge($item_faktur_pembelian, [
-                    "subtotal" =>
-                        ($item_faktur_pembelian["harga_satuan"] ?: 0) *
-                        ($item_faktur_pembelian["jumlah"] ?: 0)
-                ]);
-            });
-
-        return view('livewire.faktur-pembelian-edit', [
-            "itemFakturPembelians" => $this->item_faktur_pembelians
-                ->map(function (array $item_faktur_pembelian) {
-                    return array_merge($item_faktur_pembelian, [
-                        "subtotal" =>
-                            ($item_faktur_pembelian["harga_satuan"] ?: 0) *
-                            ($item_faktur_pembelian["jumlah"] ?: 0)
-                    ]);
-                }),
-            "total" => $itemFakturPembelian->sum("subtotal")
-        ]);
+        return view('livewire.faktur-pembelian-edit');
     }
 }
