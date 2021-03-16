@@ -3,22 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
+use App\Enums\TipeTransaksiStock;
 use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
-use App\Models\StockBatch;
+use App\Models\Stock;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
-use App\Support\WithCustomPagination;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use Str;
 
 class FakturPembelianCreate extends Component
 {
@@ -47,11 +45,7 @@ class FakturPembelianCreate extends Component
                 "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
                 "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
                 "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
-                "item_faktur_pembelians.*.kode_batch" => [
-                    "required", "string", "distinct",
-                    Rule::unique(StockBatch::class)
-                        ->whereNotNull("item_faktur_pembelian_id")
-                ],
+                "item_faktur_pembelians.*.kode_batch" => ["required", "string"],
             ])
         );
 
@@ -71,45 +65,25 @@ class FakturPembelianCreate extends Component
                     "produk_kode",
                     "jumlah",
                     "harga_satuan",
+                    "expired_at"
                 )->toArray()
             );
 
             $fakturPembelian->item_faktur_pembelians()->save($itemFakturPembelian);
 
-            $stockBatch = StockBatch::query()
-                /* TODO: Figure out edge cases */
-                ->whereNull("item_faktur_pembelian_id")
-                ->where("kode_batch", $data_item_faktur_pembelian["kode_batch"])
-                ->first();
-
-            if ($stockBatch === null) {
-                $stockBatch = new StockBatch([
-                    "kode_batch" => $data_item_faktur_pembelian["kode_batch"],
-                    "produk_kode" => $itemFakturPembelian->produk_kode,
-                    "jumlah" => $itemFakturPembelian->jumlah,
-                    "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                    "expired_at" => $data_item_faktur_pembelian["expired_at"],
-                ]);
-
-                $itemFakturPembelian->stock_batch()->save($stockBatch);
-            } else {
-                if ($stockBatch->produk_kode !== $itemFakturPembelian->produk_kode) {
-                    throw ValidationException::withMessages([
-                        "item_faktur_pembelians.{$itemFakturPembelian->produk_kode}.harga_satuan" => [
-                            "Telah tercatat stok produk lain ({$stockBatch->produk->nama}) dengan kode batch ini"
-                        ]
-                    ]);
-                }
-
-                $stockBatch->increment("jumlah", $itemFakturPembelian->jumlah);
-                $stockBatch->update([
-                    "item_faktur_pembelian_id" => $itemFakturPembelian->getKey(),
-                    "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                ]);
-            }
-
-            $stockBatch->transaksi_stock()->create([
+            $stock = new Stock([
+                "kode_batch" => $data_item_faktur_pembelian["kode_batch"],
+                "produk_kode" => $itemFakturPembelian->produk_kode,
                 "jumlah" => $itemFakturPembelian->jumlah,
+                "nilai_satuan" => $itemFakturPembelian->harga_satuan,
+                "expired_at" => $data_item_faktur_pembelian["expired_at"],
+            ]);
+
+            $stock->save();
+
+            $stock->transaksi_stocks()->create([
+                "jumlah" => $itemFakturPembelian->jumlah,
+                "tipe" => TipeTransaksiStock::PENERIMAAN,
             ]);
         }
 

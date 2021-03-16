@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\StockBatch;
+use App\Models\Stock;
 use App\Support\WithCustomPagination;
 use App\Support\WithFilter;
 use App\Support\WithSort;
@@ -15,7 +15,7 @@ class StockIndex extends Component
     public function render()
     {
         return view('livewire.stock-index', [
-            "stocks" => StockBatch::query()
+            "stocks" => Stock::query()
                 ->where("jumlah", ">", 0)
                 ->paginate()
         ]);

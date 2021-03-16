@@ -16,6 +16,7 @@ class ItemFakturPembelian extends Model
     protected $casts = [
         "harga_satuan" => "float",
         "jumlah" => "float",
+        "expired_at" => "datetime:Y-m-d",
     ];
 
     public function produk(): BelongsTo
@@ -23,8 +24,8 @@ class ItemFakturPembelian extends Model
         return $this->belongsTo(Produk::class);
     }
 
-    public function stock_batch(): HasOne
+    public function stock(): HasOne
     {
-        return $this->hasOne(StockBatch::class);
+        return $this->hasOne(Stock::class);
     }
 }

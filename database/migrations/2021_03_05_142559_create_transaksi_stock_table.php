@@ -14,14 +14,13 @@ class CreateTransaksiStockTable extends Migration
     public function up()
     {
         Schema::create('transaksi_stock', function (Blueprint $table) {
-            $table->id();
-            $table->string('stock_kode_batch')->index();
+            $table->increments('id');
+            $table->unsignedInteger('item_faktur_pembelian_id')->index()->nullable();
             $table->decimal('jumlah');
-
-            $table->foreign('stock_kode_batch')
-                ->references('kode_batch')
-                ->on('stock_batch');
-
+            $table->unsignedInteger('stock_id')->index();
+            $table->foreign('item_faktur_pembelian_id')->references('id')->on('item_faktur_pembelian');
+            $table->foreign('stock_id')->references('id')->on('stock');
+            $table->string('tipe')->index();
             $table->timestamps();
         });
     }

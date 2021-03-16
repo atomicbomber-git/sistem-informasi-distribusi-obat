@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class StockBatch extends Model
+class Stock extends Model
 {
     use HasFactory;
 
-    protected $table = "stock_batch";
-    protected $primaryKey = "kode_batch";
-    public $incrementing = false;
+    protected $table = "stock";
 
     protected $casts = [
         "kode_batch" => "string",
@@ -27,8 +25,8 @@ class StockBatch extends Model
         return $this->belongsTo(Produk::class);
     }
 
-    public function transaksi_stock(): HasMany
+    public function transaksi_stocks(): HasMany
     {
-        return $this->hasMany(TransaksiStock::class, "stock_kode_batch");
+        return $this->hasMany(TransaksiStock::class);
     }
 }

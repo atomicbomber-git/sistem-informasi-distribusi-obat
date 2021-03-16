@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
-use App\Models\StockBatch;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
@@ -55,10 +55,10 @@ class StockController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\StockBatch  $stock_batch
+     * @param  \App\Models\Stock  $stock_batch
      * @return \Illuminate\Http\Response
      */
-    public function show(Produk $produk, StockBatch $stock_batch)
+    public function show(Produk $produk, Stock $stock_batch)
     {
         //
     }
@@ -67,10 +67,10 @@ class StockController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\StockBatch  $stock_batch
+     * @param  \App\Models\Stock  $stock_batch
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produk $produk, StockBatch $stock_batch)
+    public function edit(Produk $produk, Stock $stock_batch)
     {
         //
     }
@@ -80,10 +80,10 @@ class StockController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\StockBatch  $stock_batch
+     * @param  \App\Models\Stock  $stock_batch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produk $produk, StockBatch $stock_batch)
+    public function update(Request $request, Produk $produk, Stock $stock_batch)
     {
         //
     }
@@ -92,10 +92,10 @@ class StockController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\StockBatch  $stock_batch
+     * @param  \App\Models\Stock  $stock_batch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produk $produk, StockBatch $stock_batch)
+    public function destroy(Produk $produk, Stock $stock_batch)
     {
         //
     }

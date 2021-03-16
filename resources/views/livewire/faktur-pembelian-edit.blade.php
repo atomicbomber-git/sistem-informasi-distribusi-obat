@@ -1,6 +1,6 @@
 <article>
     <x-feature-title>
-        <i class="bi-plus-circle"></i>
+        <x-icon-create/>
         @lang("application.create")
     </x-feature-title>
 
@@ -14,7 +14,7 @@
         <li class="breadcrumb-item active"
             aria-current="page"
         >
-            @lang("application.create")
+            @lang("application.edit")
         </li>
     </x-breadcrumb>
 
@@ -70,7 +70,7 @@
                         <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
                         <td>
                             <x-input
-                                    :disabled="!$item_faktur_pembelian['is_new']"
+                                    :disabled="$item_faktur_pembelian['current_id'] !== null"
                                     :removed="$item_faktur_pembelian['is_removed']"
                                     inline small livewire
                                     :label='__("application.batch_code") . " " . $item_faktur_pembelian["produk"]["nama"]'
@@ -169,8 +169,8 @@
 
         <x-card-footer-submit>
             <x-submit-button>
-                @lang("application.create")
-                <i class="bi-plus-circle"></i>
+                @lang("application.update")
+                <x-icon-edit/>
             </x-submit-button>
         </x-card-footer-submit>
     </form>
