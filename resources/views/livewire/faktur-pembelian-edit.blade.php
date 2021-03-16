@@ -1,7 +1,7 @@
 <article>
     <x-feature-title>
-        <x-icon-create/>
-        @lang("application.create")
+        <x-icon-edit/>
+        @lang("application.edit")
     </x-feature-title>
 
     <x-breadcrumb>
@@ -17,6 +17,8 @@
             @lang("application.edit")
         </li>
     </x-breadcrumb>
+
+    <x-messages/>
 
     <form wire:submit.prevent="submit"
           class="card"

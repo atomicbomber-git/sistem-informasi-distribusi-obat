@@ -66,42 +66,50 @@ class FakturPembelianEdit extends Component
 
         $itemFakturPembeliansData = collect($data["item_faktur_pembelians"]);
 
-        $existingItemsData = collect($itemFakturPembeliansData)->filter(
-            fn($item) => $item["current_id"] !== null
-        );
+        $itemFakturPembeliansData->transform(function (array $itemData) {
+            if ($itemData["current_id"] !== null) {
+                $itemData["is_modified"] = !ItemFakturPembelian::query()
+                    ->where([
+                        "id" => $itemData["current_id"],
+                        "harga_satuan" => $itemData["harga_satuan"],
+                        "jumlah" => $itemData["jumlah"],
+                        "kode_batch" => $itemData["kode_batch"],
+                    ])->exists();
+            } else {
+                $itemData["is_modified"] = false;
+            }
+
+            return $itemData;
+        });
+
+        $existingModifiedItemsData = $itemFakturPembeliansData
+            ->filter(
+                fn($item) => ($item["current_id"] !== null) && ($item["is_modified"] || $item["is_removed"])
+            );
 
         DB::beginTransaction();
 
-        foreach ($existingItemsData as $index => $existingItemData) {
-            $stockHasBeenTransactedOtherThanReceived = TransaksiStock::query()
-                ->whereHas("stock", function (Builder $builder) use ($existingItemData) {
-                    $builder->whereHas("transaksi_stocks", function (Builder $builder) use ($existingItemData) {
-                        $builder->where("item_faktur_pembelian_id", $existingItemData["current_id"]);
-                    });
-                })
-                ->where("tipe", "<>", TipeTransaksiStock::PENERIMAAN)
-                ->exists();
+        foreach ($existingModifiedItemsData as $index => $existingItemData) {
+            /** @var ItemFakturPembelian $itemFakturPembelian */
+            $itemFakturPembelian = ItemFakturPembelian::query()
+                ->findOrFail($existingItemData["current_id"]);
 
-            if ($stockHasBeenTransactedOtherThanReceived) {
+            if (!$itemFakturPembelian->isDeletable()) {
                 throw ValidationException::withMessages([
                     "item_faktur_pembelians.{$index}.kode_batch" => "Item ini telah terlibat transaksi lain, mohon hapus transaksi tersebut terlebih dahulu sebelum transaksi ini diubah",
                 ]);
             }
 
-            /* Delete everything */
-            Stock::query()
-                ->whereHas("transaksi_stocks", function (Builder $builder) use ($existingItemData) {
-                    $builder->where("item_faktur_pembelian_id", $existingItemData["current_id"]);
-                })->delete();
-
-            TransaksiStock::query()
-                ->where("item_faktur_pembelian_id", $existingItemData["current_id"])
-                ->delete();
-
-            ItemFakturPembelian::query()
-                ->whereKey($existingItemData["current_id"])
-                ->delete();
+            $itemFakturPembelian->deleteCascade();
         }
+
+        $itemsToBeCreated = $itemFakturPembeliansData
+            ->filter(
+                fn (array $itemData) => (
+                    ($itemData["current_id"] !== null) && !$itemData["is_removed"] && $itemData["is_modified"] ||
+                    ($itemData["current_id"] === null)
+                )
+            );
 
         /* Update the faktur itself */
         $this->fakturPembelian->update(collect($data)->only(
@@ -110,10 +118,11 @@ class FakturPembelianEdit extends Component
             "waktu_penerimaan",
         )->toArray());
 
-        foreach ($itemFakturPembeliansData as $itemFakturPembelianData) {
+        foreach ($itemsToBeCreated as $itemData) {
             $itemFakturPembelian = new ItemFakturPembelian(
-                collect($itemFakturPembelianData)->only(
+                collect($itemData)->only(
                     "produk_kode",
+                "kode_batch",
                     "jumlah",
                     "harga_satuan",
                     "expired_at"
@@ -125,16 +134,17 @@ class FakturPembelianEdit extends Component
                 ->save($itemFakturPembelian);
 
             $stock = new Stock([
-                "kode_batch" => $itemFakturPembelianData["kode_batch"],
+                "kode_batch" => $itemData["kode_batch"],
                 "produk_kode" => $itemFakturPembelian->produk_kode,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                "expired_at" => $itemFakturPembelianData["expired_at"],
+                "expired_at" => $itemData["expired_at"],
             ]);
 
             $stock->save();
 
             $stock->transaksi_stocks()->create([
+                "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PENERIMAAN,
             ]);
@@ -143,7 +153,7 @@ class FakturPembelianEdit extends Component
         DB::commit();
 
         SessionHelper::flashMessage(
-            __("messages.update.failure"),
+            __("messages.update.success"),
             MessageState::STATE_SUCCESS,
         );
 
@@ -167,7 +177,7 @@ class FakturPembelianEdit extends Component
                     "produk" => $itemFakturPembelian->produk,
                     "produk_kode" => $itemFakturPembelian->produk_kode,
                     "expired_at" => $itemFakturPembelian->expired_at->format("Y-m-d"),
-                    "kode_batch" => $itemFakturPembelian->produk_kode,
+                    "kode_batch" => $itemFakturPembelian->kode_batch,
                     "jumlah" => $itemFakturPembelian->jumlah,
                     "harga_satuan" => $itemFakturPembelian->harga_satuan,
                     "subtotal" => 0,
@@ -199,7 +209,7 @@ class FakturPembelianEdit extends Component
     {
         $item = $this->item_faktur_pembelians[$key];
 
-        if ($item["current_id"] !== null) {
+        if ($item["current_id"] === null) {
             unset($this->item_faktur_pembelians[$key]);
         } else {
             $this->item_faktur_pembelians[$key] = array_merge($item, [

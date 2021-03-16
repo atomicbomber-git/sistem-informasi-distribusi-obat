@@ -63,6 +63,7 @@ class FakturPembelianCreate extends Component
             $itemFakturPembelian = new ItemFakturPembelian(
                 collect($data_item_faktur_pembelian)->only(
                     "produk_kode",
+                    "kode_batch",
                     "jumlah",
                     "harga_satuan",
                     "expired_at"
@@ -82,6 +83,7 @@ class FakturPembelianCreate extends Component
             $stock->save();
 
             $stock->transaksi_stocks()->create([
+                "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PENERIMAAN,
             ]);

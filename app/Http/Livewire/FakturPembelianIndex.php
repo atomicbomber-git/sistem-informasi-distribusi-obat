@@ -25,20 +25,7 @@ class FakturPembelianIndex extends Component
             $fakturPembelian = FakturPembelian::query()->findOrFail($modelKey);
 
             foreach ($fakturPembelian->item_faktur_pembelians as $item_faktur_pembelian) {
-                $item_faktur_pembelian->stock_batch->decrement(
-                    "jumlah",
-                    $item_faktur_pembelian->jumlah,
-                );
-
-                $item_faktur_pembelian->stock_batch->transaksi_stock()->create([
-                    "jumlah" => -$item_faktur_pembelian->jumlah,
-                ]);
-
-                $item_faktur_pembelian->stock_batch->update([
-                    "item_faktur_pembelian_id" => null,
-                ]);
-
-                $item_faktur_pembelian->delete();
+                $item_faktur_pembelian->deleteCascade();
             }
 
             $fakturPembelian->delete();
@@ -50,8 +37,6 @@ class FakturPembelianIndex extends Component
                 MessageState::STATE_SUCCESS,
             );
         } catch (Throwable $exception) {
-            ray()->exception($exception);
-
             SessionHelper::flashMessage(
                 __("messages.delete.failure"),
                 MessageState::STATE_DANGER,
