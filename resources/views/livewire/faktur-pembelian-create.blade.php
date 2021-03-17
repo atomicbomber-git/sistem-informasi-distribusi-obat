@@ -1,6 +1,6 @@
 <article>
     <x-feature-title>
-        <i class="bi-plus-circle"></i>
+        <x-icon-create/>
         @lang("application.create")
     </x-feature-title>
 
@@ -84,14 +84,16 @@
                             />
                         </td>
                         <td class="text-end">
-                            <x-input-inline-numeric-lv
+                            <x-lv-input-numeric
+                                    inline small
                                     :label='__("application.quantity") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"jumlah_{$loop->index}"'
                                     :field='"item_faktur_pembelians.{$key}.jumlah"'
                             />
                         </td>
                         <td class="text-end">
-                            <x-input-inline-numeric-lv
+                            <x-lv-input-numeric
+                                    inline small
                                     :label='__("application.unit_price") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"harga_satuan_{$loop->index}"'
                                     :field='"item_faktur_pembelians.{$key}.harga_satuan"'
@@ -163,7 +165,7 @@
         <x-card-footer-submit>
             <x-submit-button>
                 @lang("application.create")
-                <i class="bi-plus-circle"></i>
+                <x-icon-create/>
             </x-submit-button>
         </x-card-footer-submit>
     </form>

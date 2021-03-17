@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProdukTable extends Migration
+class CreateFakturPenjualanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateProdukTable extends Migration
      */
     public function up()
     {
-        Schema::create('produk', function (Blueprint $table) {
+        Schema::create('faktur_penjualan', function (Blueprint $table) {
             $table->string('kode')->primary();
-            $table->string('nama');
-            $table->longText('deskripsi')->nullable();
-            $table->decimal('harga_satuan', 19, 4);
+            $table->string('pelanggan');
+            $table->dateTime('waktu_pengeluaran');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateProdukTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produk');
+        Schema::dropIfExists('faktur_penjualan');
     }
 }

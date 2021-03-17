@@ -1,3 +1,3 @@
 <x-layouts.app>
-    <livewire:stock-index/>
+    <livewire:stock-index :produk="$produk"/>
 </x-layouts.app>

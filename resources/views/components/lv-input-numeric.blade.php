@@ -27,14 +27,14 @@
     "
 >
     <label for="{{ $key }}"
-           class="visually-hidden"
+           class="{{ ($inline ?? false) ? 'visually-hidden' : '' }}"
     >
         {{ $label }}
     </label>
 
     <input
             id="{{ $key }}"
-            class="form-control form-control-sm text-end"
+            class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} text-end"
             x-bind:class="{ 'is-invalid': errors.length > 0 }"
             x-ref="input"
             type="text"

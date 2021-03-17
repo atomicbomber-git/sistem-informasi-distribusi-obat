@@ -4,17 +4,22 @@
     </x-menu-title>
 
     <x-menu-item :href="route('dashboard')" routeIs="dashboard" >
-        <i class="bi-house-door-fill"></i>
+        <x-icon-dashboard/>
         @lang("application.dashboard")
     </x-menu-item>
 
     <x-menu-item :href="route('produk.index')" routeIs="produk.*" >
-        <i class="bi-box"></i>
+        <x-icon-product/>
         @lang("application.product")
     </x-menu-item>
 
     <x-menu-item :href="route('faktur-pembelian.index')" routeIs='faktur-pembelian.*' >
-        <i class="bi-card-list"></i>
+        <x-icon-purchase-invoice/>
         @lang("application.purchase_invoice")
+    </x-menu-item>
+
+    <x-menu-item :href="route('faktur-penjualan.index')" routeIs='faktur-penjualan.*' >
+        <x-icon-sales-invoice/>
+        @lang("application.sales_invoice")
     </x-menu-item>
 </nav>

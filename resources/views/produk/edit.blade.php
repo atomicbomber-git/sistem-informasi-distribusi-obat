@@ -37,6 +37,14 @@
                         :value="$produk->kode"
                 />
 
+                <x-input
+                        x-data="{}"
+                        x-init="new Cleave($el, { numeral: true, swapHiddenInput: true })"
+                        field="harga_satuan"
+                        :value="\App\Support\Formatter::normalizedNumeral($produk->harga_satuan)"
+                        :label="__('application.unit_price')"
+                />
+
                 <x-textarea
                         field="deskripsi"
                         :label="__('application.description')"

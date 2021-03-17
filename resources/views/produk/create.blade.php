@@ -35,9 +35,16 @@
                         :label="__('application.code')"
                 />
 
+                <x-input
+                        x-data="{}"
+                        x-init="new Cleave($el, { numeral: true, swapHiddenInput: true })"
+                        field="harga_satuan"
+                        :label="__('application.unit_price')"
+                />
+
                 <x-textarea
-                    field="deskripsi"
-                    :label="__('application.description')"
+                        field="deskripsi"
+                        :label="__('application.description')"
                 />
             </x-form-post>
         </div>

@@ -30,6 +30,7 @@
                         <th> @lang("application.number_symbol") </th>
                         <th> @lang("application.name") </th>
                         <th> @lang("application.code") </th>
+                        <th class="text-end"> @lang("application.unit_price") </th>
                         <th class="text-end"> @lang("application.quantity_in_hand") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
@@ -41,6 +42,7 @@
                         <td> {{ $produks->firstItem() + $loop->index }} </td>
                         <td> {{ $produk->nama }} </td>
                         <td> {{ $produk->kode }} </td>
+                        <td class="text-end"> {{ \App\Support\Formatter::currency($produk->harga_satuan) }} </td>
                         <td class="text-end">
                             {{ \App\Support\Formatter::quantity($produk->quantity_in_hand) }}
                         </td>

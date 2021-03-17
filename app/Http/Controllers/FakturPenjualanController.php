@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
-use App\Models\Stock;
+use App\Models\FakturPenjualan;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
-class StockController extends Controller
+class FakturPenjualanController extends Controller
 {
     private ResponseFactory $responseFactory;
 
@@ -20,33 +19,30 @@ class StockController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Models\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function index(Produk $produk)
+    public function index()
     {
-        return $this->responseFactory->view("stock.index", compact("produk"));
+        return $this->responseFactory->view("faktur-penjualan.index");
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function create(Produk $produk)
+    public function create()
     {
-        //
+        return $this->responseFactory->view("faktur-penjualan.create");
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Produk $produk)
+    public function store(Request $request)
     {
         //
     }
@@ -54,11 +50,10 @@ class StockController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\Stock  $stock_batch
+     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(Produk $produk, Stock $stock_batch)
+    public function show(FakturPenjualanController $fakturPenjualan)
     {
         //
     }
@@ -66,11 +61,10 @@ class StockController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\Stock  $stock_batch
+     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produk $produk, Stock $stock_batch)
+    public function edit(FakturPenjualanController $fakturPenjualan)
     {
         //
     }
@@ -79,11 +73,10 @@ class StockController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\Stock  $stock_batch
+     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produk $produk, Stock $stock_batch)
+    public function update(Request $request, FakturPenjualanController $fakturPenjualan)
     {
         //
     }
@@ -91,11 +84,10 @@ class StockController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Produk  $produk
-     * @param  \App\Models\Stock  $stock_batch
+     * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produk $produk, Stock $stock_batch)
+    public function destroy(FakturPenjualanController $fakturPenjualan)
     {
         //
     }

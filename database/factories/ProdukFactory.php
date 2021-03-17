@@ -14,6 +14,7 @@ class ProdukFactory extends Factory
         return [
             "kode" => $this->faker->uuid,
             "nama" => $this->faker->unique()->medicine,
+            "harga_satuan" => rand(1, 100) * 5_000,
             "deskripsi" => $this->faker->realText(),
         ];
     }

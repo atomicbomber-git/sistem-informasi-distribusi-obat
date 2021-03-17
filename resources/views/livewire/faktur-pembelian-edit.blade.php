@@ -89,14 +89,16 @@
                             />
                         </td>
                         <td class="text-end">
-                            <x-input-inline-numeric-lv
+                            <x-lv-input-numeric
+                                    inline small
                                     :label='__("application.quantity") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"jumlah_{$loop->index}"'
                                     :field='"item_faktur_pembelians.{$key}.jumlah"'
                             />
                         </td>
                         <td class="text-end">
-                            <x-input-inline-numeric-lv
+                            <x-lv-input-numeric
+                                    inline small
                                     :label='__("application.unit_price") . " " . $item_faktur_pembelian["produk"]["nama"]'
                                     :key='"harga_satuan_{$loop->index}"'
                                     :field='"item_faktur_pembelians.{$key}.harga_satuan"'

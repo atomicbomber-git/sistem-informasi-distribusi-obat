@@ -51,6 +51,7 @@ class ProdukController extends Controller
         $data = $request->validate([
             "kode" => ["required", "string", Rule::unique(Produk::class)],
             "nama" => ["required", "string"],
+            "harga_satuan" => ["required", "numeric", "gte:0"],
             "deskripsi" => ["nullable", "string"],
         ]);
 

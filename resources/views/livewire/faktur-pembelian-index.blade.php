@@ -17,7 +17,7 @@
 
         <x-button-link :href="route('faktur-pembelian.create')">
             @lang("application.create")
-            <i class="bi-plus-circle"></i>
+            <x-icon-create/>
         </x-button-link>
     </x-control-bar>
 

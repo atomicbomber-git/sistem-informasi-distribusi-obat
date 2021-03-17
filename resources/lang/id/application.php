@@ -7,6 +7,7 @@ return [
     "customer" => "Pelanggan",
     "supplier" => "Pemasok",
     "arrived_at" => "Waktu Penerimaan",
+    "delivered_at" => "Waktu Pengeluaran",
     "item_list" => "Daftar Item",
     "expired_at" => "Expired At",
     "dashboard" => "Dashboard",

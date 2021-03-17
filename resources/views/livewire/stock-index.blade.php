@@ -35,7 +35,7 @@
                     <tr wire:key="{{ $stock->getKey() }}">
                         <td> {{ $stocks->firstItem() + $loop->index }} </td>
                         <td> {{ $stock->kode_batch }} </td>
-                        <x-numeric-td> {{ $stock->jumlah }} </x-numeric-td>
+                        <x-numeric-td> {{ \App\Support\Formatter::quantity($stock->jumlah) }} </x-numeric-td>
                         <x-numeric-td> {{ \App\Support\Formatter::currency($stock->nilai_satuan) }} </x-numeric-td>
                         <td>
                             {{ \App\Support\Formatter::dayMonthYear($stock->expired_at) }}
