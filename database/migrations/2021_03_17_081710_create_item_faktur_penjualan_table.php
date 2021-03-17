@@ -13,8 +13,11 @@ class CreateItemFakturPenjualanTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_faktur_penjualans', function (Blueprint $table) {
-            $table->id();
+        Schema::create('item_faktur_penjualan', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('produk_kode')->index();
+            $table->decimal('jumlah');
+            $table->decimal('harga_satuan', 19, 4);
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateItemFakturPenjualanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_faktur_penjualans');
+        Schema::dropIfExists('item_faktur_penjualan');
     }
 }

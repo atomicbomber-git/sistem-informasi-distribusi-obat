@@ -14,6 +14,5 @@ class ItemFakturPenjualan extends Model
     protected $casts = [
         "harga_satuan" => "float",
         "jumlah" => "float",
-        "expired_at" => "datetime:Y-m-d",
     ];
 }

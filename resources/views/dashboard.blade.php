@@ -24,5 +24,11 @@
                 @lang("application.purchase_invoice")
             </a>
         </div>
+        <div class="col">
+            <a href="{{ route("faktur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                <x-icon-sales-invoice/>
+                @lang("application.sales_invoice")
+            </a>
+        </div>
     </div>
 </x-layouts.app>

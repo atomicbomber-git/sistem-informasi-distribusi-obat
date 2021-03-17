@@ -44,6 +44,12 @@
                 @lang("application.item_list")
             </h2>
 
+            @error("itemFakturPenjualans")
+            <div class="alert alert-danger">
+                {{ $message }}
+            </div>
+            @enderror
+
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
@@ -111,6 +117,7 @@
                     @lang("application.add_item")
                 </label>
                 <select
+                        wire:ignore
                         style="width: 100%"
                         x-data
                         x-init="

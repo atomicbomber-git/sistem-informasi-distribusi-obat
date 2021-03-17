@@ -39,13 +39,15 @@ class FakturPembelianCreate extends Component
             $this->validateAndEmitErrors([
                 "kode" => ["required", "string", Rule::unique(FakturPembelian::class)],
                 "pemasok" => ["required", "string"],
-                "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i"],
+                "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i", "before_or_equal:now"],
                 "item_faktur_pembelians" => ["required", "array"],
                 "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
                 "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
                 "item_faktur_pembelians.*.jumlah" => ["required", "numeric", "gte:1"],
                 "item_faktur_pembelians.*.harga_satuan" => ["required", "gte:0"],
                 "item_faktur_pembelians.*.kode_batch" => ["required", "string"],
+            ], [
+                "waktu_penerimaan.before_or_equal" => "Waktu penerimaan tidak boleh terjadi di masa depan.",
             ])
         );
 
@@ -86,6 +88,7 @@ class FakturPembelianCreate extends Component
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PENERIMAAN,
+                "transacted_at" => $fakturPembelian->waktu_penerimaan,
             ]);
         }
 

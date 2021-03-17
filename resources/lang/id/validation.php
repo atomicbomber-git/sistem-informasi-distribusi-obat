@@ -149,6 +149,11 @@ return [
         'item_faktur_pembelians.*.jumlah' => 'jumlah',
         'item_faktur_pembelians.*.kode_batch' => 'kode batch',
         'item_faktur_pembelians.*.expired_at' => 'expired at',
+
+        "itemFakturPenjualans" => "daftar item faktur penjualan",
+        "itemFakturPenjualans.*.jumlah" => "jumlah",
+        "itemFakturPenjualans.*.harga_satuan" => "harga satuan",
+
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
         'document' => 'dokumen',

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Produk extends Model
 {
@@ -17,6 +18,11 @@ class Produk extends Model
 
     use HasFactory;
     protected $guarded = [];
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
 
     /** return \App\QueryBuilders\ProdukBuilder */
     public function newEloquentBuilder($query)

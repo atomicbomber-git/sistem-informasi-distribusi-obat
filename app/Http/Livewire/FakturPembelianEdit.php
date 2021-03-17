@@ -48,7 +48,7 @@ class FakturPembelianEdit extends Component
             $this->validateAndEmitErrors([
                 "kode" => ["required", "string", Rule::unique(FakturPembelian::class)->ignore($this->fakturPembelian)],
                 "pemasok" => ["required", "string"],
-                "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i"],
+                "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i", "before_or_equal:now"],
                 "item_faktur_pembelians" => ["required", "array"],
                 "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
                 "item_faktur_pembelians.*.expired_at" => ["required", "date_format:Y-m-d"],
@@ -61,6 +61,8 @@ class FakturPembelianEdit extends Component
                     Rule::exists(ItemFakturPembelian::class, "id")
                         ->where("faktur_pembelian_kode", $this->fakturPembelian->kode)
                 ],
+            ], [
+                "waktu_penerimaan.before_or_equal" => "Waktu penerimaan tidak boleh terjadi di masa depan.",
             ])
         );
 
@@ -118,11 +120,16 @@ class FakturPembelianEdit extends Component
             "waktu_penerimaan",
         )->toArray());
 
+        /* Update transacted_at fields */
+        TransaksiStock::query()
+            ->whereIn("item_faktur_pembelian_id", $itemFakturPembeliansData->pluck("id")->toArray())
+            ->update(["transacted_at" => $data["waktu_penerimaan"]]);
+
         foreach ($itemsToBeCreated as $itemData) {
             $itemFakturPembelian = new ItemFakturPembelian(
                 collect($itemData)->only(
                     "produk_kode",
-                "kode_batch",
+                    "kode_batch",
                     "jumlah",
                     "harga_satuan",
                     "expired_at"
@@ -147,6 +154,7 @@ class FakturPembelianEdit extends Component
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PENERIMAAN,
+                "transacted_at" => $this->fakturPembelian->waktu_penerimaan,
             ]);
         }
 

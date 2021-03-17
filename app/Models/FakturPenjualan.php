@@ -18,6 +18,8 @@ class FakturPenjualan extends Model
         "waktu_pengeluaran" => "datetime:Y-m-d\TH:i",
     ];
 
+    protected $guarded = [];
+
     public function itemFakturPenjualans(): HasMany
     {
         return $this->hasMany(ItemFakturPenjualan::class);

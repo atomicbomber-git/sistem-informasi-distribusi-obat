@@ -21,6 +21,7 @@ class CreateTransaksiStockTable extends Migration
             $table->foreign('item_faktur_pembelian_id')->references('id')->on('item_faktur_pembelian');
             $table->foreign('stock_id')->references('id')->on('stock');
             $table->string('tipe')->index();
+            $table->dateTime("transacted_at");
             $table->timestamps();
         });
     }

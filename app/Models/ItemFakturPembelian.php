@@ -30,7 +30,7 @@ class ItemFakturPembelian extends Model
         return TransaksiStock::query()
             ->whereKeyNot($transaction->getKey())
             ->where("stock_id", $transaction->stock_id)
-            ->where("created_at", ">", $transaction->created_at)
+            ->where("transacted_at", ">", $transaction->created_at)
             ->doesntExist();
     }
 

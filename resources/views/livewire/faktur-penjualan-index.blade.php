@@ -28,6 +28,9 @@
                 <x-thead>
                     <tr>
                         <th> @lang("application.number_symbol") </th>
+                        <th> @lang("application.code") </th>
+                        <th> @lang("application.customer") </th>
+                        <th> @lang("application.delivered_at") </th>
                     </tr>
                 </x-thead>
 
@@ -35,6 +38,9 @@
                 @foreach ($fakturPenjualans as $fakturPenjualan)
                     <tr>
                         <td> {{ $fakturPenjualans->firstItem() + $loop->index }} </td>
+                        <td>  {{ $fakturPenjualan->kode }} </td>
+                        <td>  {{ $fakturPenjualan->pelanggan }} </td>
+                        <td>  {{ \App\Support\Formatter::dayMonthYear($fakturPenjualan->waktu_pengeluaran) }} </td>
                     </tr>
                 @endforeach
                 </tbody>
