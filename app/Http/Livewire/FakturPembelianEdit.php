@@ -179,6 +179,7 @@ class FakturPembelianEdit extends Component
         $this->item_faktur_pembelians = ItemFakturPembelian::query()
             ->where("faktur_pembelian_kode", $this->fakturPembelian->kode)
             ->with("produk")
+            ->sortBy("produk.nama")
             ->get()
             ->mapWithKeys(function (ItemFakturPembelian $itemFakturPembelian, int $index) {
                 return [$index => [

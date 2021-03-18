@@ -42,7 +42,7 @@
                         <td> {{ $faktur_pembelians->firstItem() + $loop->index }} </td>
                         <td> {{ $faktur_pembelian->kode }} </td>
                         <td> {{ $faktur_pembelian->pemasok }} </td>
-                        <td> {{ \App\Support\Formatter::dayMonthYear($faktur_pembelian->waktu_penerimaan) }} </td>
+                        <td> {{ \App\Support\Formatter::normalDate($faktur_pembelian->waktu_penerimaan) }} </td>
                         <x-th-control>
                             <x-button-edit :href="route('faktur-pembelian.edit', $faktur_pembelian)">
                                 @lang("application.edit")

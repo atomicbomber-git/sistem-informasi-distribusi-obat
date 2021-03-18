@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Produk extends Model
 {
+    protected $keyType = "string";
     protected $table = "produk";
     public $incrementing = false;
     protected $primaryKey = "kode";

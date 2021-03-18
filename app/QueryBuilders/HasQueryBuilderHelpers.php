@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /* @mixin Builder */
-trait WithQueryBuilderHelpers
+trait HasQueryBuilderHelpers
 {
     public function selectQualify(array $selects)
     {
@@ -54,9 +54,9 @@ trait WithQueryBuilderHelpers
      * @param string|null $field
      * @param string $sortDirection
      * @param string|null $defaultField
-     * @return WithQueryBuilderHelpers|Builder
+     * @return HasQueryBuilderHelpers|Builder
      */
-    public function sortBy(?string $field, string $sortDirection, string $defaultField = null): self
+    public function sortBy(?string $field, string $sortDirection = "asc", string $defaultField = null): self
     {
         if ($field === null) {
             return $defaultField === null?

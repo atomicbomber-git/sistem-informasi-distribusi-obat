@@ -38,7 +38,7 @@
                         <x-numeric-td> {{ \App\Support\Formatter::quantity($stock->jumlah) }} </x-numeric-td>
                         <x-numeric-td> {{ \App\Support\Formatter::currency($stock->nilai_satuan) }} </x-numeric-td>
                         <td>
-                            {{ \App\Support\Formatter::dayMonthYear($stock->expired_at) }}
+                            {{ \App\Support\Formatter::normalDate($stock->expired_at) }}
                             <span class="fw-bold text-primary">
                                 ({{ \App\Support\Formatter::humanDiff($stock->expired_at) }})
                             </span>

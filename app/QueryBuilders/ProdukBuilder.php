@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ProdukBuilder extends Builder
 {
-    use WithQueryBuilderHelpers;
+    use HasQueryBuilderHelpers;
 
     public function withQuantityInHand(): self
     {

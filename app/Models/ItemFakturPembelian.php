@@ -21,6 +21,22 @@ class ItemFakturPembelian extends Model
         "expired_at" => "datetime:Y-m-d",
     ];
 
+    /** return \App\QueryBuilders\ItemFakturPembelianBuilder */
+    public function newEloquentBuilder($query)
+    {
+        return new \App\QueryBuilders\ItemFakturPembelianBuilder($query);
+    }
+
+    public static function query(): \App\QueryBuilders\ItemFakturPembelianBuilder
+    {
+        return parent::query();
+    }
+
+    public function faktur_pembelian(): BelongsTo
+    {
+        return $this->belongsTo(FakturPembelian::class);
+    }
+
     public function isDeletable(): bool
     {
         $transaction = TransaksiStock::query()
@@ -51,7 +67,7 @@ class ItemFakturPembelian extends Model
 
     public function produk(): BelongsTo
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Produk::class, "produk_kode", "kode");
     }
 
     public function stock(): HasOne

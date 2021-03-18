@@ -10,14 +10,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-dom": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "jenssegers/date": "^4.0",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
-        "livewire/livewire": "^2.3",
-        "ext-dom": "*"
+        "livewire/livewire": "^2.3"
     },
     "require-dev": {
         "mbezhanov/faker-provider-collection": "^2.0",

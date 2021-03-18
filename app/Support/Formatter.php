@@ -14,7 +14,21 @@ class Formatter
         return number_format($number  * 100) . " %";
     }
 
-    public static function dayMonthYear($value): string
+    public static function normalDate($value): string
+    {
+        return static::humanDate($value);
+    }
+
+    public static function humanDate(mixed $value): string
+    {
+        if (!empty($value)) {
+            return \Jenssegers\Date\Date::make($value)->format("l, d F Y");
+        }
+
+        return "-";
+    }
+
+    public static function dayMonthYear(mixed $value): string
     {
         if (!empty($value)) {
             return Date::make($value)->format("d/m/Y");

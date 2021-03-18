@@ -40,7 +40,7 @@
                         <td> {{ $fakturPenjualans->firstItem() + $loop->index }} </td>
                         <td>  {{ $fakturPenjualan->kode }} </td>
                         <td>  {{ $fakturPenjualan->pelanggan }} </td>
-                        <td>  {{ \App\Support\Formatter::dayMonthYear($fakturPenjualan->waktu_pengeluaran) }} </td>
+                        <td>  {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                     </tr>
                 @endforeach
                 </tbody>

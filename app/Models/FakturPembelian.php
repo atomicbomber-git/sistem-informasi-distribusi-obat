@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class FakturPembelian extends Model
 {
     use HasFactory;
+    protected $keyType = "string";
     protected $table = "faktur_pembelian";
     public $incrementing = false;
     protected $primaryKey = "kode";
