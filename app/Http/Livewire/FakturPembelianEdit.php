@@ -96,13 +96,13 @@ class FakturPembelianEdit extends Component
             $itemFakturPembelian = ItemFakturPembelian::query()
                 ->findOrFail($existingItemData["current_id"]);
 
-            if (!$itemFakturPembelian->isDeletable()) {
+            if (!$itemFakturPembelian->isModifiable()) {
                 throw ValidationException::withMessages([
-                    "item_faktur_pembelians.{$index}.kode_batch" => "Item ini telah terlibat transaksi lain, mohon hapus transaksi tersebut terlebih dahulu sebelum transaksi ini diubah",
+                    "item_faktur_pembelians.{$index}.kode_batch" => $itemFakturPembelian->getUnmodifiableMessage(),
                 ]);
             }
 
-            $itemFakturPembelian->deleteCascade();
+            $itemFakturPembelian->destroyCascade();
         }
 
         $itemsToBeCreated = $itemFakturPembeliansData

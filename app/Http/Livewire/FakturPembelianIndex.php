@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
+use App\Exceptions\ApplicationException;
 use App\Models\FakturPembelian;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
 use App\Support\WithFilter;
 use App\Support\WithSort;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Throwable;
@@ -20,12 +22,14 @@ class FakturPembelianIndex extends Component
     public function destroy(mixed $modelKey)
     {
         try {
+
             DB::beginTransaction();
 
             $fakturPembelian = FakturPembelian::query()->findOrFail($modelKey);
 
             foreach ($fakturPembelian->item_faktur_pembelians as $item_faktur_pembelian) {
-                $item_faktur_pembelian->deleteCascade();
+                $item_faktur_pembelian->abortIfUnmodifiable();
+                $item_faktur_pembelian->destroyCascade();
             }
 
             $fakturPembelian->delete();
@@ -36,9 +40,9 @@ class FakturPembelianIndex extends Component
                 __("messages.delete.success"),
                 MessageState::STATE_SUCCESS,
             );
-        } catch (Throwable $exception) {
+        } catch (ApplicationException $exception) {
             SessionHelper::flashMessage(
-                __("messages.delete.failure"),
+                $exception->getMessage(),
                 MessageState::STATE_DANGER,
             );
         }

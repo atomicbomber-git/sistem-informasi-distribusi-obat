@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\ApplicationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class ItemFakturPembelian extends Model
         return $this->belongsTo(FakturPembelian::class);
     }
 
-    public function isDeletable(): bool
+    public function isModifiable(): bool
     {
         $transaction = TransaksiStock::query()
             ->where("item_faktur_pembelian_id", $this->getKey())
@@ -50,7 +51,19 @@ class ItemFakturPembelian extends Model
             ->doesntExist();
     }
 
-    public function deleteCascade()
+    public function getUnmodifiableMessage(): string
+    {
+        return "Produk \"{$this->produk->nama}\" dengan kode batch \"{$this->kode_batch}\" telah digunakan dalam transaksi lain dan tak dapat dihapus sebelum transaksi tersebut diubah.";
+    }
+
+    public function abortIfUnmodifiable(): void
+    {
+        if (!$this->isModifiable()) {
+            throw new ApplicationException($this->getUnmodifiableMessage());
+        }
+    }
+
+    public function destroyCascade()
     {
         $stocks = Stock::query()
             ->whereHas("transaksi_stocks", function (Builder $builder) {
