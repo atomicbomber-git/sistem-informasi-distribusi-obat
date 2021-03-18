@@ -1,7 +1,7 @@
 <article>
     <x-feature-title>
         <i class="bi-box"></i>
-        @lang("application.product")
+        @lang("application.stock")
     </x-feature-title>
 
     <x-breadcrumb>

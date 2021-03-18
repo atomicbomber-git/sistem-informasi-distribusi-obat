@@ -23,7 +23,7 @@
 
             <x-input
                     livewire
-                    field="kode"
+                    field="nomor"
                     :label="__('application.code')"
             />
 

@@ -153,7 +153,7 @@ class FakturPembelianEdit extends Component
             $stock->transaksi_stocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeTransaksiStock::PENERIMAAN,
+                "tipe" => TipeTransaksiStock::PEMBELIAN,
                 "transacted_at" => $this->fakturPembelian->waktu_penerimaan,
             ]);
         }

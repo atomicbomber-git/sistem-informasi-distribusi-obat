@@ -4,6 +4,7 @@ return [
     "product" => "Produk",
     "sales_invoice" => "Faktur Penjualan",
     "purchase_invoice" => "Faktur Pembelian",
+    "number" => "Nomor",
     "customer" => "Pelanggan",
     "supplier" => "Pemasok",
     "arrived_at" => "Waktu Penerimaan",

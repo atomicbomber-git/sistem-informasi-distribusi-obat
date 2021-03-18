@@ -14,7 +14,7 @@ class CreateFakturPenjualanTable extends Migration
     public function up()
     {
         Schema::create('faktur_penjualan', function (Blueprint $table) {
-            $table->string('kode')->primary();
+            $table->integer('nomor')->primary();
             $table->string('pelanggan');
             $table->dateTime('waktu_pengeluaran');
             $table->timestamps();

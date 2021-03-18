@@ -38,9 +38,9 @@
                 @foreach ($fakturPenjualans as $fakturPenjualan)
                     <tr>
                         <td> {{ $fakturPenjualans->firstItem() + $loop->index }} </td>
-                        <td>  {{ $fakturPenjualan->kode }} </td>
-                        <td>  {{ $fakturPenjualan->pelanggan }} </td>
-                        <td>  {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
+                        <td> {{ $fakturPenjualan->getId() }} </td>
+                        <td> {{ $fakturPenjualan->pelanggan }} </td>
+                        <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                     </tr>
                 @endforeach
                 </tbody>

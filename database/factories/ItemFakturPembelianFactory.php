@@ -53,7 +53,7 @@ class ItemFakturPembelianFactory extends Factory
             $stock->transaksi_stocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeTransaksiStock::PENERIMAAN,
+                "tipe" => TipeTransaksiStock::PEMBELIAN,
                 "transacted_at" => $itemFakturPembelian->faktur_pembelian->waktu_penerimaan,
             ]);
         });

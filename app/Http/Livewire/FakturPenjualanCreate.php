@@ -22,7 +22,7 @@ class FakturPenjualanCreate extends Component
     use HasValidatorThatEmitsErrors;
 
     public Collection $itemFakturPenjualans;
-    public $kode;
+    public $nomor;
     public $waktu_pengeluaran;
     public $pelanggan;
 
@@ -41,7 +41,7 @@ class FakturPenjualanCreate extends Component
     public function submit()
     {
         $data = $this->validateAndEmitErrors([
-            "kode" => ["required", "string", Rule::unique(FakturPenjualan::class)],
+            "nomor" => ["required", "integer", Rule::unique(FakturPenjualan::class)],
             "pelanggan" => ["required", "string"],
             "waktu_pengeluaran" => ["required", "date_format:Y-m-d\TH:i"],
             "itemFakturPenjualans" => ["required", "array"],
@@ -53,7 +53,7 @@ class FakturPenjualanCreate extends Component
         DB::beginTransaction();
 
         $fakturPenjualan = new FakturPenjualan([
-            "kode" => $data["kode"],
+            "nomor" => $data["nomor"],
             "pelanggan" => $data["pelanggan"],
             "waktu_pengeluaran" => $data["waktu_pengeluaran"],
         ]);
@@ -126,6 +126,7 @@ class FakturPenjualanCreate extends Component
 
     public function mount()
     {
+        $this->nomor = FakturPenjualan::getNextId();
         $this->itemFakturPenjualans = new Collection();
     }
 
