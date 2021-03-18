@@ -177,6 +177,7 @@ class FakturPembelianEdit extends Component
         ]);
 
         $this->item_faktur_pembelians = ItemFakturPembelian::query()
+            ->selectQualify(["id", "produk_kode", "jumlah", "harga_satuan", "expired_at", "kode_batch"])
             ->where("faktur_pembelian_kode", $this->fakturPembelian->kode)
             ->with("produk")
             ->sortBy("produk.nama")
@@ -208,7 +209,6 @@ class FakturPembelianEdit extends Component
             "jumlah" => 1,
             "harga_satuan" => 0,
             "subtotal" => 0,
-
             "is_removed" => false,
             "current_id" => null,
         ];

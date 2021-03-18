@@ -4,6 +4,7 @@
 namespace App\QueryBuilders;
 
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -58,6 +59,10 @@ trait HasQueryBuilderHelpers
      */
     public function sortBy(?string $field, string $sortDirection = "asc", string $defaultField = null): self
     {
+        if ($this->getQuery()->columns === null) {
+            throw new Exception("You can't use this sortBy unless you've specified columns that you want to SELECT.");
+        }
+
         if ($field === null) {
             return $defaultField === null?
                 $this :

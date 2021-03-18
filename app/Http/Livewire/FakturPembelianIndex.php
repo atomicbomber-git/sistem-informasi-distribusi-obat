@@ -48,6 +48,13 @@ class FakturPembelianIndex extends Component
     {
         return view('livewire.faktur-pembelian-index', [
             "faktur_pembelians" => FakturPembelian::query()
+                ->selectQualify([
+                    "kode",
+                    "pemasok",
+                    "waktu_penerimaan",
+                    "created_at",
+                    "updated_at",
+                ])
                 ->orderByDesc("waktu_penerimaan")
                 ->filterBy($this->filter, ["kode", "pemasok"])
                 ->sortBy($this->sortBy, $this->sortDirection, "pemasok")
