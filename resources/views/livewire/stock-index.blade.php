@@ -51,7 +51,7 @@
                             </span>
                         </td>
                         <x-td-control>
-                            @if($stock->original_mutation->tipe === \App\Enums\TipeTransaksiStock::PEMBELIAN)
+                            @if($stock->original_mutation->tipe === \App\Enums\TipeMutasiStock::PEMBELIAN)
                                 <x-button-link
                                     :href="route('faktur-pembelian.edit', $stock->original_mutation->item_faktur_pembelian->faktur_pembelian_kode)"
                                 >

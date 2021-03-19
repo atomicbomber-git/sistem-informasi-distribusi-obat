@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\TipeTransaksiStock;
+use App\Enums\TipeMutasiStock;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
 use App\Models\Stock;
@@ -53,7 +53,7 @@ class ItemFakturPembelianFactory extends Factory
             $stock->mutasiStocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeTransaksiStock::PEMBELIAN,
+                "tipe" => TipeMutasiStock::PEMBELIAN,
                 "transacted_at" => $itemFakturPembelian->faktur_pembelian->waktu_penerimaan,
             ]);
         });

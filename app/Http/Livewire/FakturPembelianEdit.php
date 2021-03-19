@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
-use App\Enums\TipeTransaksiStock;
+use App\Enums\TipeMutasiStock;
 use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
@@ -153,7 +153,7 @@ class FakturPembelianEdit extends Component
             $stock->mutasiStocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeTransaksiStock::PEMBELIAN,
+                "tipe" => TipeMutasiStock::PEMBELIAN,
                 "transacted_at" => $this->fakturPembelian->waktu_penerimaan,
             ]);
         }

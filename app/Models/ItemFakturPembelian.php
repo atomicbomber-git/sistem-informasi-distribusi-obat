@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ItemFakturPembelian extends Model
@@ -83,8 +84,8 @@ class ItemFakturPembelian extends Model
         return $this->belongsTo(Produk::class, "produk_kode", "kode");
     }
 
-    public function stock(): HasOne
+    public function mutasiStocks(): HasMany
     {
-        return $this->hasOne(Stock::class);
+        return $this->HasMany(MutasiStock::class);
     }
 }

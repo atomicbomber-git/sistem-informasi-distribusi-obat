@@ -21,14 +21,16 @@
         "livewire/livewire": "^2.3"
     },
     "require-dev": {
-        "mbezhanov/faker-provider-collection": "^2.0",
         "barryvdh/laravel-debugbar": "^3.5",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "mbezhanov/faker-provider-collection": "^2.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "pestphp/pest": "^1.0",
+        "pestphp/pest-plugin-faker": "^1.0",
+        "pestphp/pest-plugin-livewire": "^1.0",
         "phpunit/phpunit": "^9.3.3",
         "spatie/laravel-ray": "^1.13"
     },

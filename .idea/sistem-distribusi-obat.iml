@@ -133,6 +133,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/debug" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mbezhanov/faker-provider-collection" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jenssegers/date" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/pestphp/pest-plugin-livewire" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/pestphp/pest-plugin-faker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/pestphp/.temp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

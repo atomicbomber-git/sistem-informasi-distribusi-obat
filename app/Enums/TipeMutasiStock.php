@@ -4,7 +4,7 @@
 namespace App\Enums;
 
 
-class TipeTransaksiStock
+class TipeMutasiStock
 {
     const PEMBELIAN = "pembelian";
     const PENJUALAN = "penjualan";

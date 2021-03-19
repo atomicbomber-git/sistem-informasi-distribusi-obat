@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
-use App\Enums\TipeTransaksiStock;
+use App\Enums\TipeMutasiStock;
 use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPenjualan;
 use App\Models\Produk;
@@ -99,7 +99,7 @@ class FakturPenjualanCreate extends Component
                  $stock->mutasiStocks()->create([
                     "item_faktur_penjualan_id" => $itemFakturPenjualan->id,
                     "jumlah" => -$amountToBeTaken,
-                    "tipe" => TipeTransaksiStock::PENJUALAN,
+                    "tipe" => TipeMutasiStock::PENJUALAN,
                     "transacted_at" => $fakturPenjualan->waktu_pengeluaran,
                 ]);
 
