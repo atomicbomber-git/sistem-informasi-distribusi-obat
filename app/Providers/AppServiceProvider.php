@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        bcscale(4);
+
         $this->app->extend(Faker::class, function (Faker $faker) {
             ProviderCollectionHelper::addAllProvidersTo($faker);
             return $faker;

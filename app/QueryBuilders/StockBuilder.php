@@ -28,6 +28,7 @@ class StockBuilder extends Builder
     public function canBeSold(): self
     {
         return $this
+            ->where("jumlah", ">", 0)
             ->where("status", StockStatus::NORMAL)
             ->where("expired_at", ">", now());
     }

@@ -22,7 +22,7 @@ test("Can create faktur penjualan", function () {
     $produkB = ProdukFactory::new()->create();
     $productBKey = $produkB->getKey();
 
-    $faktur = FakturPembelian::factory()
+     FakturPembelian::factory()
         ->has(
             ItemFakturPembelian::factory()
                 ->state(new Sequence(

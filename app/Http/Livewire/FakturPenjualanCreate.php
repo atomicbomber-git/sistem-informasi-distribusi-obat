@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\BusinessLogic\PlannedStockMutation;
 use App\Enums\MessageState;
 use App\Enums\TipeMutasiStock;
+use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
 use App\Models\Produk;
 use App\Models\Stock;
@@ -63,7 +65,27 @@ class FakturPenjualanCreate extends Component
                 ->withQuantityInHand()
                 ->findOrFail($dataItemFakturPenjualan["produk_kode"]);
 
-            if ($produk->quantity_in_hand < $dataItemFakturPenjualan["jumlah"]) {
+            $itemFakturPenjualan = $fakturPenjualan->itemFakturPenjualans()->create([
+                "produk_kode" => $dataItemFakturPenjualan["produk_kode"],
+                "jumlah" => $dataItemFakturPenjualan["jumlah"],
+                "harga_satuan" => $dataItemFakturPenjualan["harga_satuan"],
+            ]);
+
+            try {
+                $produk
+                    ->getPlannedFirstExpiredFirstOutMutations($dataItemFakturPenjualan["jumlah"])
+                    ->each(function (PlannedStockMutation $plan) use ($fakturPenjualan, $itemFakturPenjualan) {
+                        $stock = Stock::find($plan->stockId);
+                        $stock->update(["jumlah" => DB::raw("jumlah - {$plan->amount}")]);
+
+                        $stock->mutasiStocks()->create([
+                            "item_faktur_penjualan_id" => $itemFakturPenjualan->id,
+                            "jumlah" => -$plan->amount,
+                            "tipe" => TipeMutasiStock::PENJUALAN,
+                            "transacted_at" => $fakturPenjualan->waktu_pengeluaran,
+                        ]);
+                    });
+            } catch (ApplicationException $exception) {
                 DB::rollBack();
 
                 throw $this->emitErrors(
@@ -71,47 +93,6 @@ class FakturPenjualanCreate extends Component
                         "itemFakturPenjualans.{$key}.jumlah" => "Jumlah penjualan tidak boleh melebihi stock yang ada."
                     ])
                 );
-            }
-
-            $itemFakturPenjualan = $fakturPenjualan->itemFakturPenjualans()->create([
-                "produk_kode" => $dataItemFakturPenjualan["produk_kode"],
-                "jumlah" => $dataItemFakturPenjualan["jumlah"],
-                "harga_satuan" => $dataItemFakturPenjualan["harga_satuan"],
-            ]);
-
-            /* Now actually create the transactions */
-            /** @var Collection|Stock[] $stocks */
-            $stocks = $produk->stocks()
-                ->select("id", "jumlah")
-                ->orderBy("expired_at")
-                ->canBeSold()
-                ->get();
-
-            $remainder = $dataItemFakturPenjualan["jumlah"];
-
-            foreach ($stocks as $stock) {
-                $amountToBeTaken = $remainder > $stock->jumlah ?
-                    $stock->jumlah :
-                    $remainder;
-
-                $stock->fill([
-                    "jumlah" => $stock->jumlah - $amountToBeTaken
-                ]);
-
-                 $stock->mutasiStocks()->create([
-                    "item_faktur_penjualan_id" => $itemFakturPenjualan->id,
-                    "jumlah" => -$amountToBeTaken,
-                    "tipe" => TipeMutasiStock::PENJUALAN,
-                    "transacted_at" => $fakturPenjualan->waktu_pengeluaran,
-                ]);
-
-                $stock->save();
-
-                $remainder -= $amountToBeTaken;
-
-                if ($remainder === 0.0) {
-                    break;
-                }
             }
         }
 
@@ -146,8 +127,6 @@ class FakturPenjualanCreate extends Component
     public function removeItem(string $key)
     {
         unset($this->itemFakturPenjualans[$key]);
-
-        ray()->send($this->itemFakturPenjualans);
     }
 
     public function render()
