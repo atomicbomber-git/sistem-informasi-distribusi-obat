@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransaksiStockTable extends Migration
+class CreateMutasiStockTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTransaksiStockTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi_stock', function (Blueprint $table) {
+        Schema::create('mutasi_stock', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('item_faktur_pembelian_id')->index()->nullable();
             $table->decimal('jumlah');
@@ -33,6 +33,6 @@ class CreateTransaksiStockTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_stock');
+        Schema::dropIfExists('mutasi_stock');
     }
 }

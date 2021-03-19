@@ -52,12 +52,11 @@ class FakturPenjualanCreate extends Component
 
         DB::beginTransaction();
 
-        $fakturPenjualan = new FakturPenjualan([
+        $fakturPenjualan = FakturPenjualan::create([
             "nomor" => $data["nomor"],
             "pelanggan" => $data["pelanggan"],
             "waktu_pengeluaran" => $data["waktu_pengeluaran"],
         ]);
-        $fakturPenjualan->save();
 
         foreach ($data["itemFakturPenjualans"] as $key => $dataItemFakturPenjualan) {
             /** @var Produk $produk */
@@ -73,7 +72,7 @@ class FakturPenjualanCreate extends Component
                 );
             }
 
-            $itemFakturPenjualan = new ItemFakturPenjualan([
+            $itemFakturPenjualan = $fakturPenjualan->itemFakturPenjualans()->create([
                 "produk_kode" => $dataItemFakturPenjualan["produk_kode"],
                 "jumlah" => $dataItemFakturPenjualan["jumlah"],
                 "harga_satuan" => $dataItemFakturPenjualan["harga_satuan"],
@@ -97,7 +96,7 @@ class FakturPenjualanCreate extends Component
                     "jumlah" => $stock->jumlah - $amountToBeTaken
                 ]);
 
-                $stock->transaksi_stocks()->create([
+                 $stock->mutasiStocks()->create([
                     "item_faktur_penjualan_id" => $itemFakturPenjualan->id,
                     "jumlah" => -$amountToBeTaken,
                     "tipe" => TipeTransaksiStock::PENJUALAN,

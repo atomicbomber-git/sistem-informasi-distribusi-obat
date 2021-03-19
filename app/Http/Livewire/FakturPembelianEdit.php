@@ -8,7 +8,7 @@ use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
 use App\Models\Stock;
-use App\Models\TransaksiStock;
+use App\Models\MutasiStock;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
 use DB;
@@ -121,7 +121,7 @@ class FakturPembelianEdit extends Component
         )->toArray());
 
         /* Update transacted_at fields */
-        TransaksiStock::query()
+        MutasiStock::query()
             ->whereIn("item_faktur_pembelian_id", $itemFakturPembeliansData->pluck("id")->toArray())
             ->update(["transacted_at" => $data["waktu_penerimaan"]]);
 
@@ -150,7 +150,7 @@ class FakturPembelianEdit extends Component
 
             $stock->save();
 
-            $stock->transaksi_stocks()->create([
+            $stock->mutasiStocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PEMBELIAN,
@@ -176,6 +176,7 @@ class FakturPembelianEdit extends Component
             "waktu_penerimaan" => $this->fakturPembelian->waktu_penerimaan->format("Y-m-d\TH:i"),
         ]);
 
+        /* TODO: Sort it more thoroughly */
         $this->item_faktur_pembelians = ItemFakturPembelian::query()
             ->selectQualify(["id", "produk_kode", "jumlah", "harga_satuan", "expired_at", "kode_batch"])
             ->where("faktur_pembelian_kode", $this->fakturPembelian->kode)

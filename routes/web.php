@@ -28,11 +28,9 @@ Auth::routes([
     "verify" => false,
 ]);
 
-Route::redirect("/", "produk");
-
+Route::redirect("/", "dashboard");
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");
 Route::get("produk-in-hand/search", ProdukInHandSearchController::class)->name("produk-in-hand.search");
-
 Route::resource("produk", ProdukController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
 Route::resource("faktur-pembelian", FakturPembelianController::class);

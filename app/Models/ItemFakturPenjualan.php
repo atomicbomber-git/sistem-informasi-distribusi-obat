@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ItemFakturPenjualan extends Model
 {
     use HasFactory;
-    protected $table = "item_faktur_pembelian";
+    protected $table = "item_faktur_penjualan";
     protected $guarded = [];
 
     protected $casts = [

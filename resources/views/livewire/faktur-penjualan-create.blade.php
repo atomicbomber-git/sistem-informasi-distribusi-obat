@@ -20,7 +20,7 @@
 
     <form wire:submit.prevent="submit" class="card">
         <div class="card-body">
-
+            {{-- TODO: Add input-group with KM indicator to this --}}
             <x-input
                     livewire
                     field="nomor"

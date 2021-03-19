@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddItemFakturPenjualanIdToTransaksiStock extends Migration
+class AddItemFakturPenjualanIdToMutasiStock extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddItemFakturPenjualanIdToTransaksiStock extends Migration
      */
     public function up()
     {
-        Schema::table('transaksi_stock', function (Blueprint $table) {
+        Schema::table('mutasi_stock', function (Blueprint $table) {
             $table->unsignedInteger('item_faktur_penjualan_id')
                 ->after('item_faktur_pembelian_id')
                 ->index()
@@ -32,7 +32,7 @@ class AddItemFakturPenjualanIdToTransaksiStock extends Migration
      */
     public function down()
     {
-        Schema::table('transaksi_stock', function (Blueprint $table) {
+        Schema::table('mutasi_stock', function (Blueprint $table) {
             $table->dropForeign(['item_faktur_penjualan_id']);
             $table->dropColumn('item_faktur_penjualan_id');
         });

@@ -20,6 +20,8 @@ class StockIndex extends Component
             "stocks" => Stock::query()
                 ->where("produk_kode", $this->produk->getKey())
                 ->where("jumlah", ">", 0)
+                ->withOriginalMutation()
+                ->orderBy("expired_at")
                 ->paginate()
         ]);
     }

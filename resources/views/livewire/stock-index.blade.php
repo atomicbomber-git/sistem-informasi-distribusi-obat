@@ -5,9 +5,14 @@
     </x-feature-title>
 
     <x-breadcrumb>
-        <li class="breadcrumb-item active"
-            aria-current="page">
-            @lang("application.product")
+        <li class="breadcrumb-item">
+            <a href="{{ route('produk.index') }}">
+                @lang("application.product")
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            {{ $produk->nama }} ({{ $produk->kode }})
         </li>
     </x-breadcrumb>
 
@@ -27,6 +32,7 @@
                         <x-numeric-th> @lang("application.quantity_in_hand") </x-numeric-th>
                         <x-numeric-th> @lang("application.unit_value") </x-numeric-th>
                         <th> @lang("application.expired_at") </th>
+                        <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
 
@@ -37,12 +43,24 @@
                         <td> {{ $stock->kode_batch }} </td>
                         <x-numeric-td> {{ \App\Support\Formatter::quantity($stock->jumlah) }} </x-numeric-td>
                         <x-numeric-td> {{ \App\Support\Formatter::currency($stock->nilai_satuan) }} </x-numeric-td>
-                        <td>
+                        <td class="text-center">
                             {{ \App\Support\Formatter::normalDate($stock->expired_at) }}
+                            <br/>
                             <span class="fw-bold text-primary">
                                 ({{ \App\Support\Formatter::humanDiff($stock->expired_at) }})
                             </span>
                         </td>
+                        <x-td-control>
+                            @if($stock->original_mutation->tipe === \App\Enums\TipeTransaksiStock::PEMBELIAN)
+                                <x-button-link
+                                    :href="route('faktur-pembelian.edit', $stock->original_mutation->item_faktur_pembelian->faktur_pembelian_kode)"
+                                >
+                                    @lang("application.purchase_invoice")
+                                    <x-icon-purchase-invoice/>
+                                </x-button-link>
+                            @endif
+
+                        </x-td-control>
                     </tr>
                 @endforeach
                 </tbody>

@@ -40,11 +40,11 @@ class ItemFakturPembelian extends Model
 
     public function isModifiable(): bool
     {
-        $transaction = TransaksiStock::query()
+        $transaction = MutasiStock::query()
             ->where("item_faktur_pembelian_id", $this->getKey())
             ->first();
 
-        return TransaksiStock::query()
+        return MutasiStock::query()
             ->whereKeyNot($transaction->getKey())
             ->where("stock_id", $transaction->stock_id)
             ->where("transacted_at", ">", $transaction->created_at)
@@ -66,12 +66,12 @@ class ItemFakturPembelian extends Model
     public function destroyCascade()
     {
         $stocks = Stock::query()
-            ->whereHas("transaksi_stocks", function (Builder $builder) {
+            ->whereHas("mutasiStocks", function (Builder $builder) {
                 $builder->where("item_faktur_pembelian_id", $this->getKey());
             })->get();
 
         foreach ($stocks as $stock) {
-            $stock->transaksi_stocks()->delete();
+            $stock->mutasiStocks()->delete();
             $stock->delete();
         }
 

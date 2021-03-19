@@ -50,7 +50,7 @@ class ItemFakturPembelianFactory extends Factory
 
             $stock->save();
 
-            $stock->transaksi_stocks()->create([
+            $stock->mutasiStocks()->create([
                 "item_faktur_pembelian_id" => $itemFakturPembelian->id,
                 "jumlah" => $itemFakturPembelian->jumlah,
                 "tipe" => TipeTransaksiStock::PEMBELIAN,
