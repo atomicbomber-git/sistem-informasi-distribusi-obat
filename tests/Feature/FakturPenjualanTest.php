@@ -52,11 +52,9 @@ test("Can create faktur penjualan", function () {
         ->set("pelanggan", faker()->name)
         ->call("addItem", $productAKey)
         ->set("itemFakturPenjualans.{$productAKey}.jumlah", 150)
-
         ->call("addItem", $productBKey)
         ->set("itemFakturPenjualans.{$productBKey}.jumlah", 100)
         ->call("removeItem", $productBKey)
-
         ->call("submit")
         ->assertHasNoErrors();
 
