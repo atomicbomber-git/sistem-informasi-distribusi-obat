@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\StockStatus;
+use App\Enums\TipeMutasiStock;
 use App\Exceptions\ApplicationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +39,31 @@ class ItemFakturPembelian extends Model
     public function faktur_pembelian(): BelongsTo
     {
         return $this->belongsTo(FakturPembelian::class);
+    }
+
+    public function applyStockTransaction(): void
+    {
+        if (!$this->exists) {
+            throw new ApplicationException("Attempted to create stocks from unsaved item.");
+        }
+
+        $stock = new Stock([
+            "kode_batch" => $this->kode_batch,
+            "produk_kode" => $this->produk_kode,
+            "jumlah" => $this->jumlah,
+            "nilai_satuan" => $this->harga_satuan,
+            "expired_at" => $this->expired_at,
+            "status" => StockStatus::NORMAL,
+        ]);
+
+        $stock->save();
+
+        $stock->mutasiStocks()->create([
+            "item_faktur_pembelian_id" => $this->id,
+            "jumlah" => $this->jumlah,
+            "tipe" => TipeMutasiStock::PEMBELIAN,
+            "transacted_at" => $this->faktur_pembelian->waktu_penerimaan,
+        ]);
     }
 
     public function isModifiable(): bool

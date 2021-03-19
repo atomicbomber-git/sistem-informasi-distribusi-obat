@@ -19,6 +19,7 @@ class CreateStockTable extends Migration
             $table->string('produk_kode')->comment('Kode produk.');
             $table->decimal('jumlah');
             $table->decimal('nilai_satuan', 19, 4);
+            $table->string('status')->index();
             $table->dateTime("expired_at")->index();
             $table->timestamps();
             $table->foreign('produk_kode')->references('kode')->on('produk')->cascadeOnUpdate();

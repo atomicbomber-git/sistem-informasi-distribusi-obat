@@ -3,9 +3,11 @@
 use App\Enums\TipeMutasiStock;
 use App\Http\Livewire\FakturPembelianCreate;
 use App\Models\FakturPembelian;
+use App\Models\ItemFakturPembelian;
 use App\Models\MutasiStock;
 use App\Models\Stock;
 use Database\Factories\ProdukFactory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Faker\faker;
 use function Pest\Livewire\livewire;
@@ -92,5 +94,22 @@ test("Can create faktur pembelian", function () {
     $secondStock = $secondMutasiStock->stock;
     expect($secondStock->jumlah)->toEqualWithDelta(200, 0.0001);
     expect($secondStock->nilai_satuan)->toEqualWithDelta(50_000, 0.0001);
+});
+
+test("Can edit faktur pembelian", function () {
+    $produkA = ProdukFactory::new()->create();
+
+    $faktur = FakturPembelian::factory()
+        ->has(
+            ItemFakturPembelian::factory()
+                ->state(new Sequence(
+                    ["produk_kode" => $produkA->kode, "jumlah" => 100, "expired_at" => now()->addWeeks(1)->format("Y-m-d")],
+                    ["produk_kode" => $produkA->kode, "jumlah" => 150, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
+                    ["produk_kode" => $produkA->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(3)->format("Y-m-d")],
+                ))
+                ->count(3)
+            , "item_faktur_pembelians"
+        )
+        ->create();
 });
 

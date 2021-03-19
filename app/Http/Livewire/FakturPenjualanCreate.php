@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Enums\MessageState;
 use App\Enums\TipeMutasiStock;
 use App\Models\FakturPenjualan;
-use App\Models\ItemFakturPenjualan;
 use App\Models\Produk;
 use App\Models\Stock;
 use App\Support\Formatter;
@@ -65,6 +64,8 @@ class FakturPenjualanCreate extends Component
                 ->findOrFail($dataItemFakturPenjualan["produk_kode"]);
 
             if ($produk->quantity_in_hand < $dataItemFakturPenjualan["jumlah"]) {
+                DB::rollBack();
+
                 throw $this->emitErrors(
                     ValidationException::withMessages([
                         "itemFakturPenjualans.{$key}.jumlah" => "Jumlah penjualan tidak boleh melebihi stock yang ada."
@@ -83,6 +84,7 @@ class FakturPenjualanCreate extends Component
             $stocks = $produk->stocks()
                 ->select("id", "jumlah")
                 ->orderBy("expired_at")
+                ->canBeSold()
                 ->get();
 
             $remainder = $dataItemFakturPenjualan["jumlah"];
@@ -132,7 +134,7 @@ class FakturPenjualanCreate extends Component
     public function addItem(string $itemKey)
     {
         $produk = Produk::query()->withQuantityInHand()->findOrFail($itemKey);
-
+        
         $this->itemFakturPenjualans[$itemKey] ??= [
             "produk" => $produk,
             "produk_kode" => $produk->kode,
@@ -144,6 +146,8 @@ class FakturPenjualanCreate extends Component
     public function removeItem(string $key)
     {
         unset($this->itemFakturPenjualans[$key]);
+
+        ray()->send($this->itemFakturPenjualans);
     }
 
     public function render()

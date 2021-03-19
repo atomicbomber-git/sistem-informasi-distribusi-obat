@@ -32,6 +32,7 @@ class ProdukBuilder extends Builder
         return Stock::query()
             ->selectRaw("COALESCE(SUM(stock.jumlah), 0)")
             ->whereColumn("stock.produk_kode", "=", "produk.kode")
+            ->canBeSold()
             ->limit(1);
     }
 }

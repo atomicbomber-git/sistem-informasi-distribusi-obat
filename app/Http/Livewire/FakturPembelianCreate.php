@@ -3,16 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
-use App\Enums\TipeMutasiStock;
 use App\Models\FakturPembelian;
-use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
-use App\Models\Stock;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -62,34 +56,17 @@ class FakturPembelianCreate extends Component
         $fakturPembelian->save();
 
         foreach ($data["item_faktur_pembelians"] as $data_item_faktur_pembelian) {
-            $itemFakturPembelian = new ItemFakturPembelian(
-                collect($data_item_faktur_pembelian)->only(
-                    "produk_kode",
-                    "kode_batch",
-                    "jumlah",
-                    "harga_satuan",
-                    "expired_at"
-                )->toArray()
-            );
-
-            $fakturPembelian->item_faktur_pembelians()->save($itemFakturPembelian);
-
-            $stock = new Stock([
-                "kode_batch" => $data_item_faktur_pembelian["kode_batch"],
-                "produk_kode" => $itemFakturPembelian->produk_kode,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                "expired_at" => $data_item_faktur_pembelian["expired_at"],
-            ]);
-
-            $stock->save();
-
-            $stock->mutasiStocks()->create([
-                "item_faktur_pembelian_id" => $itemFakturPembelian->id,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeMutasiStock::PEMBELIAN,
-                "transacted_at" => $fakturPembelian->waktu_penerimaan,
-            ]);
+            $itemFakturPembelian = $fakturPembelian->item_faktur_pembelians()
+                ->create(
+                    collect($data_item_faktur_pembelian)->only(
+                        "produk_kode",
+                        "kode_batch",
+                        "jumlah",
+                        "harga_satuan",
+                        "expired_at"
+                    )->toArray()
+                );
+            $itemFakturPembelian->applyStockTransaction();
         }
 
         SessionHelper::flashMessage(
@@ -97,11 +74,9 @@ class FakturPembelianCreate extends Component
             MessageState::STATE_SUCCESS,
         );
 
-        $this->redirect(
-            route("faktur-pembelian.index")
-        );
-
         DB::commit();
+
+        $this->redirect(route("faktur-pembelian.index"));
     }
 
     public function addItem(mixed $key)
