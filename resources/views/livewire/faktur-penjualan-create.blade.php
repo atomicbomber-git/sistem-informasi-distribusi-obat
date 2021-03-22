@@ -57,6 +57,7 @@
                     <th class="text-end"> @lang("application.quantity_in_hand") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
                     <th class="text-end"> @lang("application.unit_price") </th>
+                    <th class="text-end"> @lang("application.discount_percentage") </th>
                     <th class="text-end"> @lang("application.subtotal") </th>
                     <x-th-control> @lang("application.controls") </x-th-control>
                 </x-thead>
@@ -86,6 +87,14 @@
                             />
                         </td>
                         <td class="text-end">
+                            <x-lv-input-numeric
+                                    inline small
+                                    :label='__("application.discount_percentage") . " " . $itemFakturPenjualan["produk"]["nama"]'
+                                    :key='"harga_satuan_{$loop->index}"'
+                                    :field='"itemFakturPenjualans.{$key}.diskon"'
+                            />
+                        </td>
+                        <td class="text-end">
                             {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPenjualanCreate::subTotal($itemFakturPenjualan)) }}
                         </td>
                         <td class="text-center">
@@ -101,11 +110,39 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="5" class="text-end fw-bold">
+                    <td colspan="6" class="text-end fw-bold">
+                        @lang("application.discount_percentage")
+                    </td>
+                    <td class="text-end">
+                        <x-lv-input-numeric
+                                inline small
+                                :label='__("application.discount_percentage")'
+                                field='diskon'
+                        />
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="text-end fw-bold">
+                        @lang("application.tax_percentage")
+                    </td>
+                    <td class="text-end">
+                        <x-lv-input-numeric
+                                disabled inline small
+                                :label='__("application.discount_percentage")'
+                                field='pajak'
+                        />
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="text-end fw-bold">
                         @lang("application.total")
                     </td>
                     <td class="text-end">
-                        {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPenjualanCreate::total($itemFakturPenjualans)) }}
+                        {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPenjualanCreate::total($itemFakturPenjualans, $diskon, $pajak)) }}
                     </td>
                     <td></td>
                 </tr>

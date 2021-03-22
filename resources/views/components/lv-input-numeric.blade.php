@@ -26,14 +26,14 @@
         })()
     "
 >
-    <label for="{{ $key }}"
+    <label for="{{ $field ?? $key }}"
            class="{{ ($inline ?? false) ? 'visually-hidden' : '' }}"
     >
         {{ $label }}
     </label>
 
     <input
-            id="{{ $key }}"
+            id="{{ $field ?? $key }}"
             class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} text-end"
             x-bind:class="{ 'is-invalid': errors.length > 0 }"
             x-ref="input"

@@ -31,7 +31,5 @@ class AppServiceProvider extends ServiceProvider
             ProviderCollectionHelper::addAllProvidersTo($faker);
             return $faker;
         });
-
-
     }
 }

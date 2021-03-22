@@ -19,6 +19,7 @@ class CreateItemFakturPenjualanTable extends Migration
             $table->string('produk_kode')->index();
             $table->decimal('jumlah');
             $table->decimal('harga_satuan', 19, 4);
+            $table->decimal('diskon');
             $table->foreign('faktur_penjualan_nomor')->references('nomor')->on('faktur_penjualan')->cascadeOnUpdate();
             $table->timestamps();
         });
