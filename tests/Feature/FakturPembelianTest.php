@@ -104,7 +104,7 @@ test("Can edit faktur pembelian", function () {
     $produkA = ProdukFactory::new()->create();
     $produkB = ProdukFactory::new()->create();
 
-    $fakturPembelian = FakturPembelian::factory()
+    $fakturPembelian = FakturPembelian::factory(["waktu_penerimaan" => now()])
         ->has(
             ItemFakturPembelian::factory()
                 ->state(new Sequence(
@@ -137,6 +137,7 @@ test("Can edit faktur pembelian", function () {
 
     expect(
         Produk::query()
+            ->whereKey($produkA->getKey())
             ->withQuantityInHand()
             ->value("quantity_in_hand")
     )->toEqualWithDelta(400, 0.0001);
