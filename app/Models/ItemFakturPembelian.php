@@ -43,10 +43,6 @@ class ItemFakturPembelian extends Model
 
     public function applyStockTransaction(): void
     {
-        if (!$this->exists) {
-            throw new ApplicationException("Attempted to create stocks from unsaved item.");
-        }
-
         $stock = new Stock([
             "kode_batch" => $this->kode_batch,
             "produk_kode" => $this->produk_kode,
@@ -68,14 +64,14 @@ class ItemFakturPembelian extends Model
 
     public function isModifiable(): bool
     {
-        $transaction = MutasiStock::query()
+        $mutation = MutasiStock::query()
             ->where("item_faktur_pembelian_id", $this->getKey())
             ->first();
 
         return MutasiStock::query()
-            ->whereKeyNot($transaction->getKey())
-            ->where("stock_id", $transaction->stock_id)
-            ->where("transacted_at", ">", $transaction->created_at)
+            ->whereKeyNot($mutation->getKey())
+            ->where("stock_id", $mutation->stock_id)
+            ->where("transacted_at", ">", $mutation->transacted_at)
             ->doesntExist();
     }
 

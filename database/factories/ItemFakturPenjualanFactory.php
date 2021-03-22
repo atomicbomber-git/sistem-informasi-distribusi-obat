@@ -38,23 +38,8 @@ class ItemFakturPenjualanFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (ItemFakturPembelian $itemFakturPembelian) {
-            $stock = new Stock([
-                "kode_batch" => $itemFakturPembelian->kode_batch,
-                "produk_kode" => $itemFakturPembelian->produk_kode,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                "expired_at" => $itemFakturPembelian->expired_at,
-            ]);
-
-            $stock->save();
-
-            $stock->mutasiStocks()->create([
-                "item_faktur_pembelian_id" => $itemFakturPembelian->id,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeMutasiStock::PEMBELIAN,
-                "transacted_at" => $itemFakturPembelian->faktur_pembelian->waktu_penerimaan,
-            ]);
+        return $this->afterCreating(function (ItemFakturPenjualan $itemFakturPenjualan) {
+            $itemFakturPenjualan->applyStockTransaction();
         });
     }
 }

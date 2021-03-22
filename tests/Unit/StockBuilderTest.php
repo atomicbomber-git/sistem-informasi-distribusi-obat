@@ -3,6 +3,7 @@
 namespace Tests\QueryBuilders;
 
 use App\Enums\StockStatus;
+use App\Models\Stock;
 use Database\Factories\StockFactory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,4 +22,10 @@ test("Stock::canBeSold() works correctly.", function () {
         ))
         ->count(6)
         ->create();
+
+    expect(
+        Stock::query()
+            ->canBeSold()
+            ->count()
+    )->toBe(2);
 });

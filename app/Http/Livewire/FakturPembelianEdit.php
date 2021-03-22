@@ -136,26 +136,11 @@ class FakturPembelianEdit extends Component
                 )->toArray()
             );
 
-            $this->fakturPembelian
+             $this->fakturPembelian
                 ->item_faktur_pembelians()
                 ->save($itemFakturPembelian);
 
-            $stock = new Stock([
-                "kode_batch" => $itemData["kode_batch"],
-                "produk_kode" => $itemFakturPembelian->produk_kode,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "nilai_satuan" => $itemFakturPembelian->harga_satuan,
-                "expired_at" => $itemData["expired_at"],
-            ]);
-
-            $stock->save();
-
-            $stock->mutasiStocks()->create([
-                "item_faktur_pembelian_id" => $itemFakturPembelian->id,
-                "jumlah" => $itemFakturPembelian->jumlah,
-                "tipe" => TipeMutasiStock::PEMBELIAN,
-                "transacted_at" => $this->fakturPembelian->waktu_penerimaan,
-            ]);
+             $itemFakturPembelian->applyStockTransaction();
         }
 
         DB::commit();

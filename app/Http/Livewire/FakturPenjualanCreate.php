@@ -2,13 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\BusinessLogic\PlannedStockMutation;
 use App\Enums\MessageState;
-use App\Enums\TipeMutasiStock;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
 use App\Models\Produk;
-use App\Models\Stock;
 use App\Support\Formatter;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
@@ -60,11 +57,6 @@ class FakturPenjualanCreate extends Component
         ]);
 
         foreach ($data["itemFakturPenjualans"] as $key => $dataItemFakturPenjualan) {
-            /** @var Produk $produk */
-            $produk = Produk::query()
-                ->withQuantityInHand()
-                ->findOrFail($dataItemFakturPenjualan["produk_kode"]);
-
             $itemFakturPenjualan = $fakturPenjualan->itemFakturPenjualans()->create([
                 "produk_kode" => $dataItemFakturPenjualan["produk_kode"],
                 "jumlah" => $dataItemFakturPenjualan["jumlah"],
@@ -72,19 +64,7 @@ class FakturPenjualanCreate extends Component
             ]);
 
             try {
-                $produk
-                    ->getPlannedFirstExpiredFirstOutMutations($dataItemFakturPenjualan["jumlah"])
-                    ->each(function (PlannedStockMutation $plan) use ($fakturPenjualan, $itemFakturPenjualan) {
-                        $stock = Stock::find($plan->stockId);
-                        $stock->update(["jumlah" => DB::raw("jumlah - {$plan->amount}")]);
-
-                        $stock->mutasiStocks()->create([
-                            "item_faktur_penjualan_id" => $itemFakturPenjualan->id,
-                            "jumlah" => -$plan->amount,
-                            "tipe" => TipeMutasiStock::PENJUALAN,
-                            "transacted_at" => $fakturPenjualan->waktu_pengeluaran,
-                        ]);
-                    });
+                $itemFakturPenjualan->applyStockTransaction();
             } catch (ApplicationException $exception) {
                 DB::rollBack();
 
@@ -115,7 +95,7 @@ class FakturPenjualanCreate extends Component
     public function addItem(string $itemKey)
     {
         $produk = Produk::query()->withQuantityInHand()->findOrFail($itemKey);
-        
+
         $this->itemFakturPenjualans[$itemKey] ??= [
             "produk" => $produk,
             "produk_kode" => $produk->kode,

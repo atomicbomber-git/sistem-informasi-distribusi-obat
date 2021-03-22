@@ -1,7 +1,4 @@
 
-// TODO: PlannedStockMutation object
-// TODO: GetPlannedFirstExpiredFirstOutMutations
-// TODO: Write test for GetPlannedFirstExpiredFirstOutMutations
 // TODO: Write factory for ItemPenjualanCreate
 // TODO: Write test for FakturPembelianEdit
 // TODO: Write function in ItemFakturPenjualan to allow us to determine if it's modifiable or not

@@ -2,9 +2,13 @@
 
 use App\Enums\TipeMutasiStock;
 use App\Http\Livewire\FakturPembelianCreate;
+use App\Http\Livewire\FakturPembelianEdit;
 use App\Models\FakturPembelian;
+use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPembelian;
+use App\Models\ItemFakturPenjualan;
 use App\Models\MutasiStock;
+use App\Models\Produk;
 use App\Models\Stock;
 use Database\Factories\ProdukFactory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -98,18 +102,109 @@ test("Can create faktur pembelian", function () {
 
 test("Can edit faktur pembelian", function () {
     $produkA = ProdukFactory::new()->create();
+    $produkB = ProdukFactory::new()->create();
 
-    $faktur = FakturPembelian::factory()
+    $fakturPembelian = FakturPembelian::factory()
         ->has(
             ItemFakturPembelian::factory()
                 ->state(new Sequence(
-                    ["produk_kode" => $produkA->kode, "jumlah" => 100, "expired_at" => now()->addWeeks(1)->format("Y-m-d")],
-                    ["produk_kode" => $produkA->kode, "jumlah" => 150, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
-                    ["produk_kode" => $produkA->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(3)->format("Y-m-d")],
+                    ["id" => 1, "produk_kode" => $produkA->kode, "jumlah" => 100, "expired_at" => now()->addWeeks(1)->format("Y-m-d")],
+                    ["id" => 2, "produk_kode" => $produkA->kode, "jumlah" => 150, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
+                    ["id" => 3, "produk_kode" => $produkA->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(3)->format("Y-m-d")],
+                    ["id" => 4, "produk_kode" => $produkB->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
                 ))
                 ->count(3)
             , "item_faktur_pembelians"
         )
         ->create();
+
+    /** @var \Illuminate\Support\Collection $items */
+    $items = livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
+        ->get("item_faktur_pembelians");
+
+    $toBeEditedIndex = $items->keys()->first(function ($key) use ($items) {
+        return $items[$key]["current_id"] === 2;
+    });
+
+    $toBeEdited = $items[$toBeEditedIndex];
+
+    expect($toBeEdited["jumlah"])->toEqualWithDelta(150, 0.0001);
+
+    livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
+        ->set("item_faktur_pembelians.{$toBeEditedIndex}.jumlah", 100)
+        ->call("submit")
+        ->assertHasNoErrors();
+
+    expect(
+        Produk::query()
+            ->withQuantityInHand()
+            ->value("quantity_in_hand")
+    )->toEqualWithDelta(400, 0.0001);
+
+
+});
+
+test("Can't edit faktur pembelian when an item has been used in a faktur penjualan.", function () {
+    $produkA = ProdukFactory::new()->create();
+    $produkB = ProdukFactory::new()->create();
+
+    $fakturPembelian = FakturPembelian::factory([
+        "waktu_penerimaan" => now()->subDays(10)
+    ])->has(
+        ItemFakturPembelian::factory()
+            ->state(new Sequence(
+                ["id" => 1, "produk_kode" => $produkA->kode, "jumlah" => 100, "expired_at" => now()->addWeeks(1)->format("Y-m-d")],
+                ["id" => 2, "produk_kode" => $produkA->kode, "jumlah" => 150, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
+                ["id" => 3, "produk_kode" => $produkA->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(3)->format("Y-m-d")],
+                ["id" => 4, "produk_kode" => $produkB->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
+            ))
+            ->count(3)
+        , "item_faktur_pembelians"
+    )->create();
+
+
+    FakturPenjualan::factory()
+        ->state([
+            "waktu_pengeluaran" => now()->addDays(10)
+        ])
+        ->has(
+            ItemFakturPenjualan::factory()
+                ->state([
+                    "produk_kode" => $produkA->kode,
+                    "jumlah" => 200,
+                    "harga_satuan" => $produkA->harga_satuan * 1.5,
+                ])
+                ->count(1)
+        )
+        ->create();
+
+    /** @var \Illuminate\Support\Collection $items */
+    $items = livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
+        ->get("item_faktur_pembelians");
+
+    $supposedlyUneditableItemIndex = $items->keys()->first(function ($key) use ($items) {
+        return $items[$key]["current_id"] === 2;
+    });
+
+    $supposedlyEditableItemIndexA = $items->keys()->first(function ($key) use ($items) {
+        return $items[$key]["current_id"] === 3;
+    });
+
+    $supposedlyEditableItemIndexB = $items->keys()->first(function ($key) use ($items) {
+        return $items[$key]["current_id"] === 3;
+    });
+    
+    livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
+        ->set("item_faktur_pembelians.{$supposedlyUneditableItemIndex}.jumlah", 100)
+        ->call("submit")
+        ->assertHasErrors("item_faktur_pembelians.{$supposedlyUneditableItemIndex}.kode_batch");
+
+    livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
+        ->set("item_faktur_pembelians.{$supposedlyEditableItemIndexA}.jumlah", 500)
+        ->set("item_faktur_pembelians.{$supposedlyEditableItemIndexA}.harga_satuan", 100_000)
+        ->set("item_faktur_pembelians.{$supposedlyEditableItemIndexB}.jumlah", 1000)
+        ->set("item_faktur_pembelians.{$supposedlyEditableItemIndexB}.harga_satuan", 200_000)
+        ->call("submit")
+        ->assertHasNoErrors();
 });
 

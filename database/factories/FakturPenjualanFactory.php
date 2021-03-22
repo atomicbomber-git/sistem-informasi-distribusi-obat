@@ -23,7 +23,7 @@ class FakturPenjualanFactory extends Factory
     public function definition(): array
     {
         return [
-            "kode" => $this->faker->unique()->uuid,
+            "nomor" => FakturPenjualan::getNextId(),
             "pelanggan" => $this->faker->firstName,
             "waktu_pengeluaran" => now()->subMinutes(rand(0, 1_000_000)),
         ];
