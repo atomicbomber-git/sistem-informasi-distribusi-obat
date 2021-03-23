@@ -82,7 +82,7 @@ class FakturPenjualanCreate extends Component
             ]);
 
             try {
-                $itemFakturPenjualan->applyStockTransaction();
+                $itemFakturPenjualan->commitStockTransaction();
             } catch (ApplicationException $exception) {
                 DB::rollBack();
 

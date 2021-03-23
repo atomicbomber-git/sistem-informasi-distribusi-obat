@@ -31,6 +31,7 @@
                         <th> @lang("application.code") </th>
                         <th> @lang("application.customer") </th>
                         <th> @lang("application.delivered_at") </th>
+                        <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
 
@@ -41,6 +42,9 @@
                         <td> {{ $fakturPenjualan->getId() }} </td>
                         <td> {{ $fakturPenjualan->pelanggan }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
+                        <x-td-control>
+                            <x-button-destroy :item="$fakturPenjualan"/>
+                        </x-td-control>
                     </tr>
                 @endforeach
                 </tbody>

@@ -32,7 +32,7 @@ class FakturPembelianIndex extends Component
                 $item_faktur_pembelian->destroyCascade();
             }
 
-            $fakturPembelian->delete();
+            $fakturPembelian->forceDelete();
 
             DB::commit();
 

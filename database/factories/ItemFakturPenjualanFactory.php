@@ -40,7 +40,7 @@ class ItemFakturPenjualanFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (ItemFakturPenjualan $itemFakturPenjualan) {
-            $itemFakturPenjualan->applyStockTransaction();
+            $itemFakturPenjualan->commitStockTransaction();
         });
     }
 }

@@ -38,10 +38,16 @@ class ItemFakturPenjualan extends Model
         return $this->hasMany(MutasiStock::class);
     }
 
+    public function isModifiable(): bool
+    {
+        // TODO: implement this accordingly
+        return true;
+    }
+
     /**
      * @throws ApplicationException
      */
-    public function applyStockTransaction(): void
+    public function commitStockTransaction(): void
     {
         /** @var Produk $produk */
         $produk = Produk::query()->findOrFail($this->produk_kode);
@@ -59,5 +65,25 @@ class ItemFakturPenjualan extends Model
                     "transacted_at" => $this->fakturPenjualan->waktu_pengeluaran,
                 ]);
             });
+    }
+
+    public function getUnmodifiableMessage(): string
+    {
+        return "Produk \"{$this->produk->nama}\" dengan kode batch \"{$this->kode_batch}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
+    }
+
+    public function abortIfUnmodifiable(): void
+    {
+        if (!$this->isModifiable()) {
+            throw new ApplicationException($this->getUnmodifiableMessage());
+        }
+    }
+
+    public function rollbackStockTransaction()
+    {
+        foreach ($this->mutasiStocks as $mutasiStock) {
+            $mutasiStock->stock->decrement("jumlah", $mutasiStock->jumlah);
+            $mutasiStock->forceDelete();
+        }
     }
 }

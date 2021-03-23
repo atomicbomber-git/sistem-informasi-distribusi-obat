@@ -96,10 +96,10 @@ class ItemFakturPembelian extends Model
 
         foreach ($stocks as $stock) {
             $stock->mutasiStocks()->delete();
-            $stock->delete();
+            $stock->forceDelete();
         }
 
-        $this->delete();
+        $this->forceDelete();
     }
 
     public function produk(): BelongsTo
