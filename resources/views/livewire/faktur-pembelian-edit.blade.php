@@ -115,9 +115,9 @@
                                     class="btn btn-sm {{ $item_faktur_pembelian["is_removed"] ? "btn-success" : "btn-danger" }}"
                             >
                                 @if($item_faktur_pembelian["is_removed"])
-                                    <i class="bi-arrow-clockwise"></i>
+                                    <x-icon-restore/>
                                 @else
-                                    <i class="bi-trash"></i>
+                                    <x-icon-destroy/>
                                 @endif
                             </button>
                         </x-td-control>

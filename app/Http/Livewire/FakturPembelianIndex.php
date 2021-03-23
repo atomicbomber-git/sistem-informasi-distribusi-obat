@@ -22,7 +22,6 @@ class FakturPembelianIndex extends Component
     public function destroy(mixed $modelKey)
     {
         try {
-
             DB::beginTransaction();
 
             $fakturPembelian = FakturPembelian::query()->findOrFail($modelKey);

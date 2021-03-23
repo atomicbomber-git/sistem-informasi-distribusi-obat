@@ -19,7 +19,7 @@ class FakturPembelianSeeder extends Seeder
     {
         DB::beginTransaction();
 
-        FakturPembelianFactory::new()
+        FakturPembelianFactory::new(["waktu_penerimaan" => now()->subYear()->subDays(rand(0, 100))])
             ->count(100)
             ->has(
                 ItemFakturPembelianFactory::new()->count(rand(1, 5)),

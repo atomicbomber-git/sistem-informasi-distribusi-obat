@@ -21,9 +21,10 @@ class FakturPenjualanSeeder extends Seeder
     {
         DB::beginTransaction();
 
-        Collection::times(10, function () {
+        Collection::times(20, function () {
             $produks = Produk::query()
                 ->hasQuantityInHand()
+                ->withQuantityInHand()
                 ->inRandomOrder()
                 ->limit(rand(2, 10))
                 ->get();
@@ -36,7 +37,7 @@ class FakturPenjualanSeeder extends Seeder
                             ...$produks->map(function (Produk $produk) {
                                 return [
                                     "produk_kode" => $produk->kode,
-                                    "jumlah" => bcmul($produk->quantity_in_hand, rand(5, 10) / 10),
+                                    "jumlah" => round(bcmul($produk->quantity_in_hand, rand(5, 10) / 10)),
                                     "harga_satuan" => bcmul($produk->harga_satuan, rand(15, 20) / 10),
                                     "diskon" => rand(0, 14) / 100,
                                 ];

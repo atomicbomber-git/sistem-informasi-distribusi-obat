@@ -37,23 +37,12 @@ class FakturPenjualanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(FakturPenjualanController $fakturPenjualan)
+    public function show(FakturPenjualan $fakturPenjualan)
     {
         //
     }
@@ -64,9 +53,11 @@ class FakturPenjualanController extends Controller
      * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(FakturPenjualanController $fakturPenjualan)
+    public function edit(FakturPenjualan $fakturPenjualan)
     {
-        //
+        return $this->responseFactory->view("faktur-penjualan.edit", compact(
+            "fakturPenjualan"
+        ));
     }
 
     /**
@@ -76,7 +67,7 @@ class FakturPenjualanController extends Controller
      * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FakturPenjualanController $fakturPenjualan)
+    public function update(Request $request, FakturPenjualan $fakturPenjualan)
     {
         //
     }
@@ -87,7 +78,7 @@ class FakturPenjualanController extends Controller
      * @param  \App\Models\FakturPenjualan  $fakturPenjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FakturPenjualanController $fakturPenjualan)
+    public function destroy(FakturPenjualan $fakturPenjualan)
     {
         //
     }

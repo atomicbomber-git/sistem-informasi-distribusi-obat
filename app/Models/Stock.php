@@ -44,6 +44,8 @@ class Stock extends Model
 
     public function mutasiStocks(): HasMany
     {
-        return $this->hasMany(MutasiStock::class);
+        return $this
+            ->hasMany(MutasiStock::class)
+            ->orderByDesc("transacted_at");
     }
 }

@@ -43,7 +43,12 @@
                         <td> {{ $fakturPenjualan->pelanggan }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                         <x-td-control>
-                            <x-button-destroy :item="$fakturPenjualan"/>
+                            <x-button-edit :href="route('faktur-penjualan.edit', $fakturPenjualan)">
+                                @lang("application.edit")
+                            </x-button-edit>
+
+                            <x-button-destroy
+                                    :item="$fakturPenjualan"/>
                         </x-td-control>
                     </tr>
                 @endforeach
