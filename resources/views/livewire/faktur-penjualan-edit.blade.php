@@ -66,7 +66,7 @@
 
                 <tbody>
                 @foreach ($itemFakturPenjualans as $key => $itemFakturPenjualan)
-                    <tr wire:key="{{ $key }}">
+                    <tr wire:key="{{ $key }}" class="{{ $itemFakturPenjualan["is_removed"] ? "table-danger" : "" }}" >
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $itemFakturPenjualan["produk"]["nama"] }} </td>
                         <td class="text-end">

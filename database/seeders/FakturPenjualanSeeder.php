@@ -39,7 +39,7 @@ class FakturPenjualanSeeder extends Seeder
                                     "produk_kode" => $produk->kode,
                                     "jumlah" => round(bcmul($produk->quantity_in_hand, rand(5, 10) / 10)),
                                     "harga_satuan" => bcmul($produk->harga_satuan, rand(15, 20) / 10),
-                                    "diskon" => rand(0, 14) / 100,
+                                    "diskon" => rand(0, 14),
                                 ];
                             })->toArray()
                         ))

@@ -48,7 +48,7 @@ class FakturPenjualanEdit extends Component
             mbcmul(
                 ($item_faktur_pembelian["harga_satuan"] ?: 0),
                 ($item_faktur_pembelian["jumlah"] ?: 0),
-                bcsub(1, bcdiv(($item_faktur_pembelian["diskon"] ?: 0), 100))
+                (bcdiv($item_faktur_pembelian["diskon"], 100))
             );
     }
 
@@ -111,8 +111,8 @@ class FakturPenjualanEdit extends Component
     public function mount()
     {
         $this->nomor = $this->fakturPenjualan->nomor;
-        $this->diskon = bcmul($this->fakturPenjualan->diskon, 100);
-        $this->pajak = bcmul($this->fakturPenjualan->pajak, 100);
+        $this->diskon = $this->fakturPenjualan->diskon;
+        $this->pajak = $this->fakturPenjualan->pajak;
         $this->pelanggan = $this->fakturPenjualan->pelanggan;
         $this->waktu_pengeluaran = $this->fakturPenjualan->waktu_pengeluaran->format("Y-m-d\TH:i");
 
@@ -130,7 +130,7 @@ class FakturPenjualanEdit extends Component
                 "produk_kode" => $itemFakturPenjualan->produk_kode,
                 "jumlah" => $itemFakturPenjualan->jumlah,
                 "harga_satuan" => Formatter::normalizedNumeral($itemFakturPenjualan->harga_satuan),
-                "diskon" => 0,
+                "diskon" => $itemFakturPenjualan->diskon,
             ]];
         });
     }
@@ -161,13 +161,6 @@ class FakturPenjualanEdit extends Component
                 "is_removed" => true,
             ]
         ));
-
-//        $this->itemFakturPenjualans->transform(function (array $item, $itemKey) use ($key) {
-//            if ($itemKey === $key) {
-//                $item["is_removed"] = true;
-//            }
-//            return $item;
-//        });
     }
 
     public function restoreItem(string $key)

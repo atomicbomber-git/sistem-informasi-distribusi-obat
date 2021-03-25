@@ -33,7 +33,7 @@ class ItemFakturPenjualanFactory extends Factory
             "produk_kode" => $produk->kode,
             "jumlah" => rand(10, 100),
             "harga_satuan" => $produk->harga_satuan,
-            "diskon" => rand(0, 7) / 100,
+            "diskon" => rand(0, 7),
         ];
     }
 
