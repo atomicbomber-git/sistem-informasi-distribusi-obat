@@ -13,14 +13,13 @@ class FakturPenjualan extends Model
     public $incrementing = false;
     protected $table = "faktur_penjualan";
     protected $primaryKey = "nomor";
-
-    protected $casts = [
-        "waktu_pengeluaran" => "datetime:Y-m-d\TH:i",
-    ];
-
     protected $guarded = [];
 
     const ID_PREFIX = "KM-";
+
+    protected $casts = [
+        "waktu_pengeluaran" => DatetimeInputCast::class
+    ];
 
     public static function getNextId(): int
     {

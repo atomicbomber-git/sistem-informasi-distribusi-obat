@@ -25,19 +25,19 @@
             {{-- TODO: Add input-group with KM indicator to this --}}
             <x-input
                     livewire
-                    field="nomor"
+                    field="fakturPenjualan.nomor"
                     :label="__('application.code')"
             />
 
             <x-input
                     livewire
-                    field="pelanggan"
+                    field="fakturPenjualan.pelanggan"
                     :label="__('application.customer')"
             />
 
             <x-input
                     livewire
-                    field="waktu_pengeluaran"
+                    field="fakturPenjualan.waktu_pengeluaran"
                     :label="__('application.delivered_at')"
                     type="datetime-local"
             />
@@ -66,41 +66,41 @@
 
                 <tbody>
                 @foreach ($itemFakturPenjualans as $key => $itemFakturPenjualan)
-                    <tr wire:key="{{ $key }}" class="{{ $itemFakturPenjualan["is_removed"] ? "table-danger" : "" }}" >
+                    <tr>
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $itemFakturPenjualan["produk"]["nama"] }} </td>
+                        <td> {{ $itemFakturPenjualan->produk->nama }} </td>
                         <td class="text-end">
-                            {{ \App\Support\Formatter::quantity($itemFakturPenjualan["produk"]["quantity_in_hand"])  }}
+                            {{ $itemFakturPenjualan->produk->quantity_in_hand }}
                         </td>
                         <td class="text-end">
-                            <x-lv-input-numeric
-                                    inline small
-                                    :label='__("application.quantity") . " " . $itemFakturPenjualan["produk"]["nama"]'
-                                    :key='"jumlah_{$loop->index}"'
-                                    :field='"itemFakturPenjualans.{$key}.jumlah"'
+                            <x-input-livewire-numeric
+                                    inline
+                                    :label='__("application.quantity") . " {$itemFakturPenjualan->produk->nama}"'
+                                    wire:model='itemFakturPenjualans.{{ $key }}.jumlah'
+                            />
+                        </td>
+
+                        <td class="text-end">
+                            <x-input-livewire-numeric
+                                    inline
+                                    :label='__("application.unit_price") . " {$itemFakturPenjualan->produk->nama}"'
+                                    wire:model='itemFakturPenjualans.{{ $key }}.harga_satuan'
+                            />
+                        </td>
+
+                        <td class="text-end">
+                            <x-input-livewire-numeric
+                                    inline
+                                    :label='__("application.discount") . " {$itemFakturPenjualan->produk->nama}"'
+                                    wire:model='itemFakturPenjualans.{{ $key }}.diskon'
                             />
                         </td>
                         <td class="text-end">
-                            <x-lv-input-numeric
-                                    inline small
-                                    :label='__("application.unit_price") . " " . $itemFakturPenjualan["produk"]["nama"]'
-                                    :key='"harga_satuan_{$loop->index}"'
-                                    :field='"itemFakturPenjualans.{$key}.harga_satuan"'
-                            />
+                            {{ \App\Support\Formatter::quantity($itemFakturPenjualan->getSubtotal()) }}
                         </td>
-                        <td class="text-end">
-                            <x-lv-input-numeric
-                                    inline small
-                                    :label='__("application.discount_percentage") . " " . $itemFakturPenjualan["produk"]["nama"]'
-                                    :key='"harga_satuan_{$loop->index}"'
-                                    :field='"itemFakturPenjualans.{$key}.diskon"'
-                            />
-                        </td>
-                        <td class="text-end">
-                            {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPenjualanCreate::subTotal($itemFakturPenjualan)) }}
-                        </td>
-                        <td class="text-center">
-                            @if( ! $itemFakturPenjualan["is_removed"] )
+
+                        <x-td-control>
+                            @if(! array_key_exists($key, $removedOriginalItemKeys))
                                 <button
                                         wire:click="removeItem('{{ $key }}')"
                                         type="button"
@@ -115,8 +115,80 @@
                                     <x-icon-restore/>
                                 </button>
                             @endif
-                        </td>
+
+
+                        </x-td-control>
+{{--                        <td class="text-center">--}}
+{{--                            @if( ! $itemFakturPenjualan["is_removed"] )--}}
+{{--                                <button--}}
+{{--                                        wire:click="removeItem('{{ $key }}')"--}}
+{{--                                        type="button"--}}
+{{--                                        class="btn btn-sm btn-danger">--}}
+{{--                                    <x-icon-destroy/>--}}
+{{--                                </button>--}}
+{{--                            @else--}}
+{{--                                <button--}}
+{{--                                        wire:click="restoreItem('{{ $key }}')"--}}
+{{--                                        type="button"--}}
+{{--                                        class="btn btn-sm btn-success">--}}
+{{--                                    <x-icon-restore/>--}}
+{{--                                </button>--}}
+{{--                            @endif--}}
+{{--                        </td>--}}
                     </tr>
+
+{{--                    <tr wire:key="{{ $key }}" class="{{ $itemFakturPenjualan->isRemoved ? "table-danger" : "" }}" >--}}
+{{--                        <td> {{ $loop->iteration }} </td>--}}
+{{--                        <td> {{ $itemFakturPenjualan->produk->nama }} </td>--}}
+{{--                        <td class="text-end">--}}
+{{--                            {{ \App\Support\Formatter::quantity($itemFakturPenjualan->produk->quantity_in_hand)  }}--}}
+{{--                        </td>--}}
+{{--                        <td class="text-end">--}}
+{{--                            <x-lv-input-numeric--}}
+{{--                                    inline small--}}
+{{--                                    :label='__("application.quantity") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
+{{--                                    :key='"jumlah_{$loop->index}"'--}}
+{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.jumlah"'--}}
+{{--                            />--}}
+{{--                        </td>--}}
+{{--                        <td class="text-end">--}}
+{{--                            <x-lv-input-numeric--}}
+{{--                                    inline small--}}
+{{--                                    :label='__("application.unit_price") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
+{{--                                    :key='"harga_satuan_{$loop->index}"'--}}
+{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.harga_satuan"'--}}
+{{--                            />--}}
+{{--                        </td>--}}
+{{--                        <td class="text-end">--}}
+{{--                            <x-lv-input-numeric--}}
+{{--                                    inline small--}}
+{{--                                    :label='__("application.discount_percentage") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
+{{--                                    :key='"harga_satuan_{$loop->index}"'--}}
+{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.diskon"'--}}
+{{--                            />--}}
+{{--                        </td>--}}
+{{--                        <td class="text-end">--}}
+
+
+{{--                        </td>--}}
+{{--                        <td class="text-center">--}}
+{{--                            @if( ! $itemFakturPenjualan["is_removed"] )--}}
+{{--                                <button--}}
+{{--                                        wire:click="removeItem('{{ $key }}')"--}}
+{{--                                        type="button"--}}
+{{--                                        class="btn btn-sm btn-danger">--}}
+{{--                                    <x-icon-destroy/>--}}
+{{--                                </button>--}}
+{{--                            @else--}}
+{{--                                <button--}}
+{{--                                        wire:click="restoreItem('{{ $key }}')"--}}
+{{--                                        type="button"--}}
+{{--                                        class="btn btn-sm btn-success">--}}
+{{--                                    <x-icon-restore/>--}}
+{{--                                </button>--}}
+{{--                            @endif--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
                 @endforeach
                 </tbody>
 
@@ -129,7 +201,7 @@
                         <x-lv-input-numeric
                                 inline small
                                 :label='__("application.discount_percentage")'
-                                field='diskon'
+                                field='fakturPenjualan.diskon'
                         />
                     </td>
                     <td></td>
@@ -143,7 +215,7 @@
                         <x-lv-input-numeric
                                 disabled inline small
                                 :label='__("application.discount_percentage")'
-                                field='pajak'
+                                field='fakturPenjualan.pajak'
                         />
                     </td>
                     <td></td>
@@ -154,7 +226,7 @@
                         @lang("application.total")
                     </td>
                     <td class="text-end">
-                        {{ \App\Support\Formatter::currency(\App\Http\Livewire\FakturPenjualanCreate::total($itemFakturPenjualans, $diskon, $pajak)) }}
+                        {{ \App\Support\Formatter::quantity($this->total()) }}
                     </td>
                     <td></td>
                 </tr>

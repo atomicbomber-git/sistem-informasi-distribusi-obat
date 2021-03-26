@@ -14,7 +14,6 @@
             placeholder="{{ $label }}"
             class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} @error($field) is-invalid @enderror"
             name="{{ $field }}"
-            value="{{ old($field, $value ?? null) }}"
     />
     @error($field)
     <span class="invalid-feedback text-danger">

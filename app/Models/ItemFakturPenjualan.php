@@ -5,27 +5,38 @@ namespace App\Models;
 use App\BusinessLogic\PlannedStockMutation;
 use App\Enums\TipeMutasiStock;
 use App\Exceptions\ApplicationException;
+use App\QueryBuilders\ProdukBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class ItemFakturPenjualan extends Model
 {
     use HasFactory;
+
     protected $table = "item_faktur_penjualan";
-    protected $guarded = [];
+    protected $connection = "mysql";
 
     protected $casts = [
         "harga_satuan" => "float",
         "jumlah" => "float",
     ];
 
+    protected $fillable = [
+        "faktur_penjualan_nomor",
+        "produk_kode",
+        "jumlah",
+        "harga_satuan",
+    ];
+
     public function produk(): BelongsTo
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Produk::class)
+            ->tap(function (ProdukBuilder $produkBuilder) {
+                $produkBuilder->withQuantityInHand();
+            });
     }
 
     public function fakturPenjualan(): BelongsTo
@@ -38,10 +49,16 @@ class ItemFakturPenjualan extends Model
         return $this->hasMany(MutasiStock::class);
     }
 
-    public function isModifiable(): bool
+    public function getSubtotal(): string
     {
-        // TODO: implement this accordingly
-        return true;
+        return bcdiv(
+            mbcmul(
+                $this->jumlah ?: 0,
+                $this->harga_satuan ?: 0,
+                bcsub(100, $this->diskon ?: 0)
+            ),
+            100
+        );
     }
 
     /**
@@ -67,16 +84,22 @@ class ItemFakturPenjualan extends Model
             });
     }
 
-    public function getUnmodifiableMessage(): string
-    {
-        return "Produk \"{$this->produk->nama}\" dengan kode batch \"{$this->kode_batch}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
-    }
-
     public function abortIfUnmodifiable(): void
     {
         if (!$this->isModifiable()) {
             throw new ApplicationException($this->getUnmodifiableMessage());
         }
+    }
+
+    public function isModifiable(): bool
+    {
+        // TODO: implement this accordingly
+        return true;
+    }
+
+    public function getUnmodifiableMessage(): string
+    {
+        return "Produk \"{$this->produk->nama}\" dengan kode batch \"{$this->kode_batch}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
     }
 
     public function rollbackStockTransaction()

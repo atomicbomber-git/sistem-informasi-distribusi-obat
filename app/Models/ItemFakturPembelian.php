@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StockStatus;
 use App\Enums\TipeMutasiStock;
 use App\Exceptions\ApplicationException;
+use App\QueryBuilders\ItemFakturPembelianBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,10 +29,10 @@ class ItemFakturPembelian extends Model
     /** return \App\QueryBuilders\ItemFakturPembelianBuilder */
     public function newEloquentBuilder($query)
     {
-        return new \App\QueryBuilders\ItemFakturPembelianBuilder($query);
+        return new ItemFakturPembelianBuilder($query);
     }
 
-    public static function query(): \App\QueryBuilders\ItemFakturPembelianBuilder
+    public static function query(): ItemFakturPembelianBuilder
     {
         return parent::query();
     }

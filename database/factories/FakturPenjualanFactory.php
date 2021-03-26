@@ -25,7 +25,7 @@ class FakturPenjualanFactory extends Factory
             "nomor" => FakturPenjualan::getNextId(),
             "pelanggan" => $this->faker->firstName,
             "diskon" => rand(0, 40),
-            "pajak" => 10 / 100,
+            "pajak" => 10,
             "waktu_pengeluaran" => now()->subMinutes(rand(0, 1_000_000)),
         ];
     }

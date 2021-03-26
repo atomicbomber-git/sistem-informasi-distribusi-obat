@@ -153,6 +153,7 @@ return [
         "itemFakturPenjualans" => "daftar item faktur penjualan",
         "itemFakturPenjualans.*.jumlah" => "jumlah",
         "itemFakturPenjualans.*.harga_satuan" => "harga satuan",
+        "itemFakturPenjualans.*.diskon" => "diskon",
 
         'username' => 'nama pengguna',
         'password' => 'kata sandi',

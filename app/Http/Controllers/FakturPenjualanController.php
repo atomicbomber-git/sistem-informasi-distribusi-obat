@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FakturPenjualan;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
@@ -55,9 +56,9 @@ class FakturPenjualanController extends Controller
      */
     public function edit(FakturPenjualan $fakturPenjualan)
     {
-        return $this->responseFactory->view("faktur-penjualan.edit", compact(
-            "fakturPenjualan"
-        ));
+        return $this->responseFactory->view("faktur-penjualan.edit", [
+            "fakturPenjualan" => $fakturPenjualan
+        ]);
     }
 
     /**
