@@ -32,8 +32,7 @@ class FakturPenjualanEdit extends Component
         }, "0");
 
         $discountedSum = bcmul($sum, bcdiv(bcsub(100, $this->fakturPenjualan->diskon), 100));
-        $discountedSumAfterTax = bcmul($discountedSum, bcdiv(bcadd(100, $this->fakturPenjualan->pajak), 100));
-        return $discountedSumAfterTax;
+        return bcmul($discountedSum, bcdiv(bcadd(100, $this->fakturPenjualan->pajak), 100));
     }
 
     public function rules(): array
@@ -61,7 +60,14 @@ class FakturPenjualanEdit extends Component
 
         DB::transaction(function () {
             $this->fakturPenjualan->save();
-            $this->itemFakturPenjualans->each(fn (ItemFakturPenjualan $item) => $item->save());
+
+            foreach ($this->itemFakturPenjualans as $itemFakturPenjualan) {
+                if ($itemFakturPenjualan->isModifiable() && $itemFakturPenjualan->isDirty()) {
+                    $itemFakturPenjualan->rollbackStockTransaction();
+                    $itemFakturPenjualan->save();
+                    $itemFakturPenjualan->commitStockTransaction();
+                }
+            }
         });
 
         $this->redirect(route("faktur-penjualan.edit", $this->fakturPenjualan->refresh()));
@@ -70,14 +76,10 @@ class FakturPenjualanEdit extends Component
     public function mount()
     {
         $this->removedOriginalItemKeys = [];
-        $this->fakturPenjualan->load("itemFakturPenjualans.produk");
 
         $this->itemFakturPenjualans = $this->fakturPenjualan->itemFakturPenjualans()
-            ->with([
-                "produk" => function (BelongsTo $belongsTo) {
-                    $belongsTo->getQuery()->withQuantityInHand();
-                }
-            ])->get();
+            ->with("produk")
+            ->get();
 
         $this->originalItemKeys = $this->itemFakturPenjualans->keys();
     }
