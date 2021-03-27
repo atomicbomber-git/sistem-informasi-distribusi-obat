@@ -66,7 +66,7 @@
 
                 <tbody>
                 @foreach ($itemFakturPenjualans as $key => $itemFakturPenjualan)
-                    <tr>
+                    <tr class="{{  !array_key_exists($key, $removedOriginalItemKeys) ?: 'table-danger' }}">
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $itemFakturPenjualan->produk->nama }} </td>
                         <td class="text-end">
@@ -76,7 +76,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.quantity") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model='itemFakturPenjualans.{{ $key }}.jumlah'
+                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.jumlah'
                             />
                         </td>
 
@@ -84,7 +84,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.unit_price") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model='itemFakturPenjualans.{{ $key }}.harga_satuan'
+                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.harga_satuan'
                             />
                         </td>
 
@@ -92,7 +92,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.discount") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model='itemFakturPenjualans.{{ $key }}.diskon'
+                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.diskon'
                             />
                         </td>
                         <td class="text-end">
@@ -115,80 +115,8 @@
                                     <x-icon-restore/>
                                 </button>
                             @endif
-
-
                         </x-td-control>
-{{--                        <td class="text-center">--}}
-{{--                            @if( ! $itemFakturPenjualan["is_removed"] )--}}
-{{--                                <button--}}
-{{--                                        wire:click="removeItem('{{ $key }}')"--}}
-{{--                                        type="button"--}}
-{{--                                        class="btn btn-sm btn-danger">--}}
-{{--                                    <x-icon-destroy/>--}}
-{{--                                </button>--}}
-{{--                            @else--}}
-{{--                                <button--}}
-{{--                                        wire:click="restoreItem('{{ $key }}')"--}}
-{{--                                        type="button"--}}
-{{--                                        class="btn btn-sm btn-success">--}}
-{{--                                    <x-icon-restore/>--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
-{{--                        </td>--}}
                     </tr>
-
-{{--                    <tr wire:key="{{ $key }}" class="{{ $itemFakturPenjualan->isRemoved ? "table-danger" : "" }}" >--}}
-{{--                        <td> {{ $loop->iteration }} </td>--}}
-{{--                        <td> {{ $itemFakturPenjualan->produk->nama }} </td>--}}
-{{--                        <td class="text-end">--}}
-{{--                            {{ \App\Support\Formatter::quantity($itemFakturPenjualan->produk->quantity_in_hand)  }}--}}
-{{--                        </td>--}}
-{{--                        <td class="text-end">--}}
-{{--                            <x-lv-input-numeric--}}
-{{--                                    inline small--}}
-{{--                                    :label='__("application.quantity") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
-{{--                                    :key='"jumlah_{$loop->index}"'--}}
-{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.jumlah"'--}}
-{{--                            />--}}
-{{--                        </td>--}}
-{{--                        <td class="text-end">--}}
-{{--                            <x-lv-input-numeric--}}
-{{--                                    inline small--}}
-{{--                                    :label='__("application.unit_price") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
-{{--                                    :key='"harga_satuan_{$loop->index}"'--}}
-{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.harga_satuan"'--}}
-{{--                            />--}}
-{{--                        </td>--}}
-{{--                        <td class="text-end">--}}
-{{--                            <x-lv-input-numeric--}}
-{{--                                    inline small--}}
-{{--                                    :label='__("application.discount_percentage") . "  {$itemFakturPenjualan["produk"]["nama"]}"'--}}
-{{--                                    :key='"harga_satuan_{$loop->index}"'--}}
-{{--                                    :field='"fakturPenjualan.itemFakturPenjualans.{$key}.diskon"'--}}
-{{--                            />--}}
-{{--                        </td>--}}
-{{--                        <td class="text-end">--}}
-
-
-{{--                        </td>--}}
-{{--                        <td class="text-center">--}}
-{{--                            @if( ! $itemFakturPenjualan["is_removed"] )--}}
-{{--                                <button--}}
-{{--                                        wire:click="removeItem('{{ $key }}')"--}}
-{{--                                        type="button"--}}
-{{--                                        class="btn btn-sm btn-danger">--}}
-{{--                                    <x-icon-destroy/>--}}
-{{--                                </button>--}}
-{{--                            @else--}}
-{{--                                <button--}}
-{{--                                        wire:click="restoreItem('{{ $key }}')"--}}
-{{--                                        type="button"--}}
-{{--                                        class="btn btn-sm btn-success">--}}
-{{--                                    <x-icon-restore/>--}}
-{{--                                </button>--}}
-{{--                            @endif--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
                 @endforeach
                 </tbody>
 

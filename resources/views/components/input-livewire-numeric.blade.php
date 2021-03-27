@@ -13,7 +13,7 @@
 
             let cleave = new Cleave($refs.input, {
                 numeral: true,
-                onValueChanged: _.debounce(e => {
+                onValueChanged: e => {
                     let rawValue = e.target.rawValue.length !== 0 ?
                         Number(e.target.rawValue) :
                         null
@@ -21,7 +21,7 @@
                     if (rawValue !== value) {
                         $dispatch('input', rawValue)
                     }
-                }, 500)
+                }
             })
 
             $watch('value', newValue => {

@@ -14,7 +14,8 @@ class CreateFakturPenjualanTable extends Migration
     public function up()
     {
         Schema::create('faktur_penjualan', function (Blueprint $table) {
-            $table->integer('nomor')->primary();
+            $table->increments('id');
+            $table->integer('nomor');
             $table->string('pelanggan');
             $table->decimal('diskon');
             $table->decimal('pajak');

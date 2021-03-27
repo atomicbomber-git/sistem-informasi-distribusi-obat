@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPenjualan;
 use App\Models\Produk;
@@ -9,6 +10,7 @@ use App\Support\HasValidatorThatEmitsErrors;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class FakturPenjualanEdit extends Component
@@ -55,16 +57,32 @@ class FakturPenjualanEdit extends Component
 
     public function submit()
     {
+        foreach (array_keys($this->removedOriginalItemKeys) as $removedOriginalItemKey) {
+            $item = $this->itemFakturPenjualans[$removedOriginalItemKey];
+            if ( ! $item->isModifiable() ) {
+                throw $this->emitErrors(ValidationException::withMessages([
+                    "itemFakturPenjualans.{$removedOriginalItemKey}.jumlah" => $item->getUnmodifiableMessage(),
+                ]));
+            }
+        }
+
         $this->validateAndEmitErrors();
 
         DB::transaction(function () {
             $this->fakturPenjualan->save();
 
-            foreach ($this->itemFakturPenjualans as $itemFakturPenjualan) {
+            foreach ($this->itemFakturPenjualans as $key => $itemFakturPenjualan) {
                 if ($itemFakturPenjualan->isModifiable() && $itemFakturPenjualan->isDirty()) {
                     $itemFakturPenjualan->rollbackStockTransaction();
                     $itemFakturPenjualan->save();
-                    $itemFakturPenjualan->commitStockTransaction();
+
+                    try {
+                        $itemFakturPenjualan->commitStockTransaction();
+                    } catch (ApplicationException $exception) {
+                        throw $this->emitErrors(ValidationException::withMessages([
+                            "itemFakturPenjualans.{$key}.jumlah" => "Stock yang tersedia tidak mencukupi.",
+                        ]));
+                    }
                 }
             }
         });

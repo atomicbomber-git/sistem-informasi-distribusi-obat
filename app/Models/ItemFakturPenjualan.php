@@ -29,6 +29,7 @@ class ItemFakturPenjualan extends Model
         "produk_kode",
         "jumlah",
         "harga_satuan",
+        "diskon",
     ];
 
     public function produk(): BelongsTo
@@ -99,7 +100,7 @@ class ItemFakturPenjualan extends Model
 
     public function getUnmodifiableMessage(): string
     {
-        return "Produk \"{$this->produk->nama}\" dengan kode batch \"{$this->kode_batch}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
+        return "Produk \"{$this->produk->nama}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
     }
 
     public function rollbackStockTransaction()

@@ -15,12 +15,13 @@ class CreateItemFakturPenjualanTable extends Migration
     {
         Schema::create('item_faktur_penjualan', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('faktur_penjualan_nomor')->index();
+            $table->unsignedInteger('faktur_penjualan_id')->index();
             $table->string('produk_kode')->index();
             $table->decimal('jumlah');
             $table->decimal('harga_satuan', 19, 4);
             $table->decimal('diskon');
-            $table->foreign('faktur_penjualan_nomor')->references('nomor')->on('faktur_penjualan')->cascadeOnUpdate();
+
+            $table->foreign('faktur_penjualan_id')->references('id')->on('faktur_penjualan')->cascadeOnUpdate();
             $table->timestamps();
         });
     }

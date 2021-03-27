@@ -10,12 +10,10 @@ class FakturPenjualan extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
     protected $table = "faktur_penjualan";
-    protected $primaryKey = "nomor";
     protected $guarded = [];
 
-    const ID_PREFIX = "KM-";
+    const NOMOR_PREFIX = "KM-";
 
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
@@ -30,9 +28,9 @@ class FakturPenjualan extends Model
             ) + 1;
     }
 
-    public function getId(): string
+    public function getNomor(): string
     {
-        return self::ID_PREFIX . $this->getKey();
+        return self::NOMOR_PREFIX . $this->getKey();
     }
 
     public function itemFakturPenjualans(): HasMany
