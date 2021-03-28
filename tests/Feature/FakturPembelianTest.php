@@ -159,7 +159,7 @@ test("Can't edit faktur pembelian when an item has been used in a faktur penjual
                 ["id" => 3, "produk_kode" => $produkA->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(3)->format("Y-m-d")],
                 ["id" => 4, "produk_kode" => $produkB->kode, "jumlah" => 200, "expired_at" => now()->addWeeks(2)->format("Y-m-d")],
             ))
-            ->count(3)
+            ->count(4)
         , "item_faktur_pembelians"
     )->create();
 
@@ -192,9 +192,9 @@ test("Can't edit faktur pembelian when an item has been used in a faktur penjual
     });
 
     $supposedlyEditableItemIndexB = $items->keys()->first(function ($key) use ($items) {
-        return $items[$key]["current_id"] === 3;
+        return $items[$key]["current_id"] === 4;
     });
-    
+
     livewire(FakturPembelianEdit::class, ["fakturPembelian" => $fakturPembelian])
         ->set("item_faktur_pembelians.{$supposedlyUneditableItemIndex}.jumlah", 100)
         ->call("submit")
