@@ -58,7 +58,7 @@ test("Can create faktur penjualan", function () {
         ->call("submit")
         ->assertHasNoErrors();
 
-    $faktur = FakturPenjualan::find(1);
+    $faktur = FakturPenjualan::where("nomor", 1)->first();
 
     expect($faktur)->not()->toBe(null);
     expect($faktur->itemFakturPenjualans()->count())->toBe(1);
