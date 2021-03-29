@@ -6,6 +6,8 @@ use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPembelian;
 use App\Models\FakturPenjualan;
+use App\Models\Pelanggan;
+use App\QueryBuilders\FakturPenjualanBuilder;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
@@ -17,6 +19,8 @@ use Livewire\Component;
 class FakturPenjualanIndex extends Component
 {
     use WithCustomPagination, WithSort, WithFilter, WithDestroy;
+
+    public mixed $pelangganId = null;
 
     public function destroy(mixed $modelKey)
     {
@@ -51,6 +55,9 @@ class FakturPenjualanIndex extends Component
     {
         return view('livewire.faktur-penjualan-index', [
             "fakturPenjualans" => FakturPenjualan::query()
+                ->when($this->pelangganId, function (FakturPenjualanBuilder $builder) {
+                    $builder->where("pelanggan_id", $this->pelangganId);
+                })
                 ->filterBy($this->filter, ["nomor", "pelanggan.nama"])
                 ->paginate()
         ]);

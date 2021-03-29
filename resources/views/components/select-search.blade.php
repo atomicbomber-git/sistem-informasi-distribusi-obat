@@ -1,15 +1,18 @@
 @props([
     "searchUrl",
     "label",
-    "field",
-    "theme" => "bootstrap-5"
+    "field" => $attributes->get("field") ?? $attributes->wire('model')->value(),
+    "theme" => "bootstrap-5",
+    "inline" => false,
 ])
 
 <div class="mb-3"
      wire:ignore
      {{ $attributes->wire('model') }}
 >
-    <label for="{{ $field }}"> {{ $label  }} </label>
+    <label for="{{ $field }}" class="{{ $inline ? "visually-hidden" : "" }}">
+        {{ $label  }}
+    </label>
     <select
             class="form-control form-control-sm"
             id="{{ $field }}"
@@ -17,8 +20,10 @@
             x-data
             x-init="
 $($el).select2({
+    placeholder: '{{ $label }}',
     ajax: {  url: '{{ $searchUrl }}' },
-    theme: '{{ $theme }}'
+    theme: '{{ $theme }}',
+    allowClear: true
 }).change(e => {
     $dispatch('input', e.target.value)
 })

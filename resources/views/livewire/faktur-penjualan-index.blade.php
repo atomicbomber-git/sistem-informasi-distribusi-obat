@@ -20,6 +20,16 @@
         </x-button-link>
     </x-control-bar>
 
+    <div>
+        <x-select-search
+                inline
+                label="Filter {{ __('application.customer') }}"
+                wire:model="pelangganId"
+                :searchUrl="route('pelanggan.search')"
+        />
+    </div>
+
+
     <x-messages></x-messages>
 
     @if($fakturPenjualans->isNotEmpty())
@@ -48,7 +58,8 @@
                             </x-button-edit>
 
                             <x-button-destroy
-                                    :item="$fakturPenjualan"/>
+                                    :item="$fakturPenjualan"
+                            />
                         </x-td-control>
                     </tr>
                 @endforeach

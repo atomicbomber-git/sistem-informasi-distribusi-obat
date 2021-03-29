@@ -19,7 +19,7 @@ class PelangganIndex extends Component
             "pelanggans" => Pelanggan::query()
                 ->selectQualify(["id", "nama", "alamat"])
                 ->sortBy("nama")
-                ->filterBy($this->filter, ["nama", "alamat"])
+                ->filterBy($this->filter, ["nama"])
                 ->paginate()
         ]);
     }
