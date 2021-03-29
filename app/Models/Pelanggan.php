@@ -10,4 +10,15 @@ class Pelanggan extends Model
     use HasFactory;
     protected $guarded = [];
     protected $table = "pelanggan";
+
+    /** return \App\QueryBuilders\PelangganBuilder */
+    public function newEloquentBuilder($query)
+    {
+        return new \App\QueryBuilders\PelangganBuilder($query);
+    }
+
+    public static function query(): \App\QueryBuilders\PelangganBuilder
+    {
+        return parent::query();
+    }
 }

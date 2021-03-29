@@ -1,6 +1,6 @@
 <x-layouts.app>
     <x-feature-title>
-        <i class="bi-box"></i>
+        <x-icon-edit/>
         {{ $produk->nama }}
     </x-feature-title>
 

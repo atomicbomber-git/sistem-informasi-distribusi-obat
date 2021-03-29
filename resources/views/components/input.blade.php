@@ -6,7 +6,7 @@
         {{ $label }}
     </label>
     <input
-            {{ $attributes->except(["inline", "field", "small", "type", "value", "livewire"]) }}
+            {{ $attributes->except(["inline", "field", "small", "type", "livewire"]) }}
             @if($livewire ?? false) wire:model.lazy="{{ $field }}" @endif
             {{ ($removed ?? false) ? "disabled" : "" }}
             id="{{ $field }}"

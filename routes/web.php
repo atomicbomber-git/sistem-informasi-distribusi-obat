@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\FakturPenjualanController;
+use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganSearchController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
@@ -35,6 +36,7 @@ Route::get("produk/search", ProdukSearchController::class)->name("produk.search"
 Route::get("produk-in-hand/search", ProdukInHandSearchController::class)->name("produk-in-hand.search");
 Route::get("pelanggan/search", PelangganSearchController::class)->name("pelanggan.search");
 Route::resource("produk", ProdukController::class);
+Route::resource("pelanggan", PelangganController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
 Route::resource("faktur-pembelian", FakturPembelianController::class);
 Route::resource("faktur-penjualan", FakturPenjualanController::class);

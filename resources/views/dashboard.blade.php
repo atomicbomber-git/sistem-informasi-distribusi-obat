@@ -30,5 +30,12 @@
                 @lang("application.sales_invoice")
             </a>
         </div>
+
+        <div class="col">
+            <a href="{{ route("pelanggan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                <x-icon-customer/>
+                @lang("application.customer")
+            </a>
+        </div>
     </div>
 </x-layouts.app>

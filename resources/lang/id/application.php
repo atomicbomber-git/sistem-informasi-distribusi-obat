@@ -25,6 +25,7 @@ return [
     "unit_price" => "Harga Satuan",
     "unit_value" => "Nilai Satuan",
     "quantity" => "Jumlah",
+    "address" => "Alamat",
     "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",
     "bulk_discount" => "Diskon Grosir",
     "bulk_discount_percentage" => "Persentase Diskon Grosir",

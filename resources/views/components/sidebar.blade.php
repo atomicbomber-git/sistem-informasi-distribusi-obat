@@ -8,6 +8,11 @@
         @lang("application.dashboard")
     </x-menu-item>
 
+    <x-menu-item :href="route('pelanggan.index')" routeIs='pelanggan.*' >
+        <x-icon-customer/>
+        @lang("application.customer")
+    </x-menu-item>
+
     <x-menu-item :href="route('produk.index')" routeIs="produk.*" >
         <x-icon-product/>
         @lang("application.product")

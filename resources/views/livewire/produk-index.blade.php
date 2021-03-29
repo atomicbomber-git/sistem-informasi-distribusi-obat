@@ -16,7 +16,7 @@
         <x-filter-input/>
         <x-button-link :href="route('produk.create')">
             @lang("application.create")
-            <i class="bi-plus-circle"></i>
+            <x-icon-create/>
         </x-button-link>
     </x-control-bar>
 
