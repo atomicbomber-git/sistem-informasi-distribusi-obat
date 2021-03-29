@@ -5,6 +5,10 @@
     >
         {{ $label }}
     </label>
+
+    @if('group') <div class="input-group"> @endif
+
+    {{ $input_prefix ?? null }}
     <input
             {{ $attributes->except(["inline", "field", "small", "type", "livewire"]) }}
             @if($livewire ?? false) wire:model.lazy="{{ $field }}" @endif
@@ -15,9 +19,13 @@
             class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} @error($field) is-invalid @enderror"
             name="{{ $field }}"
     />
+
     @error($field)
     <span class="invalid-feedback text-danger">
         {{ $message }}
     </span>
     @enderror
+
+    @if('group') </div> @endif
+
 </div>

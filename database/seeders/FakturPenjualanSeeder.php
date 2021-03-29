@@ -30,7 +30,7 @@ class FakturPenjualanSeeder extends Seeder
                 ->get();
 
             FakturPenjualan::factory()
-                ->state(["waktu_pengeluaran" => now()])
+                ->state(["waktu_pengeluaran" => now()->subDays(rand(0, 90))])
                 ->has(
                     ItemFakturPenjualan::factory()
                         ->state(new Sequence(

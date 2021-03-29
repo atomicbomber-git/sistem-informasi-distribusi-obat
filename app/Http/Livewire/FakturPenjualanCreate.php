@@ -7,6 +7,7 @@ use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
 use App\Models\Pelanggan;
 use App\Models\Produk;
+use App\Rules\FakturPenjualanNomorUnique;
 use App\Support\Formatter;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
@@ -14,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Jenssegers\Date\Date;
 use Livewire\Component;
 
 class FakturPenjualanCreate extends Component
@@ -52,7 +54,7 @@ class FakturPenjualanCreate extends Component
     public function rules()
     {
         return [
-            "fakturPenjualan.nomor" => ["required", "integer"],
+            "fakturPenjualan.nomor" => ["required", "integer", new FakturPenjualanNomorUnique($this->fakturPenjualan)],
             "fakturPenjualan.pelanggan_id" => ["required", Rule::exists(Pelanggan::class, "id")],
             "fakturPenjualan.waktu_pengeluaran" => ["required", "date_format:Y-m-d\TH:i"],
             "fakturPenjualan.diskon" => ["required", "numeric", "gte:0"],

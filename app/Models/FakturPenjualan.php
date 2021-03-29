@@ -29,6 +29,8 @@ class FakturPenjualan extends Model
     {
         return (
                 self::query()
+                    ->whereYear("waktu_pengeluaran", now()->year)
+                    ->whereMonth("waktu_pengeluaran", now()->month)
                     ->orderByDesc("nomor")
                     ->value("nomor") ?? 0
             ) + 1;

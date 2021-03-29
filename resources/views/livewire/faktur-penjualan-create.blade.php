@@ -22,12 +22,15 @@
           class="card"
     >
         <div class="card-body">
-            {{-- TODO: Add input-group with KM indicator to this --}}
             <x-input
-                    livewire
+                    livewire group
                     field="fakturPenjualan.nomor"
                     :label="__('application.code')"
-            />
+            >
+                <x-slot name="input_prefix">
+                    <span class="input-group-text"> {{ \App\Models\FakturPenjualan::NOMOR_PREFIX }}  </span>
+                </x-slot>
+            </x-input>
 
             <x-select-search
                     label="{{ __('application.customer')  }}"
