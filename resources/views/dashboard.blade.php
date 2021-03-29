@@ -19,6 +19,12 @@
             </a>
         </div>
         <div class="col">
+            <a href="{{ route("pelanggan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                <x-icon-customer/>
+                @lang("application.customer")
+            </a>
+        </div>
+        <div class="col">
             <a href="{{ route("faktur-pembelian.index") }}" class="w-100 text-start btn btn-lg btn-dark">
                 <x-icon-purchase-invoice/>
                 @lang("application.purchase_invoice")
@@ -28,13 +34,6 @@
             <a href="{{ route("faktur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
                 <x-icon-sales-invoice/>
                 @lang("application.sales_invoice")
-            </a>
-        </div>
-
-        <div class="col">
-            <a href="{{ route("pelanggan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-customer/>
-                @lang("application.customer")
             </a>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <article>
     <x-feature-title>
-        <x-icon-product/>
+        <x-icon-customer/>
         @lang("application.customer")
     </x-feature-title>
 
