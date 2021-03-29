@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\FakturPenjualan;
+use App\Models\Pelanggan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FakturPenjualanFactory extends Factory
@@ -23,7 +24,7 @@ class FakturPenjualanFactory extends Factory
     {
         return [
             "nomor" => FakturPenjualan::getNextId(),
-            "pelanggan" => $this->faker->firstName,
+            "pelanggan_id" => Pelanggan::query()->inRandomOrder()->value("id") ?? Pelanggan::factory()->create()->id,
             "diskon" => rand(0, 40),
             "pajak" => 10,
             "waktu_pengeluaran" => now()->subMinutes(rand(0, 1_000_000)),

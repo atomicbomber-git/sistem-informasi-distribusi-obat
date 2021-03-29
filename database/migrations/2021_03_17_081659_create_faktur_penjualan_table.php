@@ -15,11 +15,12 @@ class CreateFakturPenjualanTable extends Migration
     {
         Schema::create('faktur_penjualan', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('pelanggan_id')->index();
             $table->integer('nomor');
-            $table->string('pelanggan');
             $table->decimal('diskon');
             $table->decimal('pajak');
             $table->dateTime('waktu_pengeluaran');
+            $table->foreign('pelanggan_id')->references('id')->on('pelanggan');
             $table->timestamps();
         });
     }

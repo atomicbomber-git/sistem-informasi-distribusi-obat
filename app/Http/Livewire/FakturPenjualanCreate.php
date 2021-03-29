@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
+use App\Models\Pelanggan;
 use App\Models\Produk;
 use App\Support\Formatter;
 use App\Support\HasValidatorThatEmitsErrors;
@@ -22,9 +23,9 @@ class FakturPenjualanCreate extends Component
     public Collection $itemFakturPenjualans;
     public $nomor;
     public $waktu_pengeluaran;
-    public $pelanggan;
     public $diskon;
     public $pajak;
+    public FakturPenjualan $fakturPenjualan;
 
     public static function total(Collection $item_faktur_pembelians, $diskon, $pajak): float
     {
@@ -48,33 +49,33 @@ class FakturPenjualanCreate extends Component
             );
     }
 
-    public function submit()
+    public function rules()
     {
-        $data = $this->validateAndEmitErrors([
-            "nomor" => ["required", "integer", Rule::unique(FakturPenjualan::class)],
-            "pelanggan" => ["required", "string"],
-            "waktu_pengeluaran" => ["required", "date_format:Y-m-d\TH:i"],
-            "diskon" => ["required", "numeric", "gte:0"],
-            "pajak" => ["required", "numeric", "gte:0"],
+        return [
+            "fakturPenjualan.nomor" => ["required", "integer"],
+            "fakturPenjualan.pelanggan_id" => ["required", Rule::exists(Pelanggan::class, "id")],
+            "fakturPenjualan.waktu_pengeluaran" => ["required", "date_format:Y-m-d\TH:i"],
+            "fakturPenjualan.diskon" => ["required", "numeric", "gte:0"],
+            "fakturPenjualan.pajak" => ["required", "numeric", "gte:0"],
+
             "itemFakturPenjualans" => ["required", "array"],
             "itemFakturPenjualans.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
             "itemFakturPenjualans.*.jumlah" => ["required", "numeric", "gte:0"],
             "itemFakturPenjualans.*.harga_satuan" => ["required", "numeric", "gte:0"],
             "itemFakturPenjualans.*.diskon" => ["required", "numeric", "gte:0"],
-        ]);
+        ];
+    }
+
+    public function submit()
+    {
+        $data = $this->validateAndEmitErrors();
 
         DB::beginTransaction();
 
-        $fakturPenjualan = FakturPenjualan::create([
-            "nomor" => $data["nomor"],
-            "pelanggan" => $data["pelanggan"],
-            "waktu_pengeluaran" => $data["waktu_pengeluaran"],
-            "diskon" => $data["diskon"],
-            "pajak" => $data["pajak"],
-        ]);
+        $this->fakturPenjualan->save();
 
         foreach ($data["itemFakturPenjualans"] as $key => $dataItemFakturPenjualan) {
-            $itemFakturPenjualan = $fakturPenjualan->itemFakturPenjualans()->create([
+            $itemFakturPenjualan = $this->fakturPenjualan->itemFakturPenjualans()->create([
                 "produk_kode" => $dataItemFakturPenjualan["produk_kode"],
                 "jumlah" => $dataItemFakturPenjualan["jumlah"],
                 "harga_satuan" => $dataItemFakturPenjualan["harga_satuan"],
@@ -106,9 +107,14 @@ class FakturPenjualanCreate extends Component
 
     public function mount()
     {
-        $this->nomor = FakturPenjualan::getNextId();
-        $this->diskon = 0;
-        $this->pajak = 10;
+        $this->fakturPenjualan = new FakturPenjualan([
+            "nomor" => FakturPenjualan::getNextId(),
+            "pelanggan_id" => null,
+            "diskon" => 0,
+            "pajak" => 10,
+            "waktu_pengeluaran" => now()->format("Y-m-d\TH:i:s"),
+        ]);
+
         $this->itemFakturPenjualans = new Collection();
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FakturPenjualan extends Model
@@ -18,6 +19,11 @@ class FakturPenjualan extends Model
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
     ];
+
+    public function pelanggan(): BelongsTo
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
 
     public static function getNextId(): int
     {
@@ -36,5 +42,16 @@ class FakturPenjualan extends Model
     public function itemFakturPenjualans(): HasMany
     {
         return $this->hasMany(ItemFakturPenjualan::class);
+    }
+
+    /** return \App\QueryBuilders\FakturPenjualanBuilder */
+    public function newEloquentBuilder($query)
+    {
+        return new \App\QueryBuilders\FakturPenjualanBuilder($query);
+    }
+
+    public static function query(): \App\QueryBuilders\FakturPenjualanBuilder
+    {
+        return parent::query();
     }
 }

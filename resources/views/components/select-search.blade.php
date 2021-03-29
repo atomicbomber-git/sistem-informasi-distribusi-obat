@@ -1,31 +1,28 @@
-<div class="form-group">
-    <label for="{{ $field }}"> {{ $label }} </label>
+@props([
+    "searchUrl",
+    "label",
+    "field",
+    "theme" => "bootstrap-5"
+])
+
+<div class="mb-3"
+     wire:ignore
+     {{ $attributes->wire('model') }}
+>
+    <label for="{{ $field }}"> {{ $label  }} </label>
     <select
+            class="form-control form-control-sm"
             id="{{ $field }}"
-            type="text"
-            class="form-control @error("$field") error @enderror"
             name="{{ $field }}"
-    >
-        @if($value ?? false)
-            <option value="{{ $value->getKey() }}">
-                {{ $value->getLabel() }}
-            </option>
-        @endif
+            x-data
+            x-init="
+$($el).select2({
+    ajax: {  url: '{{ $searchUrl }}' },
+    theme: '{{ $theme }}'
+}).change(e => {
+    $dispatch('input', e.target.value)
+})
+">
+        {{ $slot  }}
     </select>
-
-    @error($field)
-    <span class="invalid-feedback text-danger">
-        {{ $message }}
-    </span>
-    @enderror
-
-    @push("scripts")
-        <script type="application/javascript">
-            $("#{{ $field}}").select2({
-                placeholder: "{{ $label }}",
-                ajax: { url: "{!! $searchUrl !!}" },
-                theme: "bootstrap4"
-            })
-        </script>
-    @endpush
 </div>

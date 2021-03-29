@@ -40,7 +40,7 @@
                     <tr>
                         <td> {{ $fakturPenjualans->firstItem() + $loop->index }} </td>
                         <td> {{ $fakturPenjualan->getNomor() }} </td>
-                        <td> {{ $fakturPenjualan->pelanggan }} </td>
+                        <td> {{ $fakturPenjualan->pelanggan->nama }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                         <x-td-control>
                             <x-button-edit :href="route('faktur-penjualan.edit', $fakturPenjualan)">

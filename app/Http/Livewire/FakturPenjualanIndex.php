@@ -51,6 +51,7 @@ class FakturPenjualanIndex extends Component
     {
         return view('livewire.faktur-penjualan-index', [
             "fakturPenjualans" => FakturPenjualan::query()
+                ->filterBy($this->filter, ["nomor", "pelanggan.nama"])
                 ->paginate()
         ]);
     }
