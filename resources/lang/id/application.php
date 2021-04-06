@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "dont_fill_password_field_if_dont_wanna_change_password" => "Biarkan kolom password kosong jika Anda tidak ingin mengubah password",
+    "admin_user" => "User Admin",
     "product" => "Produk",
     "sales_invoice" => "Faktur Penjualan",
     "purchase_invoice" => "Faktur Pembelian",

@@ -6,7 +6,7 @@
         {{ $label }}
     </label>
 
-    @if('group') <div class="input-group"> @endif
+    @if($group ?? false) <div class="input-group"> @endif
 
     {{ $input_prefix ?? null }}
     <input
@@ -18,14 +18,21 @@
             placeholder="{{ $label }}"
             class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} @error($field) is-invalid @enderror"
             name="{{ $field }}"
+            @if($help ?? false) aria-describedby="{{ $field }}_help" @endif
     />
 
-    @error($field)
+        @if($help ?? false)
+            <div id="{{ $field }}_help" class="form-text">
+                {{ $help }}
+            </div>
+        @endif
+
+        @error($field)
     <span class="invalid-feedback text-danger">
         {{ $message }}
     </span>
     @enderror
 
-    @if('group') </div> @endif
+    @if($group ?? false) </div> @endif
 
 </div>

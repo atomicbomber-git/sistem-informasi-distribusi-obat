@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EditAdminUserController;
 use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\FakturPenjualanController;
 use App\Http\Controllers\PelangganController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UpdateAdminUserController;
 use App\Http\Livewire\FakturPenjualanIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,9 @@ Auth::routes([
 ]);
 
 Route::redirect("/", "dashboard");
+
+Route::get("admin/user/edit", EditAdminUserController::class)->name("admin.user.edit");
+Route::patch("admin/user", UpdateAdminUserController::class)->name("admin.user.update");
 
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");
 Route::get("produk-in-hand/search", ProdukInHandSearchController::class)->name("produk-in-hand.search");
