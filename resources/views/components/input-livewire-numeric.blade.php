@@ -19,7 +19,7 @@
                         null
 
                     if (rawValue !== value) {
-                        $dispatch('input', rawValue)
+                        $dispatch('change', rawValue)
                     }
                 }
             })
@@ -40,23 +40,24 @@
 
         {{ $attributes->except("field") }}
 >
-        <label for="{{ $field ?? $attributes->wire('model')->value() }}"
-               class="{{ ($inline ?? false) ? 'visually-hidden' : '' }}"
-        >
-                {{ $label }}
-        </label>
+    <label for="{{ $field ?? $attributes->wire('model')->value() }}"
+           class="{{ ($inline ?? false) ? 'visually-hidden' : '' }}"
+    >
+        {{ $label }}
+    </label>
 
-        <input
-                x-on:input="$event.stopPropagation()"
-                id="{{ $field ?? $attributes->wire('model')->value() }}"
-                class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} text-end"
-                x-bind:class="{ 'is-invalid': error }"
-                x-ref="input"
-                type="text"
-        >
-        <span class="invalid-feedback text-danger"
-              x-show="error"
-              x-text="error ?? ''"
-        >
-        </span>
+    <input
+            x-on:change="$event.stopPropagation()"
+            x-on:input="$event.stopPropagation()"
+            id="{{ $field ?? $attributes->wire('model')->value() }}"
+            class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} text-end"
+            x-bind:class="{ 'is-invalid': error }"
+            x-ref="input"
+            type="text"
+    >
+    <span class="invalid-feedback text-danger"
+          x-show="error"
+          x-text="error ?? ''"
+    >
+    </span>
 </div>

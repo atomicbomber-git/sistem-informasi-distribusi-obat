@@ -4,11 +4,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditAdminUserController;
 use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\FakturPenjualanController;
+use App\Http\Controllers\ItemFakturPenjualanSearchController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganSearchController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
+use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UpdateAdminUserController;
 use App\Http\Livewire\FakturPenjualanIndex;
@@ -44,8 +46,14 @@ Route::resource("produk", ProdukController::class);
 Route::resource("pelanggan", PelangganController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
 Route::resource("faktur-pembelian", FakturPembelianController::class);
+
 Route::resource("faktur-penjualan", FakturPenjualanController::class);
+Route::get("faktur-penjualan/{faktur_penjualan}/search-item", ItemFakturPenjualanSearchController::class)->name("faktur-penjualan.search-item");
+
 Route::get("dashboard", DashboardController::class)->name("dashboard");
+
+Route::resource("faktur-penjualan.retur-penjualan", ReturPenjualanController::class)
+    ->shallow();
 
 
 
