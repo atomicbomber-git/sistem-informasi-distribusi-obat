@@ -31,12 +31,21 @@
                 @lang("application.customer")
             </a>
         </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ route("pemasok.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                <x-icon-customer/>
+                @lang("application.supplier")
+            </a>
+        </div>
+
         <div class="col-md-3 mb-3">
             <a href="{{ route("faktur-pembelian.index") }}" class="w-100 text-start btn btn-lg btn-dark">
                 <x-icon-purchase-invoice/>
                 @lang("application.purchase_invoice")
             </a>
         </div>
+
         <div class="col-md-3 mb-3">
             <a href="{{ route("faktur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
                 <x-icon-sales-invoice/>

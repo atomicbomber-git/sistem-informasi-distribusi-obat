@@ -7,6 +7,7 @@ use App\Http\Controllers\FakturPenjualanController;
 use App\Http\Controllers\ItemFakturPenjualanSearchController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganSearchController;
+use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
@@ -44,6 +45,7 @@ Route::get("produk-in-hand/search", ProdukInHandSearchController::class)->name("
 Route::get("pelanggan/search", PelangganSearchController::class)->name("pelanggan.search");
 Route::resource("produk", ProdukController::class);
 Route::resource("pelanggan", PelangganController::class);
+Route::resource("pemasok", PemasokController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
 Route::resource("faktur-pembelian", FakturPembelianController::class);
 

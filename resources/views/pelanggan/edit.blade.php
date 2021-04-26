@@ -22,9 +22,11 @@
 
     <div class="card">
         <div class="card-body">
-            <x-form-post :action="route('pelanggan.store')"
+            <x-form-post :action="route('pelanggan.update', $pelanggan)"
                          id="the-form"
             >
+                @method("PATCH")
+
                 <x-input
                         field="nama"
                         :label="__('application.name')"

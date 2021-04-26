@@ -6,8 +6,8 @@
 
     <x-breadcrumb>
         <li class="breadcrumb-item">
-            <a href="{{ route('pelanggan.index') }}">
-                @lang("application.customer")
+            <a href="{{ route('pemasok.index') }}">
+                @lang("application.supplier")
             </a>
         </li>
 
@@ -22,7 +22,7 @@
 
     <div class="card">
         <div class="card-body">
-            <x-form-post :action="route('pelanggan.store')"
+            <x-form-post :action="route('pemasok.store')"
                          id="the-form"
             >
                 <x-input

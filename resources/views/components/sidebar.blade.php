@@ -17,6 +17,11 @@
         @lang("application.customer")
     </x-menu-item>
 
+    <x-menu-item :href="route('pemasok.index')" routeIs='pemasok.*' >
+        <x-icon-supplier/>
+        @lang("application.supplier")
+    </x-menu-item>
+
 {{--    <x-menu-item :href="route('dashboard')" routeIs="dashboard" >--}}
 {{--        <x-icon-dashboard/>--}}
 {{--        @lang("application.dashboard")--}}

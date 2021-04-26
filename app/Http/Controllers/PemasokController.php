@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\MessageState;
-use App\Models\Pelanggan;
+use App\Models\Pemasok;
 use App\Support\SessionHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Validation\Rule;
 
-class PelangganController extends Controller
+class PemasokController extends Controller
 {
     private ResponseFactory $responseFactory;
 
@@ -28,7 +28,7 @@ class PelangganController extends Controller
      */
     public function index()
     {
-        return $this->responseFactory->view("pelanggan.index");
+        return $this->responseFactory->view("pemasok.index");
     }
 
     /**
@@ -38,7 +38,7 @@ class PelangganController extends Controller
      */
     public function create()
     {
-        return $this->responseFactory->view("pelanggan.create");
+        return $this->responseFactory->view("pemasok.create");
     }
 
     /**
@@ -50,41 +50,30 @@ class PelangganController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            "nama" => ["required", "string", Rule::unique(Pelanggan::class)],
+            "nama" => ["required", "string", Rule::unique(Pemasok::class)],
             "alamat" => ["nullable", "string"],
         ]);
 
-        Pelanggan::query()->create($data);
+        Pemasok::query()->create($data);
 
         SessionHelper::flashMessage(
             __("messages.create.success"),
             MessageState::STATE_SUCCESS,
         );
 
-        return $this->responseFactory->redirectToRoute("pelanggan.index");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Pelanggan $pelanggan
-     * @return Response
-     */
-    public function show(Pelanggan $pelanggan)
-    {
-        //
+        return $this->responseFactory->redirectToRoute("pemasok.index");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Pelanggan $pelanggan
+     * @param Pemasok $pemasok
      * @return Response
      */
-    public function edit(Pelanggan $pelanggan)
+    public function edit(Pemasok $pemasok)
     {
-        return $this->responseFactory->view("pelanggan.edit", [
-            "pelanggan" => $pelanggan,
+        return $this->responseFactory->view("pemasok.edit", [
+            "pemasok" => $pemasok,
         ]);
     }
 
@@ -92,23 +81,23 @@ class PelangganController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Pelanggan $pelanggan
+     * @param Pemasok $pemasok
      * @return RedirectResponse
      */
-    public function update(Request $request, Pelanggan $pelanggan)
+    public function update(Request $request, Pemasok $pemasok)
     {
         $data = $request->validate([
-            "nama" => ["required", "string", Rule::unique(Pelanggan::class)->ignoreModel($pelanggan)],
+            "nama" => ["required", "string", Rule::unique(Pemasok::class)->ignoreModel($pemasok)],
             "alamat" => ["nullable", "string"],
         ]);
 
-        $pelanggan->update($data);
+        $pemasok->update($data);
 
         SessionHelper::flashMessage(
             __("messages.update.success"),
             MessageState::STATE_SUCCESS,
         );
 
-        return $this->responseFactory->redirectToRoute("pelanggan.edit", $pelanggan);
+        return $this->responseFactory->redirectToRoute("pemasok.edit", $pemasok);
     }
 }

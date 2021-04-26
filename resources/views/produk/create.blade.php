@@ -53,7 +53,7 @@
                     form="the-form"
             >
                 @lang("application.create")
-                <i class="bi-plus-circle"></i>
+                <x-icon-create/>
             </x-submit-button>
         </x-card-footer-submit>
     </div>
