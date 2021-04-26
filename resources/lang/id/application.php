@@ -43,6 +43,8 @@ return [
     "word" => "Kata",
     "document" => "Dokumen",
     "menu" => "Menu",
+    "master-data" => "Data Master",
+    "invoice" => "Faktur",
     "edit" => "Ubah",
     "return" => "Retur",
     "update" => "Perbarui",

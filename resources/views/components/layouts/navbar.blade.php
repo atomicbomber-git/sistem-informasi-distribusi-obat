@@ -35,14 +35,6 @@
                             >{{ __('Login') }}</a>
                         </li>
                     @endif
-
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('register') }}"
-                            >{{ __('Register') }}</a>
-                        </li>
-                    @endif
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown"
@@ -72,8 +64,15 @@
                                x-data="{}"
                                x-on:click="$event.preventDefault(); document.getElementById('logout-form').submit();"
                             >
+                                <x-icon-signout/>
                                 {{ __('application.log_out') }}
-                                <i class="bi-box-arrow-right"></i>
+                            </a>
+
+                            <a href="{{ route("admin.user.edit") }}"
+                               class="dropdown-item"
+                            >
+                                <x-icon-user/>
+                                {{ __('application.admin_user') }}
                             </a>
                         </div>
                     </li>

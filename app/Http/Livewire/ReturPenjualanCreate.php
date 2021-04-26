@@ -6,6 +6,7 @@ use App\Models\FakturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
 use App\Support\HasValidatorThatEmitsErrors;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -33,7 +34,8 @@ class ReturPenjualanCreate extends Component
         return [
             "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "draftItemReturPenjualans" => ["array", "required"],
-            "draftItemReturPenjualans.*.mutasiStock.stock.kode_produk" => ["required"],
+            "draftItemReturPenjualans.*.mutasiStock.stock.produk_kode" => ["required"],
+            "draftItemReturPenjualans.*.mutasiStock.stock.kode_batch" => ["required"],
             "draftItemReturPenjualans.*.jumlah" => ["required", "numeric", "gt:0"],
             "draftItemReturPenjualans.*.alasan" => ["required", "string", Rule::in(self::REASONS)],
         ];
@@ -42,7 +44,11 @@ class ReturPenjualanCreate extends Component
     public function submit()
     {
         $validatedData = $this->validateAndEmitErrors();
-        ray()->send($validatedData);
+
+
+
+
+
     }
 
     public function addItem(mixed $key)
