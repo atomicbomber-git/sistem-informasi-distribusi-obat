@@ -1,5 +1,3 @@
 <x-layouts.app>
-    <livewire:retur-penjualan-create
-        :fakturPenjualan="$fakturPenjualan"
-    />
+    <livewire:retur-penjualan-create/>
 </x-layouts.app>

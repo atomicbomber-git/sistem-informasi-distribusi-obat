@@ -2,11 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\FakturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
 use App\Support\HasValidatorThatEmitsErrors;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -22,7 +20,7 @@ class ReturPenjualanCreate extends Component
         self::EXPIRED,
     ];
 
-    public FakturPenjualan $fakturPenjualan;
+    public ?int $faktur_penjualan_id = null;
     public ReturPenjualan $returPenjualan;
 
     /** @var array */
@@ -44,7 +42,6 @@ class ReturPenjualanCreate extends Component
     public function submit()
     {
         $validatedData = $this->validateAndEmitErrors();
-
 
 
 
@@ -71,13 +68,20 @@ class ReturPenjualanCreate extends Component
         }
     }
 
+    public function setFakturPenjualanId(mixed $faktur_penjualan_id)
+    {
+        $this->faktur_penjualan_id = $faktur_penjualan_id;
+    }
+
     public function mount()
     {
         $this->draftItemReturPenjualans = [];
 
-        $this->returPenjualan = new ReturPenjualan([
-            "faktur_penjualan_id" => $this->fakturPenjualan,
-        ]);
+        $this->returPenjualan = new ReturPenjualan();
+
+//        $this->returPenjualan = new ReturPenjualan([
+//            "faktur_penjualan_id" => $this->fakturPenjualan,
+//        ]);
     }
 
     public function render()

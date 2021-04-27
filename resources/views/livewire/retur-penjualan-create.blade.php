@@ -1,28 +1,21 @@
 <article>
     <x-feature-title>
-        <x-icon-return/>
-        @lang("application.return")
+        <x-icon-create/>
+        @lang("application.create")
     </x-feature-title>
 
     <x-breadcrumb>
         <li class="breadcrumb-item">
-            <a href="{{ route("faktur-penjualan.index") }}">
-                @lang("application.sales_invoice")
+            <a href="{{ route("retur-penjualan.index") }}">
+                @lang("application.sales-return")
             </a>
         </li>
 
-        <li class="breadcrumb-item">
-            {{ $fakturPenjualan->getNomor() }}
-        </li>
-
         <li class="breadcrumb-item active"
-            aria-current="page"
-        >
-            @lang("application.return")
+            aria-current="page">
+            @lang("application.create")
         </li>
     </x-breadcrumb>
-
-    {{ $errors }}
 
     <form wire:submit.prevent="submit"
           class="card"
@@ -99,7 +92,7 @@
                 <label class="form-label"
                        for="item-add"
                 >
-                    @lang("application.add_item")
+                    @lang("application.sales_invoice")
                 </label>
                 <select
                         wire:ignore
@@ -107,20 +100,42 @@
                         x-data
                         x-init="
                     $($el).select2({
-                        ajax: { url: '{{ route('faktur-penjualan.search-item', $fakturPenjualan) }}' },
+                        ajax: { url: '{{ route('faktur-penjualan.search') }}' },
                         theme: 'bootstrap-5'
                     }).change(e => {
                         if (!!e.target.value) {
-                            $wire.call('addItem', e.target.value)
-                            $(e.target).val(null).trigger('change')
+                            $wire.set('faktur_penjualan_id', e.target.value)
                         }
                     })
 "
-                        id="item-add"
+                        id="sales-invoice-select"
                 ></select>
             </div>
 
-
+{{--            <div wire:ignore>--}}
+{{--                <label class="form-label"--}}
+{{--                       for="item-add"--}}
+{{--                >--}}
+{{--                    @lang("application.add_item")--}}
+{{--                </label>--}}
+{{--                <select--}}
+{{--                        wire:ignore--}}
+{{--                        style="width: 100%"--}}
+{{--                        x-data--}}
+{{--                        x-init="--}}
+{{--                    $($el).select2({--}}
+{{--                        ajax: { url: '{{ route('faktur-penjualan.search-item', $fakturPenjualan) }}' },--}}
+{{--                        theme: 'bootstrap-5'--}}
+{{--                    }).change(e => {--}}
+{{--                        if (!!e.target.value) {--}}
+{{--                            $wire.call('addItem', e.target.value)--}}
+{{--                            $(e.target).val(null).trigger('change')--}}
+{{--                        }--}}
+{{--                    })--}}
+{{--"--}}
+{{--                        id="item-add"--}}
+{{--                ></select>--}}
+{{--            </div>--}}
         </div>
         <div class="card-footer d-flex justify-content-end">
             <button class="btn btn-primary">
@@ -128,6 +143,5 @@
                 <x-icon-create/>
             </button>
         </div>
-
     </form>
 </article>

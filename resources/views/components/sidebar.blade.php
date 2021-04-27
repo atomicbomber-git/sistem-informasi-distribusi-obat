@@ -3,6 +3,11 @@
         @lang("application.menu")
     </x-menu-title>
 
+    <x-menu-item :href="route('dashboard')" routeIs="dashboard" >
+        <x-icon-dashboard/>
+        @lang("application.dashboard")
+    </x-menu-item>
+
     <x-menu-subtitle>
         @lang("application.master-data")
     </x-menu-subtitle>
@@ -22,11 +27,6 @@
         @lang("application.supplier")
     </x-menu-item>
 
-{{--    <x-menu-item :href="route('dashboard')" routeIs="dashboard" >--}}
-{{--        <x-icon-dashboard/>--}}
-{{--        @lang("application.dashboard")--}}
-{{--    </x-menu-item>--}}
-
 {{--    <x-menu-item :href="route('admin.user.edit')" routeIs='admin.user.*' >--}}
 {{--        <x-icon-user/>--}}
 {{--        @lang("application.admin_user")--}}
@@ -44,5 +44,14 @@
     <x-menu-item :href="route('faktur-penjualan.index')" routeIs='faktur-penjualan.*' >
         <x-icon-sales-invoice/>
         @lang("application.sales_invoice")
+    </x-menu-item>
+
+    <x-menu-subtitle>
+        @lang("application.return")
+    </x-menu-subtitle>
+
+    <x-menu-item :href="route('retur-penjualan.index')" routeIs='retur-penjualan.*' >
+        <x-icon-sales-return/>
+        @lang("application.sales-return")
     </x-menu-item>
 </nav>

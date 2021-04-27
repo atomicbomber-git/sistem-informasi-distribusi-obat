@@ -12,6 +12,8 @@ return [
     "damaged" => "Rusak",
     "expired" => "Expired",
     "reason" => "Alasan",
+    "sales-return" => "Retur Penjualan",
+    "purchase-return" => "Retur Pembelian",
     "arrived_at" => "Waktu Penerimaan",
     "delivered_at" => "Waktu Pengeluaran",
     "returned_at" => "Waktu Pengembalian",

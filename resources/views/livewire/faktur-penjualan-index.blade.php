@@ -29,7 +29,6 @@
         />
     </div>
 
-
     <x-messages></x-messages>
 
     @if($fakturPenjualans->isNotEmpty())
@@ -53,13 +52,6 @@
                         <td> {{ $fakturPenjualan->pelanggan->nama }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                         <x-td-control>
-                            <x-button-link
-                                    small
-                                    :href="route('faktur-penjualan.retur-penjualan.create', $fakturPenjualan)"
-                            >
-                                @lang("application.return")
-                            </x-button-link>
-
                             <x-button-edit :href="route('faktur-penjualan.edit', $fakturPenjualan)">
                                 @lang("application.edit")
                             </x-button-edit>
