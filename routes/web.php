@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditAdminUserController;
 use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\FakturPenjualanController;
+use App\Http\Controllers\FakturPenjualanPrintController;
 use App\Http\Controllers\FakturPenjualanSearchController;
 use App\Http\Controllers\ItemFakturPenjualanSearchController;
 use App\Http\Controllers\PelangganController;
@@ -51,6 +52,10 @@ Route::resource("produk.stock", StockController::class)->parameter("stock", "sto
 Route::resource("faktur-pembelian", FakturPembelianController::class);
 
 Route::get("faktur-penjualan/search", FakturPenjualanSearchController::class)->name("faktur-penjualan.search");
+Route::get("faktur-penjualan/{faktur_penjualan}/print", FakturPenjualanPrintController::class)->name("faktur-penjualan.print");
+
+
+
 Route::resource("faktur-penjualan", FakturPenjualanController::class);
 
 

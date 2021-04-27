@@ -14,4 +14,6 @@ const mix = require('laravel-mix');
 mix
     .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .styles(['node_modules/paper-css/paper.css'], 'public/css/paper.css')
+
 

@@ -48,6 +48,7 @@ return [
     "master-data" => "Data Master",
     "invoice" => "Faktur",
     "edit" => "Ubah",
+    "print" => "Cetak",
     "return" => "Retur",
     "update" => "Perbarui",
     "created_at" => "Waktu Pembuatan",
