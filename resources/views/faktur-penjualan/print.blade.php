@@ -66,7 +66,7 @@
                         <td> {{ $itemFakturPenjualan->produk->nama  }} </td>
                         <td> {{ $mutasiStock->stock->kode_batch  }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>
-                        <td> {{-- TODO: UNIT --}} </td>
+                        <td> BOX </td>
                         <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>
                         <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>
                         <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>

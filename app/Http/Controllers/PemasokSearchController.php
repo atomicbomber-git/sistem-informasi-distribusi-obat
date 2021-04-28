@@ -20,7 +20,7 @@ class PemasokSearchController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $paginator = Pelanggan::query()
+        $paginator = Pemasok::query()
             ->when($request->query("term"), function (Builder $builder, $term) {
                 $builder->where("nama", "like", "%$term%");
             })

@@ -28,10 +28,10 @@
                     :label="__('application.code')"
             />
 
-            <x-input
-                    livewire
-                    field="pemasok"
+            <x-select-search
+                    :searchUrl="route('pemasok.search')"
                     :label="__('application.supplier')"
+                    wire:model="pemasok_id"
             />
 
             <x-input

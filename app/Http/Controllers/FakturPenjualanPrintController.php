@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPenjualan;
-use App\Models\MutasiStock;
-use DB;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
 class FakturPenjualanPrintController extends Controller

@@ -6,6 +6,7 @@ use App\Enums\MessageState;
 use App\Enums\TipeMutasiStock;
 use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
+use App\Models\Pemasok;
 use App\Models\Produk;
 use App\Models\Stock;
 use App\Models\MutasiStock;
@@ -26,7 +27,7 @@ class FakturPembelianEdit extends Component
 
     public Collection $item_faktur_pembelians;
     public $kode;
-    public $pemasok;
+    public $pemasok_id;
     public $waktu_penerimaan;
     public $item_faktur_pembelian_index = 0;
 
@@ -47,7 +48,7 @@ class FakturPembelianEdit extends Component
         $data = new Collection(
             $this->validateAndEmitErrors([
                 "kode" => ["required", "string", Rule::unique(FakturPembelian::class)->ignore($this->fakturPembelian)],
-                "pemasok" => ["required", "string"],
+                "pemasok_id" => ["required", "string", Rule::exists(Pemasok::class, "id")],
                 "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i", "before_or_equal:now"],
                 "item_faktur_pembelians" => ["required", "array"],
                 "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
@@ -116,7 +117,7 @@ class FakturPembelianEdit extends Component
         /* Update the faktur itself */
         $this->fakturPembelian->update(collect($data)->only(
             "kode",
-            "pemasok",
+            "pemasok_id",
             "waktu_penerimaan",
         )->toArray());
 
@@ -212,7 +213,6 @@ class FakturPembelianEdit extends Component
             ]);
         }
     }
-
 
     public function render()
     {
