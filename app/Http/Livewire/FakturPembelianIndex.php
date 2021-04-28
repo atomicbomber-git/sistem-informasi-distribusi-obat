@@ -11,6 +11,7 @@ use App\Support\WithDestroy;
 use App\Support\WithFilter;
 use App\Support\WithSort;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Throwable;
@@ -18,6 +19,7 @@ use Throwable;
 class FakturPembelianIndex extends Component
 {
     use WithFilter, WithCustomPagination, WithSort, WithDestroy;
+    public ?int $pemasok_id = null;
 
     public function destroy(mixed $modelKey)
     {
@@ -60,6 +62,9 @@ class FakturPembelianIndex extends Component
                 ])
                 ->with("pemasok")
                 ->orderByDesc("waktu_penerimaan")
+                ->when($this->pemasok_id, function (Builder $builder) {
+                    $builder->where("pemasok_id", $this->pemasok_id);
+                })
                 ->filterBy($this->filter, ["kode", "pemasok.nama"])
                 ->sortBy($this->sortBy, $this->sortDirection, "pemasok_id")
                 ->paginate()

@@ -21,6 +21,15 @@
         </x-button-link>
     </x-control-bar>
 
+    <div>
+        <x-select-search
+                inline
+                label="Filter {{ __('application.supplier') }}"
+                wire:model="pemasok_id"
+                :searchUrl="route('pemasok.search')"
+        />
+    </div>
+
     <x-messages></x-messages>
 
     @if($faktur_pembelians->isNotEmpty())
