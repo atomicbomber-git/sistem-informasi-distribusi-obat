@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemFakturPenjualanSearchController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganSearchController;
 use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\PemasokSearchController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
@@ -41,28 +42,20 @@ Route::redirect("/", "dashboard");
 
 Route::get("admin/user/edit", EditAdminUserController::class)->name("admin.user.edit");
 Route::patch("admin/user", UpdateAdminUserController::class)->name("admin.user.update");
-
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");
 Route::get("produk-in-hand/search", ProdukInHandSearchController::class)->name("produk-in-hand.search");
-Route::get("pelanggan/search", PelangganSearchController::class)->name("pelanggan.search");
 Route::resource("produk", ProdukController::class);
+Route::get("pelanggan/search", PelangganSearchController::class)->name("pelanggan.search");
 Route::resource("pelanggan", PelangganController::class);
+Route::get("pemasok/search", PemasokSearchController::class)->name("pemasok.search");
 Route::resource("pemasok", PemasokController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
 Route::resource("faktur-pembelian", FakturPembelianController::class);
-
 Route::get("faktur-penjualan/search", FakturPenjualanSearchController::class)->name("faktur-penjualan.search");
 Route::get("faktur-penjualan/{faktur_penjualan}/print", FakturPenjualanPrintController::class)->name("faktur-penjualan.print");
-
-
-
 Route::resource("faktur-penjualan", FakturPenjualanController::class);
-
-
 Route::get("faktur-penjualan/{faktur_penjualan}/search-item", ItemFakturPenjualanSearchController::class)->name("faktur-penjualan.search-item");
-
 Route::get("dashboard", DashboardController::class)->name("dashboard");
-
 Route::resource("retur-penjualan", ReturPenjualanController::class);
 
 
