@@ -53,14 +53,15 @@ class FakturPembelianIndex extends Component
             "faktur_pembelians" => FakturPembelian::query()
                 ->selectQualify([
                     "kode",
-                    "pemasok",
+                    "pemasok_id",
                     "waktu_penerimaan",
                     "created_at",
                     "updated_at",
                 ])
+                ->with("pemasok")
                 ->orderByDesc("waktu_penerimaan")
-                ->filterBy($this->filter, ["kode", "pemasok"])
-                ->sortBy($this->sortBy, $this->sortDirection, "pemasok")
+                ->filterBy($this->filter, ["kode", "pemasok.nama"])
+                ->sortBy($this->sortBy, $this->sortDirection, "pemasok_id")
                 ->paginate()
         ]);
     }

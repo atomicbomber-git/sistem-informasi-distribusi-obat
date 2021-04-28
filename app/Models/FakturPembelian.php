@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FakturPembelian extends Model
@@ -30,6 +31,11 @@ class FakturPembelian extends Model
     public static function query(): \App\QueryBuilders\FakturPembelianBuilder
     {
         return parent::query();
+    }
+
+    public function pemasok(): BelongsTo
+    {
+        return $this->belongsTo(Pemasok::class);
     }
 
     public function item_faktur_pembelians(): HasMany

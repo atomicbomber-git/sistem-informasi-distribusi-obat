@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminSeeder::class);
         $this->call(PelangganSeeder::class);
+        $this->call(PemasokSeeder::class);
         $this->call(ProdukSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(FakturPembelianSeeder::class);

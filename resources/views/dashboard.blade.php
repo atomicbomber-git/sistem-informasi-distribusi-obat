@@ -11,46 +11,61 @@
         </li>
     </x-breadcrumb>
 
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("admin.user.edit") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-user/>
-                @lang("application.admin_user")
-            </a>
-        </div>
+    <div class="card">
+        <div class="row">
+            <div class="card col-md-4 p-3">
+                <h2 class="h5 mt-2"> @lang("application.master-data") </h2>
 
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("produk.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-product/>
-                @lang("application.product")
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("pelanggan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-customer/>
-                @lang("application.customer")
-            </a>
-        </div>
+                <x-dashboard-item>
+                    <a href="{{ route("produk.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-product/>
+                        @lang("application.product")
+                    </a>
+                </x-dashboard-item>
 
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("pemasok.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-customer/>
-                @lang("application.supplier")
-            </a>
-        </div>
+                <x-dashboard-item>
+                    <a href="{{ route("pemasok.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-customer/>
+                        @lang("application.supplier")
+                    </a>
+                </x-dashboard-item>
 
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("faktur-pembelian.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-purchase-invoice/>
-                @lang("application.purchase_invoice")
-            </a>
-        </div>
+                <x-dashboard-item>
+                    <a href="{{ route("pelanggan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-customer/>
+                        @lang("application.customer")
+                    </a>
+                </x-dashboard-item>
+            </div>
 
-        <div class="col-md-3 mb-3">
-            <a href="{{ route("faktur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
-                <x-icon-sales-invoice/>
-                @lang("application.sales_invoice")
-            </a>
+            <div class="card col-md-4 p-3">
+                <h2 class="h5 mt-2"> @lang("application.invoice") </h2>
+
+                <x-dashboard-item>
+                    <a href="{{ route("faktur-pembelian.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-purchase-invoice/>
+                        @lang("application.purchase_invoice")
+                    </a>
+                </x-dashboard-item>
+
+                <x-dashboard-item>
+                    <a href="{{ route("faktur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-sales-invoice/>
+                        @lang("application.sales_invoice")
+                    </a>
+                </x-dashboard-item>
+            </div>
+
+            <div class="card col-md-4 p-3">
+                <h2 class="h5 mt-2"> @lang("application.return") </h2>
+
+                <x-dashboard-item>
+                    <a href="{{ route("retur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-sales-return/>
+                        @lang("application.sales-return")
+                    </a>
+                </x-dashboard-item>
+            </div>
         </div>
     </div>
 </x-layouts.app>
