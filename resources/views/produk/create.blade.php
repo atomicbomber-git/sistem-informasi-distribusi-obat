@@ -31,6 +31,11 @@
                 />
 
                 <x-input
+                        field="satuan"
+                        :label="__('application.unit')"
+                />
+
+                <x-input
                         field="kode"
                         :label="__('application.code')"
                 />

@@ -20,10 +20,13 @@
 
     <x-messages/>
 
-    <form wire:submit.prevent="submit" class="card">
+    <form wire:submit.prevent="submit"
+          class="card"
+    >
         <div class="card-body">
             <x-input
-                    livewire group
+                    livewire
+                    group
                     field="fakturPenjualan.nomor"
                     :label="__('application.code')"
             >
@@ -32,11 +35,21 @@
                 </x-slot>
             </x-input>
 
-            <x-input
-                    livewire
-                    field="fakturPenjualan.pelanggan"
-                    :label="__('application.customer')"
-            />
+{{--            <x-input--}}
+{{--                    livewire--}}
+{{--                    field="fakturPenjualan.pelanggan"--}}
+{{--                    :label="__('application.customer')"--}}
+{{--            />--}}
+
+            <x-select-search
+                    wire:model="fakturPenjualan.pelanggan_id"
+                    label="Pelanggan"
+                    :searchUrl="route('pelanggan.search')"
+            >
+                <option value="{{ $fakturPenjualan->pelanggan->id }}">
+                    {{ $fakturPenjualan->pelanggan->nama }}
+                </option>
+            </x-select-search>
 
             <x-input
                     livewire
@@ -107,14 +120,16 @@
                                 <button
                                         wire:click="removeItem('{{ $key }}')"
                                         type="button"
-                                        class="btn btn-sm btn-danger">
+                                        class="btn btn-sm btn-danger"
+                                >
                                     <x-icon-destroy/>
                                 </button>
                             @else
                                 <button
                                         wire:click="restoreItem('{{ $key }}')"
                                         type="button"
-                                        class="btn btn-sm btn-success">
+                                        class="btn btn-sm btn-success"
+                                >
                                     <x-icon-restore/>
                                 </button>
                             @endif
@@ -125,12 +140,15 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="6" class="text-end fw-bold">
+                    <td colspan="6"
+                        class="text-end fw-bold"
+                    >
                         @lang("application.discount_percentage")
                     </td>
                     <td class="text-end">
                         <x-lv-input-numeric
-                                inline small
+                                inline
+                                small
                                 :label='__("application.discount_percentage")'
                                 field='fakturPenjualan.diskon'
                         />
@@ -139,12 +157,16 @@
                 </tr>
 
                 <tr>
-                    <td colspan="6" class="text-end fw-bold">
+                    <td colspan="6"
+                        class="text-end fw-bold"
+                    >
                         @lang("application.tax_percentage")
                     </td>
                     <td class="text-end">
                         <x-lv-input-numeric
-                                disabled inline small
+                                disabled
+                                inline
+                                small
                                 :label='__("application.discount_percentage")'
                                 field='fakturPenjualan.pajak'
                         />
@@ -153,7 +175,9 @@
                 </tr>
 
                 <tr>
-                    <td colspan="6" class="text-end fw-bold">
+                    <td colspan="6"
+                        class="text-end fw-bold"
+                    >
                         @lang("application.total")
                     </td>
                     <td class="text-end">
@@ -165,7 +189,9 @@
             </x-table>
 
             <div wire:ignore>
-                <label class="form-label" for="item-add">
+                <label class="form-label"
+                       for="item-add"
+                >
                     @lang("application.add_item")
                 </label>
                 <select
@@ -190,7 +216,7 @@
 
         <x-card-footer-submit>
             <x-submit-button>
-                @lang("application.create")
+                @lang("application.update")
                 <x-icon-edit/>
             </x-submit-button>
         </x-card-footer-submit>

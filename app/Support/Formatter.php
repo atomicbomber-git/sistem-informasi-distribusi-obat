@@ -7,11 +7,11 @@ namespace App\Support;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 
-class Formatter
+class   Formatter
 {
     public static function percentage($number): string
     {
-        return number_format($number  * 100) . " %";
+        return number_format($number) . " %";
     }
 
     public static function normalDate($value): string

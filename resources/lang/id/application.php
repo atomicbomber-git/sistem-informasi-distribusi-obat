@@ -70,6 +70,7 @@ return [
     "content" => "Isi",
     "create" => "Tambah",
     "name" => "Nama",
+    "unit" => "Satuan",
     "code" => "Kode",
     "real_name" => "Nama Asli",
     "username" => "Nama Pengguna",

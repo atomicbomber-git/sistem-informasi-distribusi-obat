@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPenjualan;
+use App\Models\Pelanggan;
 use App\Models\Produk;
 use App\Support\HasValidatorThatEmitsErrors;
+use App\Support\SessionHelper;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
@@ -42,11 +45,10 @@ class FakturPenjualanEdit extends Component
             "fakturPenjualan.nomor" => [
                 "required", "integer", Rule::unique(FakturPenjualan::class, "nomor")->ignore($this->fakturPenjualan->getOriginal("nomor"), "nomor")
             ],
-            "fakturPenjualan.pelanggan" => ["required", "string"],
+            "fakturPenjualan.pelanggan_id" => ["required", Rule::exists(Pelanggan::class, "id")],
             "fakturPenjualan.waktu_pengeluaran" => ["required", "date"],
             "fakturPenjualan.diskon" => ["required", "numeric", "gte:0"],
             "fakturPenjualan.pajak" => ["required", "numeric", "gte:0"],
-
             "itemFakturPenjualans" => ["required", "array"],
             "itemFakturPenjualans.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
             "itemFakturPenjualans.*.jumlah" => ["required", "numeric", "gte:0"],
@@ -86,6 +88,11 @@ class FakturPenjualanEdit extends Component
                 }
             }
         });
+
+        SessionHelper::flashMessage(
+            __("messages.update.success"),
+            MessageState::STATE_SUCCESS,
+        );
 
         $this->redirect(route("faktur-penjualan.edit", $this->fakturPenjualan->refresh()));
     }
