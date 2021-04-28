@@ -19,7 +19,7 @@ use Throwable;
 class FakturPembelianIndex extends Component
 {
     use WithFilter, WithCustomPagination, WithSort, WithDestroy;
-    public ?int $pemasok_id = null;
+    public $pemasok_id = null;
 
     public function destroy(mixed $modelKey)
     {
