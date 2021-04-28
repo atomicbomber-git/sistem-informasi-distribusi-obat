@@ -37,14 +37,14 @@
 </head>
 
 <body class="A5 landscape">
-<section class="sheet" style="padding: 3mm">
-    <header>
 
+@foreach ($itemFakturPenjualanPages as $pageIndex => $itemFakturPenjualans)
+    <section class="sheet" style="padding: 3mm">
+        <header>
+        </header>
 
-    </header>
-
-    <table>
-        <thead>
+        <table>
+            <thead>
             <tr>
                 <th> KODE </th>
                 <th> Nama Barang </th>
@@ -57,9 +57,9 @@
                 <th class="numeric"> CD% </th>
                 <th class="numeric"> Jumlah Harga Rp. </th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach ($fakturPenjualan->itemFakturPenjualans as $itemFakturPenjualan)
+            </thead>
+            <tbody>
+            @foreach ($itemFakturPenjualans as $itemFakturPenjualan)
                 @foreach ($itemFakturPenjualan->mutasiStocks as $mutasiStock)
                     <tr>
                         <td> {{ $itemFakturPenjualan->produk->kode  }} </td>
@@ -75,8 +75,8 @@
                     </tr>
                 @endforeach
             @endforeach
-        </tbody>
-        <tfoot>
+            </tbody>
+            <tfoot>
             <tr>
                 <td>  </td>  {{-- KODE --}}
                 <td>  </td>  {{-- Nama Barang --}}
@@ -89,10 +89,10 @@
                 <td class="numeric"> {{ \App\Support\Formatter::currency($totalDiskonTd) }} </td> {{-- CD% --}}
                 <td class="numeric"> {{ \App\Support\Formatter::currency($total) }} </td> {{-- Jumlah Harga Rp. --}}
             </tr>
-        </tfoot>
-    </table>
-
-</section>
+            </tfoot>
+        </table>
+    </section>
+@endforeach
 
 </body>
 </html>
