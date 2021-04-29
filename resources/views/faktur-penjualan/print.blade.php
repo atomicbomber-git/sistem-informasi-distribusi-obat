@@ -31,7 +31,17 @@
         table td, table th {
             text-align: center;
             border: thin solid black;
-            padding: 0.3rem;
+            padding: 0.2rem;
+        }
+
+        header table {
+            border: none;
+        }
+
+        header table td, header table th {
+            text-align: left;
+            border: none;
+            padding: 0;
         }
     </style>
 </head>
@@ -41,6 +51,33 @@
 @foreach ($mutasiStockPages as $pageIndex => $mutasiStocks)
     <section class="sheet" style="padding: 3mm">
         <header>
+            <div style="display: flex">
+                <div style="flex: 1; border: thin solid black; padding: 1rem">
+                    <div style="text-align: center"> PT KUBURAYA MEDIFARMA </div>
+                    <table>
+                        <tbody>
+                            <tr> <td style="white-space: nowrap; text-align: left" > Izin PBF </td> <td> : </td> <td> HK.07.01/V/387/14 </td> </tr>
+                            <tr> <td style="white-space: nowrap; text-align: left" > Izin PAK </td> <td> : </td> <td> HK.07.ALKES/IV/428/AK-2/2011 </td> </tr>
+                            <tr> <td style="white-space: nowrap; text-align: left" > Alamat </td> <td> : </td> <td> Jl. Sei Raya Dalama Kom. Ruko Taman Sei Raya No. R3 Kab. Kubu Raya Telp. 0561-710377 / Fax. 0561-711355 </td> </tr>
+                            <tr> <td style="white-space: nowrap; text-align: left" > NPWP </td> <td> : </td> <td> 02.904.283.5-701.000 </td> </tr>
+                            <tr> <td style="white-space: nowrap; text-align: left" > Email </td> <td> : </td> <td> kumedfar@yahoo.co.id </td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="flex: 1; font-size: 18pt; text-align: center">
+                    FAKTUR
+                </div>
+                <div style="flex: 1; border: thin solid black; display: flex; flex-direction: column; justify-content: space-between; text-align: left">
+                    <div> Kepada Yth: </div>
+                    <div> NPWP: </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
+                <div> Via: {{ $fakturPenjualan->pelanggan->nama }} </div>
+                <div> No Faktur: {{ $fakturPenjualan->getNomor() }} </div>
+                <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($fakturPenjualan->waktu_pengeluaran) }} </div>
+            </div>
         </header>
 
         <table>
@@ -77,7 +114,7 @@
 
             @if($loop->last)
                 <tfoot>
-                    <tr>/
+                    <tr>
                         <td>  </td>  {{-- KODE --}}
                         <td>  </td>  {{-- Nama Barang --}}
                         <td>  </td>  {{-- No. Batch --}}
@@ -88,11 +125,8 @@
                         <td class="numeric"> DISC I <br/> {{ \App\Support\Formatter::currency($totalDiskonTdAtauDiskonSatu) }} </td> {{-- TD% --}}
                         <td class="numeric"> DISC II <br/> {{ \App\Support\Formatter::currency($totalDiskonCdAtauDiskonDua) }} </td> {{-- CD% --}}
                         <td class="numeric">
-                            TOTAL Rp.
-                            <pr></pr>
-
+                            TOTAL Rp. <br/>
                             {{ \App\Support\Formatter::currency($jumlahHargaDenganDiskonDanPajak) }}
-
                         </td> {{-- Jumlah Harga Rp. --}}
                     </tr>
                 </tfoot>

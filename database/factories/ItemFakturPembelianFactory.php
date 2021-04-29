@@ -8,6 +8,7 @@ use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
 use App\Models\Stock;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ItemFakturPembelianFactory extends Factory
 {
@@ -30,7 +31,7 @@ class ItemFakturPembelianFactory extends Factory
             Produk::factory()->create();
         
         return [
-            "kode_batch" => $this->faker->uuid,
+            "kode_batch" => Str::random(10),
             "produk_kode" => $produk->kode,
             "jumlah" => rand(5, 40) * 5,
             "harga_satuan" => rand(7, 9) / 10 * $produk->harga_satuan,
