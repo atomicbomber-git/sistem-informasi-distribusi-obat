@@ -20,7 +20,6 @@
 
         table {
             width: 100%;
-            border: thin solid black;
             border-collapse: collapse;
         }
 
@@ -64,8 +63,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="flex: 1; font-size: 18pt; text-align: center">
-                    FAKTUR
+                <div style="flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: space-between">
+                    <div></div>
+                    <div style="font-size: 18pt"> FAKTUR </div>
                 </div>
                 <div style="flex: 1; border: thin solid black; display: flex; flex-direction: column; justify-content: space-between; text-align: left">
                     <div> Kepada Yth: </div>
@@ -115,9 +115,9 @@
             @if($loop->last)
                 <tfoot>
                     <tr>
-                        <td>  </td>  {{-- KODE --}}
-                        <td>  </td>  {{-- Nama Barang --}}
-                        <td>  </td>  {{-- No. Batch --}}
+                        <td style="border: none">  </td>  {{-- KODE --}}
+                        <td style="border: none"> Materai Rp. </td>  {{-- Nama Barang --}}
+                        <td style="border: none">  </td>  {{-- No. Batch --}}
                         <td colspan="4" class="numeric"> JML. HARGA Rp. {{ \App\Support\Formatter::currency($jumlahHargaTanpaDiskonTanpaPajak) }} </td>  {{-- E.D. --}}
                         {{-- MERGED WITH PREV CELL | Satuan --}}
                         {{-- MERGED WITH PREV CELL | Quantity --}}
@@ -132,6 +132,49 @@
                 </tfoot>
             @endif
         </table>
+
+        <div style="display: flex; margin-top: 20px">
+            <div style="flex: 1; text-align: center">
+                <br>
+                <br>
+                Tanda Terima <br>
+                <br>
+                <br>
+                <br>
+                <pre> (                ) </pre>
+                Nama Jelas
+            </div>
+            <div style="flex: 1">
+                <div style="border: thin solid black">
+                    <ul style="list-style-type: '-'; list-style-position: inside; padding-left: 0; margin: 0">
+                        <li> Barang-barang tersebut telah diterima dengan baik </li>
+                        <li> Penagihan hanya dengan faktur asli </li>
+                        <li> Pembayaran degan Giro dianggap lunas setelah diuangkan </li>
+                        <li> Giro yang ditolak akan dibebankan biaya bank </li>
+                        <li> Barang telah dibeli tidak dapat ditukar / dikembalikan </li>
+                    </ul>
+                </div>
+
+                <div style="border: thin solid black; margin-top: 1rem">
+                    Mohon ditransfer ke No. Rekening <br>
+                    PT. Kuburaya Medifarma
+                    AC. 1460005181321 Bank Mandiri Cabang Ngurah Rai Pontianak
+                </div>
+            </div>
+            <div style="flex: 1; text-align: center; padding: 0 1rem 0 1rem">
+                <br>
+                <br>
+                Hormat Kami <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                TEGUH SAPUTRA
+                <div style="border-top: thin solid black">
+                    19660719/SIKA_61.12/2018/1056
+                </div>
+            </div>
+        </div>
     </section>
 @endforeach
 
