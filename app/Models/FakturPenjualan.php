@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Date;
 
 class FakturPenjualan extends Model
 {
@@ -38,7 +39,7 @@ class FakturPenjualan extends Model
 
     public function getNomor(): string
     {
-        return self::NOMOR_PREFIX . $this->getKey();
+        return self::NOMOR_PREFIX . Date::make($this->waktu_pengeluaran)->format("YM") . '-' . $this->getKey();
     }
 
     public function itemFakturPenjualans(): HasMany
