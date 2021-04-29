@@ -53,8 +53,8 @@
                 <th> Satuan </th>
                 <th class="numeric"> Quantity </th>
                 <th class="numeric"> Harga Satuan </th>
-                <th class="numeric"> TD% </th>
-                <th class="numeric"> CD% </th>
+                <th class="numeric" style="width: 50px"> TD% </th>
+                <th class="numeric" style="width: 50px"> CD% </th>
                 <th class="numeric"> Jumlah Harga Rp. </th>
             </tr>
             </thead>
@@ -70,50 +70,33 @@
                     <td class="numeric"> {{ \App\Support\Formatter::currency($mutasiStock->itemFakturPenjualan->harga_satuan) }} </td>
                     <td class="numeric"> {{ \App\Support\Formatter::percentage($mutasiStock->itemFakturPenjualan->diskon)  }} </td>
                     <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>
-                    <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($mutasiStock->itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>
-
-
-{{--                    <td> {{ $mutasiStock->stock->kode_batch  }} </td>--}}
-{{--                    <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>--}}
-{{--                    <td> BOX </td>--}}
-{{--                    <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>--}}
-{{--                    <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>--}}
-{{--                    <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>--}}
-{{--                    <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>--}}
-{{--                    <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>--}}
+                    <td class="numeric"> {{ \App\Support\Formatter::currency( $mutasiStock->jumlah_harga_per_baris ) }} </td>
                 </tr>
             @endforeach
-{{--            @foreach ($itemFakturPenjualans as $itemFakturPenjualan)--}}
-{{--                @foreach ($itemFakturPenjualan->mutasiStocks as $mutasiStock)--}}
-{{--                    <tr>--}}
-{{--                        <td> {{ $itemFakturPenjualan->produk->kode  }} </td>--}}
-{{--                        <td> {{ $itemFakturPenjualan->produk->nama  }} </td>--}}
-{{--                        <td> {{ $mutasiStock->stock->kode_batch  }} </td>--}}
-{{--                        <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>--}}
-{{--                        <td> BOX </td>--}}
-{{--                        <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>--}}
-{{--                        <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>--}}
-{{--                        <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>--}}
-{{--                        <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>--}}
-{{--                        <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
-{{--            @endforeach--}}
             </tbody>
-            <tfoot>
-            <tr>
-                <td>  </td>  {{-- KODE --}}
-                <td>  </td>  {{-- Nama Barang --}}
-                <td>  </td>  {{-- No. Batch --}}
-                <td>  </td>  {{-- E.D. --}}
-                <td>  </td>  {{-- Satuan --}}
-                <td>  </td>  {{-- Quantity --}}
-                <td>  </td>  {{-- Harga Satuan --}}
-                <td class="numeric"> {{ \App\Support\Formatter::currency($totalDiskonCd) }} </td> {{-- TD% --}}
-                <td class="numeric"> {{ \App\Support\Formatter::currency($totalDiskonTd) }} </td> {{-- CD% --}}
-                <td class="numeric"> {{ \App\Support\Formatter::currency($total) }} </td> {{-- Jumlah Harga Rp. --}}
-            </tr>
-            </tfoot>
+
+            @if($loop->last)
+                <tfoot>
+                    <tr>/
+                        <td>  </td>  {{-- KODE --}}
+                        <td>  </td>  {{-- Nama Barang --}}
+                        <td>  </td>  {{-- No. Batch --}}
+                        <td colspan="4" class="numeric"> JML. HARGA Rp. {{ \App\Support\Formatter::currency($jumlahHargaTanpaDiskonTanpaPajak) }} </td>  {{-- E.D. --}}
+                        {{-- MERGED WITH PREV CELL | Satuan --}}
+                        {{-- MERGED WITH PREV CELL | Quantity --}}
+                        {{-- MERGED WITH PREV CELL | Harga Satuan --}}
+                        <td> DISC I </td> {{-- TD% --}}
+                        <td> DISC II </td> {{-- CD% --}}
+                        <td class="numeric">
+                            TOTAL Rp.
+                            <pr></pr>
+
+                            {{ \App\Support\Formatter::currency($jumlahHargaDenganDiskonDanPajak) }}
+
+                        </td> {{-- Jumlah Harga Rp. --}}
+                    </tr>
+                </tfoot>
+            @endif
         </table>
     </section>
 @endforeach

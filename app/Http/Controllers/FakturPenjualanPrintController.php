@@ -28,6 +28,7 @@ class FakturPenjualanPrintController extends Controller
                     "stock_id"
                 )
                 ->selectRaw("-mutasi_stock.jumlah AS jumlah")
+                ->selectRaw("-mutasi_stock.jumlah * item_faktur_penjualan.harga_satuan * (100 - item_faktur_penjualan.diskon) / 100 AS jumlah_harga_per_baris")
                 ->with([
                     "itemFakturPenjualan:id,faktur_penjualan_id,produk_kode,harga_satuan,diskon",
                     "itemFakturPenjualan.produk:kode,nama",
@@ -51,24 +52,16 @@ class FakturPenjualanPrintController extends Controller
                 ->get()
                 ->chunk(8),
 
-            "totalDiskonCd" => ItemFakturPenjualan::query()
-                ->selectRaw("COALESCE(SUM(item_faktur_penjualan.harga_satuan * item_faktur_penjualan.jumlah * faktur_penjualan.diskon), 0) AS aggregate")
+            "jumlahHargaTanpaDiskonTanpaPajak" => ItemFakturPenjualan::query()
+                ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
+                ->selectRaw("COALESCE(SUM(harga_satuan * jumlah), 0) AS sum")
+                ->value("sum"),
+
+            "jumlahHargaDenganDiskonDanPajak" => ItemFakturPenjualan::query()
+                ->selectRaw("COALESCE(SUM(harga_satuan * jumlah * (100 - item_faktur_penjualan.diskon - faktur_penjualan.diskon) / 100), 0)  AS sum")
                 ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
                 ->joinRelationship("fakturPenjualan")
-                ->value("aggregate"),
-
-            "totalDiskonTd" => ItemFakturPenjualan::query()
-                ->selectRaw("COALESCE(SUM(harga_satuan * jumlah * diskon / 100), 0) AS aggregate")
-                ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
-                ->value("aggregate"),
-
-            "total" => ItemFakturPenjualan::query()
-                ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
-                ->selectRaw("
-                    COALESCE(SUM(item_faktur_penjualan.harga_satuan * item_faktur_penjualan.jumlah ), 0) AS aggregate
-                ")
-                ->joinRelationship("fakturPenjualan")
-                ->value("aggregate")
+                ->value("sum"),
         ]);
     }
 }
