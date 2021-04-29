@@ -85,8 +85,8 @@
                         {{-- MERGED WITH PREV CELL | Satuan --}}
                         {{-- MERGED WITH PREV CELL | Quantity --}}
                         {{-- MERGED WITH PREV CELL | Harga Satuan --}}
-                        <td> DISC I </td> {{-- TD% --}}
-                        <td> DISC II </td> {{-- CD% --}}
+                        <td class="numeric"> DISC I <br/> {{ \App\Support\Formatter::currency($totalDiskonTdAtauDiskonSatu) }} </td> {{-- TD% --}}
+                        <td class="numeric"> DISC II <br/> {{ \App\Support\Formatter::currency($totalDiskonCdAtauDiskonDua) }} </td> {{-- CD% --}}
                         <td class="numeric">
                             TOTAL Rp.
                             <pr></pr>

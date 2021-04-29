@@ -52,13 +52,24 @@ class FakturPenjualanPrintController extends Controller
                 ->get()
                 ->chunk(8),
 
+            "totalDiskonTdAtauDiskonSatu" => ItemFakturPenjualan::query()
+                ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
+                ->selectRaw("(jumlah * harga_satuan * (diskon / 100)) AS sum")
+                ->value("sum"),
+
+            "totalDiskonCdAtauDiskonDua" => ItemFakturPenjualan::query()
+                ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
+                ->selectRaw("(jumlah * harga_satuan * (faktur_penjualan.diskon / 100)) AS sum")
+                ->joinRelationship("fakturPenjualan")
+                ->value("sum"),
+
             "jumlahHargaTanpaDiskonTanpaPajak" => ItemFakturPenjualan::query()
                 ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
                 ->selectRaw("COALESCE(SUM(harga_satuan * jumlah), 0) AS sum")
                 ->value("sum"),
 
             "jumlahHargaDenganDiskonDanPajak" => ItemFakturPenjualan::query()
-                ->selectRaw("COALESCE(SUM(harga_satuan * jumlah * (100 - item_faktur_penjualan.diskon - faktur_penjualan.diskon) / 100), 0)  AS sum")
+                ->selectRaw("COALESCE(SUM(harga_satuan * jumlah * (100 - item_faktur_penjualan.diskon - faktur_penjualan.diskon + faktur_penjualan.pajak) / 100), 0)  AS sum")
                 ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
                 ->joinRelationship("fakturPenjualan")
                 ->value("sum"),
