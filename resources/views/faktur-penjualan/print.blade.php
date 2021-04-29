@@ -38,7 +38,7 @@
 
 <body class="A5 landscape">
 
-@foreach ($itemFakturPenjualanPages as $pageIndex => $itemFakturPenjualans)
+@foreach ($mutasiStockPages as $pageIndex => $mutasiStocks)
     <section class="sheet" style="padding: 3mm">
         <header>
         </header>
@@ -59,22 +59,46 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($itemFakturPenjualans as $itemFakturPenjualan)
-                @foreach ($itemFakturPenjualan->mutasiStocks as $mutasiStock)
-                    <tr>
-                        <td> {{ $itemFakturPenjualan->produk->kode  }} </td>
-                        <td> {{ $itemFakturPenjualan->produk->nama  }} </td>
-                        <td> {{ $mutasiStock->stock->kode_batch  }} </td>
-                        <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>
-                        <td> BOX </td>
-                        <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>
-                        <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>
-                        <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>
-                        <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>
-                        <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>
-                    </tr>
-                @endforeach
+            @foreach ($mutasiStocks as $pageIndex => $mutasiStock)
+                <tr>
+                    <td> {{ $mutasiStock->itemFakturPenjualan->produk_kode }} </td>
+                    <td> {{ $mutasiStock->itemFakturPenjualan->produk->nama }} </td>
+                    <td> {{ $mutasiStock->stock->kode_batch }} </td>
+                    <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>
+                    <td> BOX </td>
+                    <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>
+                    <td class="numeric"> {{ \App\Support\Formatter::currency($mutasiStock->itemFakturPenjualan->harga_satuan) }} </td>
+                    <td class="numeric"> {{ \App\Support\Formatter::percentage($mutasiStock->itemFakturPenjualan->diskon)  }} </td>
+                    <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>
+                    <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($mutasiStock->itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>
+
+
+{{--                    <td> {{ $mutasiStock->stock->kode_batch  }} </td>--}}
+{{--                    <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>--}}
+{{--                    <td> BOX </td>--}}
+{{--                    <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>--}}
+{{--                    <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>--}}
+{{--                    <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>--}}
+{{--                    <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>--}}
+{{--                    <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>--}}
+                </tr>
             @endforeach
+{{--            @foreach ($itemFakturPenjualans as $itemFakturPenjualan)--}}
+{{--                @foreach ($itemFakturPenjualan->mutasiStocks as $mutasiStock)--}}
+{{--                    <tr>--}}
+{{--                        <td> {{ $itemFakturPenjualan->produk->kode  }} </td>--}}
+{{--                        <td> {{ $itemFakturPenjualan->produk->nama  }} </td>--}}
+{{--                        <td> {{ $mutasiStock->stock->kode_batch  }} </td>--}}
+{{--                        <td> {{ \App\Support\Formatter::dayMonthYear($mutasiStock->stock->expired_at) }} </td>--}}
+{{--                        <td> BOX </td>--}}
+{{--                        <td class="numeric"> {{ \App\Support\Formatter::quantity(abs($mutasiStock->jumlah)) }} </td>--}}
+{{--                        <td class="numeric"> {{ \App\Support\Formatter::currency($itemFakturPenjualan->harga_satuan) }} </td>--}}
+{{--                        <td class="numeric"> {{ \App\Support\Formatter::percentage($itemFakturPenjualan->diskon)  }} </td>--}}
+{{--                        <td class="numeric"> {{ \App\Support\Formatter::percentage($fakturPenjualan->diskon) }} </td>--}}
+{{--                        <td class="numeric"> {{ \App\Support\Formatter::currency(bcmul($itemFakturPenjualan->harga_satuan, abs($mutasiStock->jumlah))) }} </td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--            @endforeach--}}
             </tbody>
             <tfoot>
             <tr>

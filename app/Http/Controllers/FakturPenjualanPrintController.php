@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\FakturPenjualan;
 use App\Models\ItemFakturPenjualan;
-use Illuminate\Http\Response;
+use App\Models\MutasiStock;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\ResponseFactory;
 
 class FakturPenjualanPrintController extends Controller
@@ -16,11 +17,30 @@ class FakturPenjualanPrintController extends Controller
         $this->responseFactory = $responseFactory;
     }
 
-    public function __invoke(FakturPenjualan $fakturPenjualan): Response
+    public function __invoke(FakturPenjualan $fakturPenjualan)
     {
         return $this->responseFactory->view("faktur-penjualan.print", [
             "fakturPenjualan" => $fakturPenjualan,
-            
+
+            "mutasiStockPages" => MutasiStock::query()
+                ->select(
+                    "mutasi_stock.id", "mutasi_stock.item_faktur_penjualan_id",
+                    "stock_id"
+                )
+                ->selectRaw("-mutasi_stock.jumlah AS jumlah")
+                ->with([
+                    "itemFakturPenjualan:id,faktur_penjualan_id,produk_kode,harga_satuan,diskon",
+                    "itemFakturPenjualan.produk:kode,nama",
+                    "stock:id,kode_batch,expired_at",
+                ])
+                ->joinRelationship("itemFakturPenjualan.produk")
+                ->whereHas("itemFakturPenjualan", function (Builder $builder) use ($fakturPenjualan) {
+                    $builder->where("faktur_penjualan_id", $fakturPenjualan->id);
+                })
+                ->orderBy("produk.nama")
+                ->get()
+                ->chunk(8),
+
             "itemFakturPenjualanPages" => ItemFakturPenjualan::query()
                 ->select("id", "faktur_penjualan_id", "produk_kode", "jumlah", "diskon", "harga_satuan")
                 ->with([
@@ -30,7 +50,7 @@ class FakturPenjualanPrintController extends Controller
                 ])
                 ->get()
                 ->chunk(8),
-            
+
             "totalDiskonCd" => ItemFakturPenjualan::query()
                 ->selectRaw("COALESCE(SUM(item_faktur_penjualan.harga_satuan * item_faktur_penjualan.jumlah * faktur_penjualan.diskon), 0) AS aggregate")
                 ->where("faktur_penjualan_id", $fakturPenjualan->getKey())
