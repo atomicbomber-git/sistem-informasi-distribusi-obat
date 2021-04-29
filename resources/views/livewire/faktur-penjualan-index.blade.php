@@ -52,7 +52,7 @@
                         <td> {{ $fakturPenjualan->pelanggan->nama }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>
                         <x-td-control>
-                            <x-button-link small :href="route('faktur-penjualan.print', $fakturPenjualan)">
+                            <x-button-link small :href="route('faktur-penjualan.print', $fakturPenjualan)" target="_blank">
                                 @lang("application.print")
                                 <x-icon-print/>
                             </x-button-link>
