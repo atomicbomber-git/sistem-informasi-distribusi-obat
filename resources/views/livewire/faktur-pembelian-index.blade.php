@@ -53,12 +53,21 @@
                         <td> {{ $faktur_pembelian->pemasok->nama }} </td>
                         <td> {{ \App\Support\Formatter::normalDate($faktur_pembelian->waktu_penerimaan) }} </td>
                         <x-th-control>
+                            <x-button-link
+                                    small
+                                    :href="route('faktur-pembelian.print', $faktur_pembelian)"
+                                    target="_blank"
+                            >
+                                @lang("application.print")
+                                <x-icon-print/>
+                            </x-button-link>
+
                             <x-button-edit :href="route('faktur-pembelian.edit', $faktur_pembelian)">
                                 @lang("application.edit")
                             </x-button-edit>
 
                             <x-button-destroy
-                                :item="$faktur_pembelian"
+                                    :item="$faktur_pembelian"
                             />
                         </x-th-control>
                     </tr>

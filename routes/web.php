@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditAdminUserController;
 use App\Http\Controllers\FakturPembelianController;
+use App\Http\Controllers\FakturPembelianPrintController;
 use App\Http\Controllers\FakturPenjualanController;
 use App\Http\Controllers\FakturPenjualanPrintController;
 use App\Http\Controllers\FakturPenjualanSearchController;
@@ -50,6 +51,7 @@ Route::resource("pelanggan", PelangganController::class);
 Route::get("pemasok/search", PemasokSearchController::class)->name("pemasok.search");
 Route::resource("pemasok", PemasokController::class);
 Route::resource("produk.stock", StockController::class)->parameter("stock", "stock-batch");
+Route::get("faktur-pembelian/{faktur_pembelian}/print", FakturPembelianPrintController::class)->name("faktur-pembelian.print");
 Route::resource("faktur-pembelian", FakturPembelianController::class);
 Route::get("faktur-penjualan/search", FakturPenjualanSearchController::class)->name("faktur-penjualan.search");
 Route::get("faktur-penjualan/{faktur_penjualan}/print", FakturPenjualanPrintController::class)->name("faktur-penjualan.print");

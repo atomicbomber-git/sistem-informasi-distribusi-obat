@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Kirschbaum\PowerJoins\PowerJoins;
 
 class ItemFakturPembelian extends Model
 {
-    use HasFactory;
+    use HasFactory, PowerJoins;
 
     protected $table = "item_faktur_pembelian";
     protected $guarded = [];
