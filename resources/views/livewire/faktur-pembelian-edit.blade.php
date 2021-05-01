@@ -59,7 +59,7 @@
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
-                    <th> @lang("application.product") </th>
+                    <th> @lang("application.product") (@lang("application.unit")) </th>
                     <th> @lang("application.batch_code") </th>
                     <th> @lang("application.expired_at") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
@@ -72,7 +72,7 @@
                 @foreach ($item_faktur_pembelians as $key => $item_faktur_pembelian)
                     <tr wire:key="{{ $key }}" class="{{ $item_faktur_pembelian["is_removed"] ? "table-danger" : ""  }}">
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
+                        <td style="white-space: nowrap"> {{ $item_faktur_pembelian["produk"]["nama"] }} ({{ $item_faktur_pembelian["produk"]["satuan"] }}) </td>
                         <td>
                             <x-input
                                     :disabled="$item_faktur_pembelian['current_id'] !== null"

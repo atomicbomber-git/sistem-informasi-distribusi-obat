@@ -28,7 +28,7 @@
                     :label="__('application.code')"
             >
                 <x-slot name="input_prefix">
-                    <span class="input-group-text"> {{ \App\Models\FakturPenjualan::NOMOR_PREFIX }}  </span>
+                    <span class="input-group-text"> {{ $fakturPenjualan->getNomorPrefix() }}  </span>
                 </x-slot>
             </x-input>
 
@@ -60,7 +60,7 @@
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
-                    <th> @lang("application.product") </th>
+                    <th> @lang("application.product") (@lang("application.unit")) </th>
                     <th class="text-end"> @lang("application.quantity_in_hand") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
                     <th class="text-end"> @lang("application.unit_price") </th>
@@ -73,7 +73,7 @@
                 @foreach ($itemFakturPenjualans as $key => $itemFakturPenjualan)
                     <tr wire:key="{{ $key }}">
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $itemFakturPenjualan["produk"]["nama"] }} </td>
+                        <td style="white-space: nowrap"> {{ $itemFakturPenjualan["produk"]["nama"] }} ({{ $itemFakturPenjualan["produk"]["satuan"] }}) </td>
                         <td class="text-end">
                             {{ \App\Support\Formatter::quantity($itemFakturPenjualan["produk"]["quantity_in_hand"])  }}
                         </td>

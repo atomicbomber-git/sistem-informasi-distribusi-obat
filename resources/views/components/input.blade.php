@@ -10,7 +10,7 @@
 
     {{ $input_prefix ?? null }}
     <input
-            {{ $attributes->except(["inline", "field", "small", "type", "livewire"]) }}
+            {{ $attributes->except(["inline", "field", "small", "type", "livewire", "value"]) }}
             @if($livewire ?? false) wire:model.lazy="{{ $field }}" @endif
             {{ ($removed ?? false) ? "disabled" : "" }}
             id="{{ $field }}"
@@ -18,6 +18,7 @@
             placeholder="{{ $label }}"
             class="form-control {{ ($small ?? false) ? "form-control-sm" : "" }} @error($field) is-invalid @enderror"
             name="{{ $field }}"
+            value="{{ old($field, $value ?? null) }}"
             @if($help ?? false) aria-describedby="{{ $field }}_help" @endif
     />
 

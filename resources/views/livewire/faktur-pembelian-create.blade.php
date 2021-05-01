@@ -54,7 +54,7 @@
             <x-table>
                 <x-thead>
                     <th> @lang("application.number_symbol") </th>
-                    <th> @lang("application.product") </th>
+                    <th> @lang("application.product") (@lang("application.unit")) </th>
                     <th> @lang("application.batch_code") </th>
                     <th> @lang("application.expired_at") </th>
                     <th class="text-end"> @lang("application.quantity") </th>
@@ -67,7 +67,7 @@
                 @foreach ($itemFakturPembelians as $key => $item_faktur_pembelian)
                     <tr wire:key="{{ $key }}">
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $item_faktur_pembelian["produk"]["nama"] }} </td>
+                        <td> {{ $item_faktur_pembelian["produk"]["nama"] }} ({{ $item_faktur_pembelian["produk"]["satuan"] }}) </td>
                         <td>
                             <x-input
                                     inline small livewire

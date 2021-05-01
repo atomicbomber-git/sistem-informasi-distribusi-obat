@@ -50,7 +50,8 @@ class ProdukController extends Controller
     {
         $data = $request->validate([
             "kode" => ["required", "string", Rule::unique(Produk::class)],
-            "nama" => ["required", "string"],
+            "nama" => ["required", "string", Rule::unique(Produk::class)->where("satuan", $request->get("satuan"))],
+            "satuan" => ["required", "string", Rule::unique(Produk::class)->where("nama", $request->get("nama"))],
             "harga_satuan" => ["required", "numeric", "gte:0"],
             "deskripsi" => ["nullable", "string"],
         ]);
@@ -89,7 +90,9 @@ class ProdukController extends Controller
     {
         $data = $request->validate([
             "kode" => ["required", "string", Rule::unique(Produk::class)->ignoreModel($produk)],
-            "nama" => ["required", "string"],
+            "nama" => ["required", "string", Rule::unique(Produk::class)->where("satuan", $request->get("satuan"))->ignoreModel($produk)],
+            "satuan" => ["required", "string", Rule::unique(Produk::class)->where("nama", $request->get("nama"))->ignoreModel($produk)],
+            "harga_satuan" => ["required", "numeric", "gte:0"],
             "deskripsi" => ["nullable", "string"],
         ]);
 

@@ -21,7 +21,10 @@ class ProdukSearchController extends Controller
     {
         $paginator = Produk::query()
             ->when($request->query("term"), function (Builder $builder, $term) {
-                $builder->where("nama", "like", "%$term%");
+                $builder
+                    ->where("nama", "like", "%$term%")
+                    ->orWhere("satuan", "like", "%$term%")
+                ;
             })
             ->orderBy("nama")
             ->paginate();
@@ -32,7 +35,7 @@ class ProdukSearchController extends Controller
                 ->map(function (Produk $produk) {
                     return [
                         "id" => $produk->kode,
-                        "text" => $produk->nama,
+                        "text" => "{$produk->nama} ({$produk->satuan})",
                     ];
                 }),
             "pagination" => [

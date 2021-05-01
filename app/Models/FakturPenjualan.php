@@ -15,7 +15,7 @@ class FakturPenjualan extends Model
     protected $table = "faktur_penjualan";
     protected $guarded = [];
 
-    const NOMOR_PREFIX = "KM-";
+    const NOMOR_PREFIX_CODE = "KM-";
 
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
@@ -37,9 +37,19 @@ class FakturPenjualan extends Model
             ) + 1;
     }
 
-    public function getNomor(): string
+    public function getPrefixedNomor(): string
     {
-        return self::NOMOR_PREFIX . Date::make($this->waktu_pengeluaran)->format("YM") . '-' . $this->getKey();
+        return $this->getNomorPrefix() . '-' . $this->nomor;
+    }
+
+    public function getNomorPrefix(): string
+    {
+        return self::NOMOR_PREFIX_CODE . $this->getNomorYearMonthPrefixPart();
+    }
+
+    public function getNomorYearMonthPrefixPart(): string
+    {
+        return \Jenssegers\Date\Date::make($this->waktu_pengeluaran)->format("YM");
     }
 
     public function itemFakturPenjualans(): HasMany

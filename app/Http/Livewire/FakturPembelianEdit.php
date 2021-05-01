@@ -48,7 +48,7 @@ class FakturPembelianEdit extends Component
         $data = new Collection(
             $this->validateAndEmitErrors([
                 "kode" => ["required", "string", Rule::unique(FakturPembelian::class)->ignore($this->fakturPembelian)],
-                "pemasok_id" => ["required", "string", Rule::exists(Pemasok::class, "id")],
+                "pemasok_id" => ["required", Rule::exists(Pemasok::class, "id")],
                 "waktu_penerimaan" => ["required", "date_format:Y-m-d\TH:i", "before_or_equal:now"],
                 "item_faktur_pembelians" => ["required", "array"],
                 "item_faktur_pembelians.*.produk_kode" => ["required", Rule::exists(Produk::class, "kode")],
@@ -158,7 +158,7 @@ class FakturPembelianEdit extends Component
     {
         $this->fill([
             "kode" => $this->fakturPembelian->kode,
-            "pemasok" => $this->fakturPembelian->pemasok,
+            "pemasok_id" => $this->fakturPembelian->pemasok_id,
             "waktu_penerimaan" => $this->fakturPembelian->waktu_penerimaan->format("Y-m-d\TH:i"),
         ]);
 

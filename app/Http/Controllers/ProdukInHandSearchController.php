@@ -24,7 +24,7 @@ class ProdukInHandSearchController extends Controller
             ->hasQuantityInHand()
             ->withQuantityInHand()
             ->when($request->query("term"), function (ProdukBuilder $builder, $term) {
-                $builder->filterBy(request("term"), ["nama"]);
+                $builder->filterBy($term, ["nama", "satuan"]);
             })
             ->orderBy("nama")
             ->paginate();
@@ -34,8 +34,13 @@ class ProdukInHandSearchController extends Controller
                 collect($paginator->items())
                     ->map(function (Produk $produk) {
                         return [
-                            "id" => $produk->kode,
-                            "text" => sprintf("%s (%s)", $produk->nama, Formatter::normalizedNumeral($produk->quantity_in_hand))
+                            "id" => "$produk->kode",
+                            "text" => sprintf(
+                                "%s (%s) [%s]",
+                                $produk->nama,
+                                $produk->satuan,
+                                Formatter::normalizedNumeral($produk->quantity_in_hand)
+                            )
                         ];
                     }),
             "pagination" => [

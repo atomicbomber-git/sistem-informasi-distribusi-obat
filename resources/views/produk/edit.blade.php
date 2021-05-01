@@ -1,7 +1,7 @@
 <x-layouts.app>
     <x-feature-title>
         <x-icon-edit/>
-        {{ $produk->nama }}
+        {{ $produk->nama }} ({{ $produk->satuan }})
     </x-feature-title>
 
     <x-breadcrumb>
@@ -32,6 +32,12 @@
                 />
 
                 <x-input
+                        field="satuan"
+                        :label="__('application.unit')"
+                        :value="$produk->satuan"
+                />
+
+                <x-input
                         field="kode"
                         :label="__('application.code')"
                         :value="$produk->kode"
@@ -57,7 +63,7 @@
                     form="the-form"
             >
                 @lang("application.update")
-                <i class="bi-pencil"></i>
+                <x-icon-edit/>
             </x-submit-button>
         </x-card-footer-submit>
     </div>
