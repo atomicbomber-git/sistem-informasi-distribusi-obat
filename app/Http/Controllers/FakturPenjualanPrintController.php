@@ -31,7 +31,7 @@ class FakturPenjualanPrintController extends Controller
                 ->selectRaw("-mutasi_stock.jumlah * item_faktur_penjualan.harga_satuan * (100 - item_faktur_penjualan.diskon) / 100 AS jumlah_harga_per_baris")
                 ->with([
                     "itemFakturPenjualan:id,faktur_penjualan_id,produk_kode,harga_satuan,diskon",
-                    "itemFakturPenjualan.produk:kode,nama",
+                    "itemFakturPenjualan.produk:kode,nama,satuan",
                     "stock:id,kode_batch,expired_at",
                 ])
                 ->joinRelationship("itemFakturPenjualan.produk")
@@ -39,16 +39,6 @@ class FakturPenjualanPrintController extends Controller
                     $builder->where("faktur_penjualan_id", $fakturPenjualan->id);
                 })
                 ->orderBy("produk.nama")
-                ->get()
-                ->chunk(8),
-
-            "itemFakturPenjualanPages" => ItemFakturPenjualan::query()
-                ->select("id", "faktur_penjualan_id", "produk_kode", "jumlah", "diskon", "harga_satuan")
-                ->with([
-                    "produk:kode,nama",
-                    "mutasiStocks",
-                    "mutasiStocks.stock:id,kode_batch,expired_at",
-                ])
                 ->get()
                 ->chunk(8),
 

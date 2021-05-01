@@ -15,6 +15,7 @@ class ProdukFactory extends Factory
         return [
             "kode" => Str::random(10),
             "nama" => $this->faker->unique()->medicine,
+            "satuan" => $this->faker->randomElement(["Box", "Tablet", "Kapsul", "Strip", "Botol"]),
             "harga_satuan" => rand(1, 100) * 5_000,
             "deskripsi" => $this->faker->realText(),
         ];
