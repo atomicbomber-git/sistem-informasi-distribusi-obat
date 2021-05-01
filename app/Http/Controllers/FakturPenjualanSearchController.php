@@ -28,7 +28,7 @@ class FakturPenjualanSearchController extends Controller
                     ->map(function (FakturPenjualan $fakturPenjualan) {
                         return [
                             "id" => $fakturPenjualan->getKey(),
-                            "text" => FakturPenjualan::NOMOR_PREFIX_CODE . $fakturPenjualan->nomor,
+                            "text" => $fakturPenjualan->getPrefixedNomor(),
                         ];
                     }),
             "pagination" => [

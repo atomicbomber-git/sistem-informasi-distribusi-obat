@@ -23,7 +23,7 @@ class FakturPenjualanFactory extends Factory
     public function definition(): array
     {
         return [
-            "nomor" => FakturPenjualan::getNextId(),
+            "nomor" => FakturPenjualan::getNextNomor(),
             "pelanggan_id" => Pelanggan::query()->inRandomOrder()->value("id") ?? Pelanggan::factory()->create()->id,
             "diskon" => rand(0, 40),
             "pajak" => 10,

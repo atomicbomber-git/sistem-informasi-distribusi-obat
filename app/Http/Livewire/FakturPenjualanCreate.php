@@ -110,7 +110,7 @@ class FakturPenjualanCreate extends Component
     public function mount()
     {
         $this->fakturPenjualan = new FakturPenjualan([
-            "nomor" => FakturPenjualan::getNextId(),
+            "nomor" => FakturPenjualan::getNextNomor(),
             "pelanggan_id" => null,
             "diskon" => 0,
             "pajak" => 10,

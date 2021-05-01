@@ -52,9 +52,9 @@
             </h2>
 
             @error("itemFakturPenjualans")
-            <div class="alert alert-danger">
+            <small class="text-danger">
                 {{ $message }}
-            </div>
+            </small>
             @enderror
 
             <x-table>
@@ -170,7 +170,7 @@
                 </tfoot>
             </x-table>
 
-            <div wire:ignore>
+            <div wire:ignore wire:key="important">
                 <label class="form-label"
                        for="item-add"
                 >
@@ -181,15 +181,15 @@
                         style="width: 100%"
                         x-data
                         x-init="
-                    $($el).select2({
-                        ajax: { url: '{{ route('produk-in-hand.search') }}' },
-                        theme: 'bootstrap-5'
-                    }).change(e => {
-                        if (!!e.target.value) {
-                            $wire.call('addItem', e.target.value)
-                            $(e.target).val(null).trigger('change')
-                        }
-                    })
+                            $($el).select2({
+                                ajax: { url: '{{ route('produk-in-hand.search') }}' },
+                                theme: 'bootstrap-5'
+                            }).change(e => {
+                                if (!!e.target.value) {
+                                    $wire.call('addItem', e.target.value)
+                                    $(e.target).val(null).trigger('change')
+                                }
+                            })
 "
                         id="item-add"
                 ></select>

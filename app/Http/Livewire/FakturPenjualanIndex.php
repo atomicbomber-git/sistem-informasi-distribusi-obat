@@ -59,6 +59,7 @@ class FakturPenjualanIndex extends Component
                     $builder->where("pelanggan_id", $this->pelangganId);
                 })
                 ->filterBy($this->filter, ["nomor", "pelanggan.nama"])
+                ->orderByDesc("waktu_pengeluaran")
                 ->paginate()
         ]);
     }

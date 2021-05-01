@@ -26,7 +26,7 @@ class FakturPenjualan extends Model
         return $this->belongsTo(Pelanggan::class);
     }
 
-    public static function getNextId(): int
+    public static function getNextNomor(): int
     {
         return (
                 self::query()
