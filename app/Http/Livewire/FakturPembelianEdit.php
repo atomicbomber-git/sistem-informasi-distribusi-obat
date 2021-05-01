@@ -162,7 +162,6 @@ class FakturPembelianEdit extends Component
             "waktu_penerimaan" => $this->fakturPembelian->waktu_penerimaan->format("Y-m-d\TH:i"),
         ]);
 
-        /* TODO: Sort it more thoroughly */
         $this->item_faktur_pembelians = ItemFakturPembelian::query()
             ->selectQualify(["id", "produk_kode", "jumlah", "harga_satuan", "expired_at", "kode_batch"])
             ->where("faktur_pembelian_kode", $this->fakturPembelian->kode)

@@ -93,12 +93,6 @@ class ItemFakturPenjualan extends Model
         }
     }
 
-    public function isModifiable(): bool
-    {
-        // TODO: implement this accordingly
-        return true;
-    }
-
     public function getUnmodifiableMessage(): string
     {
         return "Produk \"{$this->produk->nama}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";

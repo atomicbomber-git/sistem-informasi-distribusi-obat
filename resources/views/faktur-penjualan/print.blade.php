@@ -1,6 +1,5 @@
 <x-layouts.print :title="__('application.sales_invoice') . ' ' . $fakturPenjualan->getPrefixedNomor()">
     @foreach ($mutasiStockPages as $pageIndex => $mutasiStocks)
-        {{-- TODO: TEST THIS --}}
         <x-print-sheet>
             <x-print-header :faktur-penjualan="$fakturPenjualan"/>
 
