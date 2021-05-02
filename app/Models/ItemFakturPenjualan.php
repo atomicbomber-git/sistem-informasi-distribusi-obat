@@ -86,6 +86,11 @@ class ItemFakturPenjualan extends Model
             });
     }
 
+    public function isModifiable(): bool
+    {
+        return true;
+    }
+
     public function abortIfUnmodifiable(): void
     {
         if (!$this->isModifiable()) {

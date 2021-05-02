@@ -22,7 +22,7 @@ class PemasokFactory extends Factory
     public function definition()
     {
         return [
-            "nama" => $this->faker->company,
+            "nama" => $this->faker->unique()->company,
             "alamat" => $this->faker->address,
         ];
     }

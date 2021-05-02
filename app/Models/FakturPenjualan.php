@@ -2,39 +2,46 @@
 
 namespace App\Models;
 
+use App\QueryBuilders\FakturPenjualanBuilder;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Date;
+use Jenssegers\Date\Date;
 
 class FakturPenjualan extends Model
 {
     use HasFactory;
 
+    const NOMOR_PREFIX_CODE = "KM-";
     protected $table = "faktur_penjualan";
     protected $guarded = [];
-
-    const NOMOR_PREFIX_CODE = "KM-";
-
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
     ];
 
-    public function pelanggan(): BelongsTo
+    public static function getNextNomor(Carbon $referenceTime = null): int
     {
-        return $this->belongsTo(Pelanggan::class);
-    }
+        $referenceTime ??= now();
 
-    public static function getNextNomor(): int
-    {
         return (
                 self::query()
-                    ->whereYear("waktu_pengeluaran", now()->year)
-                    ->whereMonth("waktu_pengeluaran", now()->month)
+                    ->whereYear("waktu_pengeluaran", $referenceTime->year)
+                    ->whereMonth("waktu_pengeluaran", $referenceTime->month)
                     ->orderByDesc("nomor")
                     ->value("nomor") ?? 0
             ) + 1;
+    }
+
+    public static function query(): FakturPenjualanBuilder
+    {
+        return parent::query();
+    }
+
+    public function pelanggan(): BelongsTo
+    {
+        return $this->belongsTo(Pelanggan::class);
     }
 
     public function getPrefixedNomor(): string
@@ -49,7 +56,7 @@ class FakturPenjualan extends Model
 
     public function getNomorYearMonthPrefixPart(): string
     {
-        return \Jenssegers\Date\Date::make($this->waktu_pengeluaran)->format("YM");
+        return Date::make($this->waktu_pengeluaran)->format("YM");
     }
 
     public function itemFakturPenjualans(): HasMany
@@ -60,11 +67,6 @@ class FakturPenjualan extends Model
     /** return \App\QueryBuilders\FakturPenjualanBuilder */
     public function newEloquentBuilder($query)
     {
-        return new \App\QueryBuilders\FakturPenjualanBuilder($query);
-    }
-
-    public static function query(): \App\QueryBuilders\FakturPenjualanBuilder
-    {
-        return parent::query();
+        return new FakturPenjualanBuilder($query);
     }
 }

@@ -21,7 +21,7 @@ class FakturPenjualanSeeder extends Seeder
     {
         DB::beginTransaction();
 
-        Collection::times(20, function () {
+        Collection::times(50, function () {
             $produks = Produk::query()
                 ->hasQuantityInHand()
                 ->withQuantityInHand()
@@ -30,7 +30,7 @@ class FakturPenjualanSeeder extends Seeder
                 ->get();
 
             FakturPenjualan::factory()
-                ->state(["waktu_pengeluaran" => now()->subDays(rand(0, 90))])
+                ->state(["waktu_pengeluaran" => now()->subDays(rand(0, 60))])
                 ->has(
                     ItemFakturPenjualan::factory()
                         ->state(new Sequence(

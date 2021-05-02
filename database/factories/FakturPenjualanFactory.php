@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\FakturPenjualan;
 use App\Models\Pelanggan;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Psy\Util\Str;
 
 class FakturPenjualanFactory extends Factory
 {
@@ -29,5 +30,12 @@ class FakturPenjualanFactory extends Factory
             "pajak" => 10,
             "waktu_pengeluaran" => now()->subMinutes(rand(0, 1_000_000)),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (FakturPenjualan $fakturPenjualan) {
+            $fakturPenjualan->nomor = FakturPenjualan::getNextNomor($fakturPenjualan->waktu_pengeluaran);
+        });
     }
 }
