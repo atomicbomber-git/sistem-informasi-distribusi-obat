@@ -114,7 +114,9 @@ class FakturPenjualanEdit extends Component
             return;
         }
 
-        $produk = Produk::query()->withQuantityInHand()->findOrFail($itemKey);
+        $produk = Produk::query()
+            ->withQuantityInHand()
+            ->findOrFail($itemKey);
 
         $newItem = new ItemFakturPenjualan([
             "produk_kode" => $produk->kode,

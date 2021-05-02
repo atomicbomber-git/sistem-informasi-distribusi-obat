@@ -14,9 +14,7 @@ class ProdukBuilder extends Builder
 
     public function withQuantityInHand(DateTimeInterface $when = null): self
     {
-        if ($when === null) {
-            $when = now();
-        }
+        $when ??= now();
 
         return $this->addSelect([
             "quantity_in_hand" => $this->quantityInHandQuery($when)
@@ -37,13 +35,13 @@ class ProdukBuilder extends Builder
         return Stock::query()
             ->selectRaw("
                 COALESCE(SUM(stock.jumlah), 0)
-                - SUM((
+                - COALESCE(SUM((
                     SELECT COALESCE(SUM(mutasi_stock.jumlah), 0)
                         FROM mutasi_stock
                         WHERE mutasi_stock.stock_id = stock.id
                         AND transacted_at > ?
                         AND transacted_at <= ?
-                ))
+                )), 0)
             ", [$when, now()])
             ->whereColumn("stock.produk_kode", "=", "produk.kode")
             ->canBeSold()

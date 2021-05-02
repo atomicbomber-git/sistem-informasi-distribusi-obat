@@ -112,30 +112,39 @@
                 ></select>
             </div>
 
-{{--            <div wire:ignore>--}}
-{{--                <label class="form-label"--}}
-{{--                       for="item-add"--}}
-{{--                >--}}
-{{--                    @lang("application.add_item")--}}
-{{--                </label>--}}
-{{--                <select--}}
-{{--                        wire:ignore--}}
-{{--                        style="width: 100%"--}}
-{{--                        x-data--}}
-{{--                        x-init="--}}
-{{--                    $($el).select2({--}}
-{{--                        ajax: { url: '{{ route('faktur-penjualan.search-item', $fakturPenjualan) }}' },--}}
-{{--                        theme: 'bootstrap-5'--}}
-{{--                    }).change(e => {--}}
-{{--                        if (!!e.target.value) {--}}
-{{--                            $wire.call('addItem', e.target.value)--}}
-{{--                            $(e.target).val(null).trigger('change')--}}
-{{--                        }--}}
-{{--                    })--}}
-{{--"--}}
-{{--                        id="item-add"--}}
-{{--                ></select>--}}
-{{--            </div>--}}
+            <div wire:ignore>
+                <label class="form-label"
+                       for="item-add"
+                >
+                    @lang("application.add_item")
+                </label>
+                <select
+                        wire:ignore
+                        style="width: 100%"
+                        x-data
+                        x-init="
+                        (function() {
+                            let searchUrl = null
+
+                            Livewire.on('fakturPenjualanChanged', (newSearchUrl) => {
+                                console.log(newSearchUrl)
+                                searchUrl = newSearchUrl
+                            })
+
+                            $($el).select2({
+                                ajax: { url: () => searchUrl },
+                                theme: 'bootstrap-5'
+                            }).change(e => {
+                                if (!!e.target.value) {
+                                    $wire.call('addItem', e.target.value)
+                                    $(e.target).val(null).trigger('change')
+                                }
+                            })
+                        })()
+"
+                        id="item-add"
+                ></select>
+            </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
             <button class="btn btn-primary">

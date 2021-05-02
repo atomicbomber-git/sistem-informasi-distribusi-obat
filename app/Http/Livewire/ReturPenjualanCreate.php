@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\FakturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
 use App\Support\HasValidatorThatEmitsErrors;
@@ -42,10 +43,6 @@ class ReturPenjualanCreate extends Component
     public function submit()
     {
         $validatedData = $this->validateAndEmitErrors();
-
-
-
-
     }
 
     public function addItem(mixed $key)
@@ -68,17 +65,28 @@ class ReturPenjualanCreate extends Component
         }
     }
 
-    public function setFakturPenjualanId(mixed $faktur_penjualan_id)
+    public function emitFakturPenjualanChangedEvent()
     {
-        $this->faktur_penjualan_id = $faktur_penjualan_id;
+        $this->emit(
+            "fakturPenjualanChanged",
+            route("faktur-penjualan.search-item", FakturPenjualan::find($this->faktur_penjualan_id)),
+        );
     }
+
+    public function updated($attribute, $value)
+    {
+        if ($attribute === "faktur_penjualan_id") {
+            $this->emitFakturPenjualanChangedEvent();
+        }
+        ray()->send(compact("attribute", "value"));
+    }
+
 
     public function mount()
     {
         $this->draftItemReturPenjualans = [];
-
         $this->returPenjualan = new ReturPenjualan();
-
+        
 //        $this->returPenjualan = new ReturPenjualan([
 //            "faktur_penjualan_id" => $this->fakturPenjualan,
 //        ]);

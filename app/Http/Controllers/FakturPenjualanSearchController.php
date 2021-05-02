@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FakturPenjualan;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,9 @@ class FakturPenjualanSearchController extends Controller
     {
         $paginator = FakturPenjualan::query()
             ->orderBy("nomor")
+            ->when($request->get("term"), function (Builder $builder, string $searchTerm) {
+                $builder->where("nomor", "LIKE", "%{$searchTerm}%");
+            })
             ->paginate();
 
         return $this->responseFactory->json([
