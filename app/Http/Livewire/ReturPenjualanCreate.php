@@ -6,9 +6,12 @@ use App\Models\FakturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
 use App\Support\HasValidatorThatEmitsErrors;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class ReturPenjualanCreate extends Component
@@ -35,11 +38,35 @@ class ReturPenjualanCreate extends Component
         return [
             "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "draftItemReturPenjualans" => ["array", "required"],
+            "draftItemReturPenjualans.*.mutasi_stock_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")->where(function (Builder &$builder) {
+                $builder = MutasiStock::query()
+                    ->whereHas("itemFakturPenjualan.fakturPenjualan", function (EloquentBuilder $builder) {
+                        $builder->where("id", $this->faktur_penjualan_id);
+                    });
+            })],
             "draftItemReturPenjualans.*.nama_produk" => ["required"],
             "draftItemReturPenjualans.*.jumlah_original" => ["required"],
             "draftItemReturPenjualans.*.produk_kode" => ["required"],
             "draftItemReturPenjualans.*.kode_batch" => ["required"],
-            "draftItemReturPenjualans.*.jumlah" => ["required", "numeric", "gt:0"],
+            "draftItemReturPenjualans.*.jumlah" => [
+                "required",
+                "numeric",
+                "gt:0",
+                function ($attribute, $value, $fail)
+                {
+                    [$arrayName, $index,]  = explode('.', $attribute);
+                    $mutasiStockIdAttribute =  "{$arrayName}.{$index}.mutasi_stock_id";
+
+                    $passes = MutasiStock::query()
+                        ->whereKey(data_get($this, $mutasiStockIdAttribute))
+                        ->whereRaw("-jumlah >= ?", [$value])
+                        ->exists();
+
+                    if (!$passes) {
+                        $fail("Jumlah harus <= jumlah yang ada.");
+                    }
+                },
+            ],
             "draftItemReturPenjualans.*.alasan" => ["required", "string", Rule::in(self::REASONS)],
         ];
     }
@@ -48,17 +75,9 @@ class ReturPenjualanCreate extends Component
     {
         $validatedData = $this->validateAndEmitErrors();
 
-        ray()->send(
-            collect($validatedData["draftItemReturPenjualans"])
-                ->groupBy(
-                    fn (array $draftItemReturPenjualan) => $draftItemReturPenjualan["mutasi_stock_id"] . "-" . $draftItemReturPenjualan["alasan"],
-                    true
-                )
-                ->filter(fn (Collection $group) => $group->count() > 1)
-                ->collapse()
+        $this->validateInCaseOfDuplicatedItems($validatedData["draftItemReturPenjualans"]);
 
-                ->toArray()
-        );
+
     }
 
     public function addItem(string $key)
@@ -118,5 +137,28 @@ class ReturPenjualanCreate extends Component
                 fn(array $item) => isset($item["nama_produk"]),
             )
         );
+    }
+
+    /**
+     * @param $draftItemReturPenjualans
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    private function validateInCaseOfDuplicatedItems(array $draftItemReturPenjualans): void
+    {
+        $errorMessagesForDuplicatedDraftItems = collect($draftItemReturPenjualans)
+            ->groupBy(
+                fn(array $draftItemReturPenjualan) => $draftItemReturPenjualan["mutasi_stock_id"] . "-" . $draftItemReturPenjualan["alasan"],
+                true
+            )
+            ->filter(fn(Collection $group) => $group->count() > 1)
+            ->collapse()
+            ->mapWithKeys(fn(array $draftItem, int $index) => [
+                "draftItemReturPenjualans.{$index}.jumlah" => "Tidak boleh terdapat item ganda untuk pasangan item- kode batch - alasan",
+                "draftItemReturPenjualans.{$index}.alasan" => "Tidak boleh terdapat item ganda untuk pasangan item- kode batch - alasan",
+            ]);
+
+        if ($errorMessagesForDuplicatedDraftItems->isNotEmpty() > 0) {
+            throw $this->emitErrors(ValidationException::withMessages($errorMessagesForDuplicatedDraftItems->toArray()));
+        }
     }
 }
