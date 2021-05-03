@@ -19,7 +19,7 @@
                         null
 
                     if (rawValue !== value) {
-                        $dispatch('change', rawValue)
+                        $dispatch('input', rawValue)
                     }
                 }
             })
@@ -38,7 +38,7 @@
         })()"
         wire:ignore.self
 
-        {{ $attributes->except("field") }}
+        {{ $attributes->except(["field", "inline", "small"]) }}
 >
     <label for="{{ $field ?? $attributes->wire('model')->value() }}"
            class="{{ ($inline ?? false) ? 'visually-hidden' : '' }}"

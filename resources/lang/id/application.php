@@ -32,6 +32,7 @@ return [
     "subtotal" => "Sub Total",
     "unit_price" => "Harga Satuan",
     "unit_value" => "Nilai Satuan",
+    "original_quantity" => "Jumlah Awal",
     "quantity" => "Jumlah",
     "address" => "Alamat",
     "total_before_bulk_discount" => "Total Sebelum Diskon Grosir",

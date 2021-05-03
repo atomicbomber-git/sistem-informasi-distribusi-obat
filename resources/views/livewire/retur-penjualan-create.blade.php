@@ -40,6 +40,7 @@
                         <th> @lang("application.number_symbol") </th>
                         <th> @lang("application.product") </th>
                         <th> @lang("application.batch_code") </th>
+                        <th class="text-end"> @lang("application.original_quantity") </th>
                         <th class="text-end"> @lang("application.quantity") </th>
                         <th> @lang("application.reason") </th>
                         <th class="text-center"> @lang("application.controls") </th>
@@ -50,22 +51,24 @@
                     @foreach ($draftItemReturPenjualans as $key => $draftItemReturPenjualan)
                         <tr wire:key="{{ $key }}">
                             <td> {{ $loop->iteration }} </td>
-                            <td> {{ $draftItemReturPenjualan["mutasiStock"]["stock"]["produk"]["nama"] }} </td>
-                            <td> {{ $draftItemReturPenjualan["mutasiStock"]["stock"]["kode_batch"] }} </td>
+                            <td> {{ $draftItemReturPenjualan["nama_produk"] ?? null }} </td>
+                            <td> {{ $draftItemReturPenjualan["kode_batch"] ?? null }} </td>
+                            <td class="text-end"> {{ $draftItemReturPenjualan["jumlah_original"] ?? null }} </td>
                             <td>
                                 <x-input-livewire-numeric
+                                        wire:key="input-{{ $key }}"
                                         inline small
-                                        :label='__("application.quantity") . " " . $draftItemReturPenjualan["mutasiStock"]["stock"]["produk"]["nama"] . " batch " . $draftItemReturPenjualan["mutasiStock"]["stock"]["kode_batch"]'
-                                        wire:model.lazy='draftItemReturPenjualans.{{ $key }}.jumlah'
+                                        :label='__("application.quantity") . " " . $draftItemReturPenjualan["nama_produk"] ?? null . " batch " . $draftItemReturPenjualan["kode_batch"] ?? null'
+                                        wire:model='draftItemReturPenjualans.{{ $key }}.jumlah'
                                 />
                             </td>
                             <td>
                                 <label for="alasan_{{ $key }}" class="visually-hidden">
-                                    {{ __("application.alasan") . " " . $draftItemReturPenjualan["mutasiStock"]["stock"]["produk"]["nama"] . " batch " . $draftItemReturPenjualan["mutasiStock"]["stock"]["kode_batch"] }}
+                                    {{ __("application.alasan") . " " . ($draftItemReturPenjualan["nama_produk"] ?? null) . " batch " . ($draftItemReturPenjualan["kode_batch"] ?? null) }}
                                 </label>
                                 <select
                                         class="form-select form-select-sm"
-                                        wire:model.lazy="draftItemReturPenjualans.{{ $key }}.alasan"
+                                        wire:model="draftItemReturPenjualans.{{ $key }}.alasan"
                                         name="alasan_{{ $key }}"
                                         id="alasan_{{ $key }}"
                                 >
@@ -128,6 +131,7 @@
 
                             Livewire.on('fakturPenjualanChanged', (newSearchUrl) => {
                                 searchUrl = newSearchUrl
+                                console.log(searchUrl)
                             })
 
                             $($el).select2({
