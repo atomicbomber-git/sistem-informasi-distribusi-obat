@@ -34,6 +34,11 @@
             </div>
             @enderror
 
+            <pre>
+                {{ json_encode($draftItemReturPenjualans, JSON_PRETTY_PRINT) }}
+            </pre>
+
+
             <x-table>
                 <x-thead>
                     <tr>
@@ -127,7 +132,6 @@
                             let searchUrl = null
 
                             Livewire.on('fakturPenjualanChanged', (newSearchUrl) => {
-                                console.log(newSearchUrl)
                                 searchUrl = newSearchUrl
                             })
 

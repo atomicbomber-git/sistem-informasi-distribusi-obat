@@ -86,7 +86,7 @@ class ReturPenjualanCreate extends Component
     {
         $this->draftItemReturPenjualans = [];
         $this->returPenjualan = new ReturPenjualan();
-        
+
 //        $this->returPenjualan = new ReturPenjualan([
 //            "faktur_penjualan_id" => $this->fakturPenjualan,
 //        ]);
