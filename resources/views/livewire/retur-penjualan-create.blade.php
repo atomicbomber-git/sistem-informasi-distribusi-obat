@@ -34,11 +34,6 @@
             </div>
             @enderror
 
-            <pre>
-                {{ json_encode($draftItemReturPenjualans, JSON_PRETTY_PRINT) }}
-            </pre>
-
-
             <x-table>
                 <x-thead>
                     <tr>

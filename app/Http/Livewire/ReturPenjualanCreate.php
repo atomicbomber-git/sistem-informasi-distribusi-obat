@@ -6,6 +6,7 @@ use App\Models\FakturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
 use App\Support\HasValidatorThatEmitsErrors;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -78,18 +79,12 @@ class ReturPenjualanCreate extends Component
         if ($attribute === "faktur_penjualan_id") {
             $this->emitFakturPenjualanChangedEvent();
         }
-        ray()->send(compact("attribute", "value"));
     }
-
 
     public function mount()
     {
         $this->draftItemReturPenjualans = [];
         $this->returPenjualan = new ReturPenjualan();
-
-//        $this->returPenjualan = new ReturPenjualan([
-//            "faktur_penjualan_id" => $this->fakturPenjualan,
-//        ]);
     }
 
     public function render()
