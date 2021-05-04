@@ -50,7 +50,7 @@ class ReturPenjualanIndex extends Component
     {
         return view('livewire.retur-penjualan-index', [
             "returPenjualans" => ReturPenjualan::query()
-                ->orderByDesc("created_at")
+                ->orderByDesc("waktu_pengembalian")
                 ->paginate(),
         ]);
     }

@@ -28,7 +28,9 @@
                 <x-thead>
                     <tr>
                         <th> @lang("application.number_symbol") </th>
+                        <th> @lang("application.code") </th>
                         <th> @lang("application.returned_at") </th>
+                        <th> @lang("application.sales_invoice") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
@@ -37,7 +39,13 @@
                 @foreach ($returPenjualans as $returPenjualan)
                     <tr>
                         <td> {{ $returPenjualans->firstItem() + $loop->index }} </td>
+                        <td> {{ $returPenjualan->getPrefixedNomor() }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </td>
+                        <td>
+                            <a href="{{ route("faktur-penjualan.print", $returPenjualan->faktur_penjualan_id) }}">
+                                {{ $returPenjualan->fakturPenjualan->getPrefixedNomor() }}
+                            </a>
+                        </td>
                         <x-td-control>
                             <x-button-destroy :item="$returPenjualan"/>
                         </x-td-control>
