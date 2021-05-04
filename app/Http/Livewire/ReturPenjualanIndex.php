@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\ReturPenjualan;
 use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
 use App\Support\WithFilter;
@@ -14,6 +15,10 @@ class ReturPenjualanIndex extends Component
 
     public function render()
     {
-        return view('livewire.retur-penjualan-index');
+        return view('livewire.retur-penjualan-index', [
+            "returPenjualans" => ReturPenjualan::query()
+                ->orderByDesc("waktu_pengembalian")
+                ->paginate(),
+        ]);
     }
 }

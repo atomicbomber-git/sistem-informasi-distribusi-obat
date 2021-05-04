@@ -20,7 +20,10 @@ class FakturPenjualanSearchController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
+        ray()->showQueries();
+
         $paginator = FakturPenjualan::query()
+            ->whereDoesntHave("returPenjualan")
             ->orderBy("nomor")
             ->when($request->get("term"), function (Builder $builder, string $searchTerm) {
                 $builder->where("nomor", "LIKE", "%{$searchTerm}%");

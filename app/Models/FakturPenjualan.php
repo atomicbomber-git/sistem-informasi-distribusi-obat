@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Jenssegers\Date\Date;
 
 class FakturPenjualan extends Model
@@ -20,6 +21,11 @@ class FakturPenjualan extends Model
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
     ];
+
+    public function returPenjualan(): HasOne
+    {
+        return $this->hasOne(ReturPenjualan::class);
+    }
 
     public static function getNextNomor(Carbon $referenceTime = null): int
     {

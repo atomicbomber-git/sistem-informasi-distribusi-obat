@@ -22,45 +22,36 @@
 
     <x-messages></x-messages>
 
-{{--    @if($returPenjualan->isNotEmpty())--}}
-{{--        <div class="table-responsive">--}}
-{{--            <x-table>--}}
-{{--                <x-thead>--}}
-{{--                    <tr>--}}
-{{--                        <th> @lang("application.number_symbol") </th>--}}
-{{--                        <th> @lang("application.code") </th>--}}
-{{--                        <th> @lang("application.customer") </th>--}}
-{{--                        <th> @lang("application.delivered_at") </th>--}}
-{{--                        <x-th-control> @lang("application.controls") </x-th-control>--}}
-{{--                    </tr>--}}
-{{--                </x-thead>--}}
+    @if($returPenjualans->isNotEmpty())
+        <div class="table-responsive">
+            <x-table>
+                <x-thead>
+                    <tr>
+                        <th> @lang("application.number_symbol") </th>
+                        <th> @lang("application.returned_at") </th>
+                        <x-th-control> @lang("application.controls") </x-th-control>
+                    </tr>
+                </x-thead>
 
-{{--                <tbody>--}}
-{{--                @foreach ($returPenjualan as $fakturPenjualan)--}}
-{{--                    <tr>--}}
-{{--                        <td> {{ $returPenjualan->firstItem() + $loop->index }} </td>--}}
-{{--                        <td> {{ $fakturPenjualan->getNomor() }} </td>--}}
-{{--                        <td> {{ $fakturPenjualan->pelanggan->nama }} </td>--}}
-{{--                        <td> {{ \App\Support\Formatter::normalDate($fakturPenjualan->waktu_pengeluaran) }} </td>--}}
-{{--                        <x-td-control>--}}
-{{--                            <x-button-edit :href="route('retur-penjualan.edit', $fakturPenjualan)">--}}
-{{--                                @lang("application.edit")--}}
-{{--                            </x-button-edit>--}}
+                <tbody>
+                @foreach ($returPenjualans as $returPenjualan)
+                    <tr>
+                        <td> {{ $returPenjualans->firstItem() + $loop->index }} </td>
+                        <td> {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </td>
+                        <x-td-control>
+                            {{-- TODO: Implement delete --}}
+                            <x-button-destroy :item="$returPenjualan"/>
+                        </x-td-control>
+                    </tr>
+                @endforeach
+                </tbody>
+            </x-table>
+        </div>
 
-{{--                            <x-button-destroy--}}
-{{--                                    :item="$fakturPenjualan"--}}
-{{--                            />--}}
-{{--                        </x-td-control>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
-{{--                </tbody>--}}
-{{--            </x-table>--}}
-{{--        </div>--}}
-
-{{--        <x-pagination-links-container>--}}
-{{--            {{ $returPenjualan->links() }}--}}
-{{--        </x-pagination-links-container>--}}
-{{--    @else--}}
-{{--        <x-alert-no-data/>--}}
-{{--    @endif--}}
+        <x-pagination-links-container>
+            {{ $returPenjualans->links() }}
+        </x-pagination-links-container>
+    @else
+        <x-alert-no-data/>
+    @endif
 </article>
