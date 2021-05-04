@@ -62,4 +62,17 @@ class ItemReturPenjualan extends Model
 
         $stock->save();
     }
+
+    public function rollbackTransaction()
+    {
+        $this->mutasiStock->stock->update([
+            "jumlah" => DB::raw("jumlah - {$this->mutasiStock->jumlah}")
+        ]);
+
+        if ($this->mutasiStock->stock->jumlah === 0) {
+            $this->mutasiStock->stock->forceDelete();
+        }
+
+        $this->mutasiStock()->forceDelete();
+    }
 }

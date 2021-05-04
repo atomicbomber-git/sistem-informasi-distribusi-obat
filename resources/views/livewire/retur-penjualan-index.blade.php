@@ -39,7 +39,6 @@
                         <td> {{ $returPenjualans->firstItem() + $loop->index }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </td>
                         <x-td-control>
-                            {{-- TODO: Implement delete --}}
                             <x-button-destroy :item="$returPenjualan"/>
                         </x-td-control>
                     </tr>

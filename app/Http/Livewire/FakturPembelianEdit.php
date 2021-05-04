@@ -75,6 +75,7 @@ class FakturPembelianEdit extends Component
                     ->where([
                         "id" => $itemData["current_id"],
                         "harga_satuan" => $itemData["harga_satuan"],
+                        "expired_at" => $itemData["expired_at"],
                         "jumlah" => $itemData["jumlah"],
                         "kode_batch" => $itemData["kode_batch"],
                     ])->exists();
