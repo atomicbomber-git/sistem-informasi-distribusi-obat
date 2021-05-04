@@ -2,11 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\StockStatus;
-use App\Enums\TipeMutasiStock;
 use App\Models\ItemFakturPembelian;
 use App\Models\Produk;
-use App\Models\Stock;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -26,10 +23,10 @@ class ItemFakturPembelianFactory extends Factory
      */
     public function definition()
     {
-        $produk = 
-            Produk::query()->inRandomOrder()->first() ?? 
+        $produk =
+            Produk::query()->inRandomOrder()->first() ??
             Produk::factory()->create();
-        
+
         return [
             "kode_batch" => Str::random(10),
             "produk_kode" => $produk->kode,

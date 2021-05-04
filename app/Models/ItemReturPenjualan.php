@@ -33,7 +33,7 @@ class ItemReturPenjualan extends Model
         return $this->hasOne(MutasiStock::class);
     }
 
-    public function applyTransaction(): void
+    public function commitStockTransaction(): void
     {
         $stock = Stock::findOrFail($this->stock_id);
 
@@ -63,7 +63,7 @@ class ItemReturPenjualan extends Model
         $stock->save();
     }
 
-    public function rollbackTransaction()
+    public function rollbackStockTransaction()
     {
         $this->mutasiStock->stock->update([
             "jumlah" => DB::raw("jumlah - {$this->mutasiStock->jumlah}")

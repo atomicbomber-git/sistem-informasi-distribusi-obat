@@ -34,7 +34,12 @@ class ReturPenjualanCreate extends Component
     {
         return [
             // TODO: Validate against faktur that already has retur
-            "faktur_penjualan_id" => ["bail", "required", Rule::exists(FakturPenjualan::class, "id")],
+            "faktur_penjualan_id" => ["bail", "required", Rule::exists(
+                FakturPenjualan::class, "id")
+                        ->where(function (Builder $query) {
+                            ray()->send($query::class);
+                        })
+            ],
 
             // TODO: Validate against faktur waktu_pengeluaran
             "waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
@@ -99,7 +104,7 @@ class ReturPenjualanCreate extends Component
                 "alasan" => $draftItemReturPenjualan["alasan"],
             ]);
 
-            $itemReturPenjualan->applyTransaction();
+            $itemReturPenjualan->commitStockTransaction();
         }
 
         DB::commit();

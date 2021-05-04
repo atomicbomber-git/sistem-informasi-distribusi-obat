@@ -28,6 +28,11 @@ class MutasiStock extends Model
         return $this->belongsTo(ItemFakturPenjualan::class);
     }
 
+    public function itemReturPenjualan(): BelongsTo
+    {
+        return $this->belongsTo(ItemReturPenjualan::class);
+    }
+
     public function item_faktur_penjualan(): BelongsTo
     {
         return $this->belongsTo(ItemFakturPenjualan::class);

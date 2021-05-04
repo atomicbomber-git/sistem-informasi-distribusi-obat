@@ -64,6 +64,13 @@
                                 </x-button-link>
                             @endif
 
+                            @if($stock->original_mutation->item_retur_penjualan_id !== null)
+                                    <x-button-link :href="route('retur-penjualan.edit', $stock->original_mutation->itemReturPenjualan->returPenjualan)"
+                                    >
+                                        @lang("application.sales-return")
+                                        <x-icon-sales-return/>
+                                    </x-button-link>
+                            @endif
                         </x-td-control>
                     </tr>
                 @endforeach

@@ -26,7 +26,6 @@ class ReturPenjualanIndex extends Component
             $returPenjualan = ReturPenjualan::query()->findOrFail($modelKey);
 
             foreach ($returPenjualan->itemReturPenjualans as $itemReturPenjualan) {
-                $itemReturPenjualan->abortIfUnmodifiable();
                 $itemReturPenjualan->rollbackStockTransaction();
                 $itemReturPenjualan->forceDelete();
             }
