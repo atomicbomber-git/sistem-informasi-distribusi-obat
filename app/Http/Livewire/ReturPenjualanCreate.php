@@ -2,13 +2,18 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\MessageState;
 use App\Models\FakturPenjualan;
+use App\Models\ItemReturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
+use App\Models\Stock;
 use App\Support\HasValidatorThatEmitsErrors;
+use App\Support\SessionHelper;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -18,16 +23,8 @@ class ReturPenjualanCreate extends Component
 {
     use HasValidatorThatEmitsErrors;
 
-    const DAMAGED = "damaged";
-    const EXPIRED = "expired";
-
-    const REASONS = [
-        self::DAMAGED,
-        self::EXPIRED,
-    ];
-
     public ?int $faktur_penjualan_id = null;
-    public ReturPenjualan $returPenjualan;
+    public mixed $waktu_pengembalian = null;
 
     /** @var array */
     public array $draftItemReturPenjualans;
@@ -36,14 +33,20 @@ class ReturPenjualanCreate extends Component
     public function rules()
     {
         return [
-            "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
+            // TODO: Validate against faktur that already has retur
+            "faktur_penjualan_id" => ["bail", "required", Rule::exists(FakturPenjualan::class, "id")],
+
+            // TODO: Validate against faktur waktu_pengeluaran
+            "waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
+
             "draftItemReturPenjualans" => ["array", "required"],
-            "draftItemReturPenjualans.*.mutasi_stock_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")->where(function (Builder &$builder) {
-                $builder = MutasiStock::query()
-                    ->whereHas("itemFakturPenjualan.fakturPenjualan", function (EloquentBuilder $builder) {
-                        $builder->where("id", $this->faktur_penjualan_id);
-                    });
-            })],
+            "draftItemReturPenjualans.*.mutasi_stock_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")
+                ->where(function (Builder &$builder) {
+                    $builder = MutasiStock::query()
+                        ->whereHas("itemFakturPenjualan.fakturPenjualan", function (EloquentBuilder $builder) {
+                            $builder->where("id", $this->faktur_penjualan_id);
+                        });
+                })],
             "draftItemReturPenjualans.*.nama_produk" => ["required"],
             "draftItemReturPenjualans.*.jumlah_original" => ["required"],
             "draftItemReturPenjualans.*.produk_kode" => ["required"],
@@ -63,11 +66,11 @@ class ReturPenjualanCreate extends Component
                         ->exists();
 
                     if (!$passes) {
-                        $fail("Jumlah harus <= jumlah yang ada.");
+                        $fail("Jumlah harus <= jumlah awal.");
                     }
                 },
             ],
-            "draftItemReturPenjualans.*.alasan" => ["required", "string", Rule::in(self::REASONS)],
+            "draftItemReturPenjualans.*.alasan" => ["required", "string", Rule::in(ItemReturPenjualan::REASONS)],
         ];
     }
 
@@ -77,7 +80,36 @@ class ReturPenjualanCreate extends Component
 
         $this->validateInCaseOfDuplicatedItems($validatedData["draftItemReturPenjualans"]);
 
+        DB::beginTransaction();
 
+        /** @var ReturPenjualan $returPenjualan */
+        $returPenjualan = ReturPenjualan::query()->create([
+            "faktur_penjualan_id" => $this->faktur_penjualan_id,
+            "waktu_pengembalian" => $this->waktu_pengembalian,
+        ]);
+
+        foreach ($validatedData["draftItemReturPenjualans"] as $draftItemReturPenjualan) {
+            /** @var MutasiStock $mutasiStock */
+            $mutasiStock = MutasiStock::query()
+                ->findOrFail($draftItemReturPenjualan["mutasi_stock_id"]);
+
+            $itemReturPenjualan = $returPenjualan->itemReturPenjualans()->create([
+                "stock_id" => $mutasiStock->stock_id,
+                "jumlah" => $draftItemReturPenjualan["jumlah"],
+                "alasan" => $draftItemReturPenjualan["alasan"],
+            ]);
+
+            $itemReturPenjualan->applyTransaction();
+        }
+
+        DB::commit();
+
+        SessionHelper::flashMessage(
+            __("messages.create.success"),
+            MessageState::STATE_SUCCESS,
+        );
+
+        $this->redirectRoute("retur-penjualan.index");
     }
 
     public function addItem(string $key)
@@ -93,7 +125,7 @@ class ReturPenjualanCreate extends Component
             "jumlah_original" => -$mutasiStock->jumlah,
             "kode_batch" => $mutasiStock->stock->kode_batch,
             "jumlah" => 0,
-            "alasan" => self::EXPIRED,
+            "alasan" => ItemReturPenjualan::EXPIRED,
         ];
     }
 
@@ -120,7 +152,6 @@ class ReturPenjualanCreate extends Component
     public function mount()
     {
         $this->draftItemReturPenjualans = [];
-        $this->returPenjualan = new ReturPenjualan();
     }
 
     public function render()

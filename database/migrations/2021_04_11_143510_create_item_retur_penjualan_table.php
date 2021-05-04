@@ -15,12 +15,12 @@ class CreateItemReturPenjualanTable extends Migration
     {
         Schema::create('item_retur_penjualan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('produk_kode')->index();
-            $table->string('kode_batch');
+            $table->unsignedInteger('stock_id')->index();
             $table->string('jumlah');
             $table->string('alasan');
             $table->timestamps();
-            $table->foreign('produk_kode')->references('kode')->on('produk');
+
+            $table->foreign('stock_id')->references('id')->on('stock');
         });
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+// TODO: Filter against fakturs that already have returs
 class FakturPenjualanSearchController extends Controller
 {
     private ResponseFactory $responseFactory;
@@ -24,6 +25,7 @@ class FakturPenjualanSearchController extends Controller
             ->when($request->get("term"), function (Builder $builder, string $searchTerm) {
                 $builder->where("nomor", "LIKE", "%{$searchTerm}%");
             })
+            ->orderByDesc("waktu_pengeluaran")
             ->paginate();
 
         return $this->responseFactory->json([

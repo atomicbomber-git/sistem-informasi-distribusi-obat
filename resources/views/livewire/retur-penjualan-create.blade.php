@@ -23,8 +23,8 @@
         <div class="card-body">
             <x-input
                     livewire
-                    field="returPenjualan.waktu_pengembalian"
-                    :label="__('application.delivered_at')"
+                    field="waktu_pengembalian"
+                    :label="__('application.returned_at')"
                     type="datetime-local"
             />
 
@@ -72,7 +72,7 @@
                                         name="alasan_{{ $key }}"
                                         id="alasan_{{ $key }}"
                                 >
-                                    @foreach (\App\Http\Livewire\ReturPenjualanCreate::REASONS as $reason)
+                                    @foreach (\App\Models\ItemReturPenjualan::REASONS as $reason)
                                         <option value="{{ $reason }}">
                                             {{ __("application.{$reason}")  }}
                                         </option>
@@ -91,7 +91,7 @@
                 </tbody>
             </x-table>
 
-            <div wire:ignore>
+            <div wire:ignore class="mb-3">
                 <label class="form-label"
                        for="item-add"
                 >
@@ -124,14 +124,12 @@
                 <select
                         wire:ignore
                         style="width: 100%"
-                        x-data
+                        x-bind:disabled="searchUrl === null"
+                        x-data="{ searchUrl: null }"
                         x-init="
                         (function() {
-                            let searchUrl = null
-
                             Livewire.on('fakturPenjualanChanged', (newSearchUrl) => {
                                 searchUrl = newSearchUrl
-                                console.log(searchUrl)
                             })
 
                             $($el).select2({
