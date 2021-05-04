@@ -31,7 +31,8 @@
                         <th> @lang("application.batch_code") </th>
                         <x-numeric-th> @lang("application.quantity_in_hand") </x-numeric-th>
                         <x-numeric-th> @lang("application.unit_value") </x-numeric-th>
-                        <th> @lang("application.expired_at") </th>
+                        <th class="text-center"> @lang("application.expired_at") </th>
+                        <th> @lang("application.status") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
@@ -49,6 +50,9 @@
                             <span class="fw-bold text-primary">
                                 ({{ \App\Support\Formatter::humanDiff($stock->expired_at) }})
                             </span>
+                        </td>
+                        <td class="text-uppercase">
+                            {{ $stock->status }}
                         </td>
                         <x-td-control>
                             @if($stock->original_mutation->tipe === \App\Enums\TipeMutasiStock::PEMBELIAN)

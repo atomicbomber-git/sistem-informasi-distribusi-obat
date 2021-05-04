@@ -21,6 +21,7 @@ return [
     "item_list" => "Daftar Item",
     "expired_at" => "Expired At",
     "dashboard" => "Dashboard",
+    "status" => "Status",
     "product_stock" => "Stok Produk",
     "quantity_in_hand" => "Jumlah Tersedia",
     "detail" => "Detail",
