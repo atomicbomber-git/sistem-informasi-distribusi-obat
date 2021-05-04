@@ -22,8 +22,18 @@
     >
         <div class="card-body">
             <x-input
+                    livewire group
+                    field="returPenjualan.nomor"
+                    :label="__('application.code')"
+            >
+                <x-slot name="input_prefix">
+                    <span class="input-group-text"> {{ $returPenjualan->getNomorPrefix() }}  </span>
+                </x-slot>
+            </x-input>
+
+            <x-input
                     livewire
-                    field="waktu_pengembalian"
+                    field="returPenjualan.waktu_pengembalian"
                     :label="__('application.returned_at')"
                     type="datetime-local"
             />
@@ -107,7 +117,7 @@
                         theme: 'bootstrap-5'
                     }).change(e => {
                         if (!!e.target.value) {
-                            $wire.set('faktur_penjualan_id', e.target.value)
+                            $wire.set('returPenjualan.faktur_penjualan_id', e.target.value)
                         }
                     })
 "

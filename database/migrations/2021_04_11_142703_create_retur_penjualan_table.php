@@ -15,6 +15,7 @@ class CreateReturPenjualanTable extends Migration
     {
         Schema::create('retur_penjualan', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('nomor');
             $table->unsignedInteger('faktur_penjualan_id')->index();
             $table->dateTime('waktu_pengembalian');
             $table->timestamps();
