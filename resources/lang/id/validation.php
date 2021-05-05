@@ -158,6 +158,10 @@ return [
         "itemFakturPenjualans.*.harga_satuan" => "harga satuan",
         "itemFakturPenjualans.*.diskon" => "diskon",
 
+        "itemReturPenjualans.*.mutasi_stock_penjualan_id" => "mutasi stock penjualan",
+        "itemReturPenjualans.*.jumlah" => "jumlah",
+        "itemReturPenjualans.*.alasan" => "alasan",
+
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
         'document' => 'dokumen',

@@ -11,6 +11,7 @@ use App\Rules\ReturPenjualanNomorUnique;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -57,9 +58,20 @@ class ReturPenjualanEdit extends Component
         $this->validateAndEmitErrors();
         $this->validateInCaseOfDuplicatedItems();
 
+        DB::beginTransaction();
+
         foreach ($this->itemReturPenjualans as $itemReturPenjualan) {
-            $itemReturPenjualan->save();
+            if ($itemReturPenjualan->isDirty()) {
+                (clone $itemReturPenjualan)->forceFill(
+                    $itemReturPenjualan->getOriginal()
+                )->rollbackStockTransaction();
+
+                $itemReturPenjualan->save();
+                $itemReturPenjualan->commitStockTransaction();
+            }
         }
+
+        DB::commit();
 
         $this->emitClearErrors();
 
