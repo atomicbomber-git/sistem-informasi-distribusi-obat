@@ -62,7 +62,7 @@ class FakturPenjualanEdit extends Component
         foreach (array_keys($this->removedOriginalItemKeys) as $removedOriginalItemKey) {
             $item = $this->itemFakturPenjualans[$removedOriginalItemKey];
             if ( ! $item->isModifiable() ) {
-                throw $this->emitErrors(ValidationException::withMessages([
+                throw $this->emitValidationExceptionErrors(ValidationException::withMessages([
                     "itemFakturPenjualans.{$removedOriginalItemKey}.jumlah" => $item->getUnmodifiableMessage(),
                 ]));
             }
@@ -81,7 +81,7 @@ class FakturPenjualanEdit extends Component
                     try {
                         $itemFakturPenjualan->commitStockTransaction();
                     } catch (ApplicationException $exception) {
-                        throw $this->emitErrors(ValidationException::withMessages([
+                        throw $this->emitValidationExceptionErrors(ValidationException::withMessages([
                             "itemFakturPenjualans.{$key}.jumlah" => "Stock yang tersedia tidak mencukupi.",
                         ]));
                     }

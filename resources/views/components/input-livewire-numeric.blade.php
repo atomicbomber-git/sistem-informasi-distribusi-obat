@@ -1,5 +1,5 @@
 <div
-        x-data="{ value: @entangle($attributes->wire('model')->value()), error: null }"
+        x-data="{ value: @entangle($attributes->wire('model')), error: null, cleave: null }"
         x-init="(function() {
             let field = '{{ $attributes->wire('model')->value() }}'
 
@@ -11,7 +11,7 @@
                 }
             })
 
-            let cleave = new Cleave($refs.input, {
+             cleave = new Cleave($refs.input, {
                 numeral: true,
                 onValueChanged: e => {
                     let rawValue = e.target.rawValue.length !== 0 ?
@@ -47,6 +47,7 @@
     </label>
 
     <input
+            x-on:focusout="value = cleave.getRawValue()"
             x-on:change="$event.stopPropagation()"
             x-on:input="$event.stopPropagation()"
             id="{{ $field ?? $attributes->wire('model')->value() }}"

@@ -124,7 +124,7 @@ class ReturPenjualanCreate extends Component
             ]);
 
         if ($errorMessagesForDuplicatedDraftItems->isNotEmpty() > 0) {
-            throw $this->emitErrors(ValidationException::withMessages($errorMessagesForDuplicatedDraftItems->toArray()));
+            throw $this->emitValidationExceptionErrors(ValidationException::withMessages($errorMessagesForDuplicatedDraftItems->toArray()));
         }
     }
 

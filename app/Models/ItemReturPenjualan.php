@@ -22,6 +22,7 @@ class ItemReturPenjualan extends Model
     ];
     protected $table = "item_retur_penjualan";
     protected $guarded = [];
+    protected $connection = "mysql";
 
     public function returPenjualan(): BelongsTo
     {

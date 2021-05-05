@@ -16,13 +16,18 @@ trait HasValidatorThatEmitsErrors
         try {
              return $this->validate($rules, $messages, $attributes);
         } catch (ValidationException $validationException) {
-            throw $this->emitErrors($validationException);
+            throw $this->emitValidationExceptionErrors($validationException);
         }
     }
 
-    public function emitErrors(ValidationException $exception): ValidationException
+    public function emitValidationExceptionErrors(ValidationException $exception): ValidationException
     {
         $this->emit("validation-errors", $exception->errors());
         return $exception;
+    }
+
+    public function emitClearErrors()
+    {
+        $this->emit("validation-errors", []);
     }
 }

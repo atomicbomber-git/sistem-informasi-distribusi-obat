@@ -89,7 +89,7 @@ class FakturPenjualanCreate extends Component
             } catch (ApplicationException $exception) {
                 DB::rollBack();
 
-                throw $this->emitErrors(
+                throw $this->emitValidationExceptionErrors(
                     ValidationException::withMessages([
                         "itemFakturPenjualans.{$key}.jumlah" => "Jumlah penjualan tidak boleh melebihi stock yang ada."
                     ])
