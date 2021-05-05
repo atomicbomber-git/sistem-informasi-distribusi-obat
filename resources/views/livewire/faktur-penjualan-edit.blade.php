@@ -88,7 +88,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.quantity") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.jumlah'
+                                    wire:model.defer='itemFakturPenjualans.{{ $key }}.jumlah'
                             />
                         </td>
 
@@ -96,7 +96,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.unit_price") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.harga_satuan'
+                                    wire:model.defer='itemFakturPenjualans.{{ $key }}.harga_satuan'
                             />
                         </td>
 
@@ -104,7 +104,7 @@
                             <x-input-livewire-numeric
                                     inline
                                     :label='__("application.discount") . " {$itemFakturPenjualan->produk->nama}"'
-                                    wire:model.lazy='itemFakturPenjualans.{{ $key }}.diskon'
+                                    wire:model.defer='itemFakturPenjualans.{{ $key }}.diskon'
                             />
                         </td>
                         <td class="text-end">

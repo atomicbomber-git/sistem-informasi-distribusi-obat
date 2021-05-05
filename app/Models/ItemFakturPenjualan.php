@@ -6,6 +6,7 @@ use App\BusinessLogic\PlannedStockMutation;
 use App\Enums\TipeMutasiStock;
 use App\Exceptions\ApplicationException;
 use App\QueryBuilders\ProdukBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -88,7 +89,10 @@ class ItemFakturPenjualan extends Model
 
     public function isModifiable(): bool
     {
-        return true;
+        return ItemReturPenjualan::query()
+            ->whereHas("mutasiStockPenjualan", function (Builder $builder) {
+                $builder->where("item_faktur_penjualan_id", $this->getKey());
+            })->doesntExist();
     }
 
     public function abortIfUnmodifiable(): void
@@ -100,7 +104,7 @@ class ItemFakturPenjualan extends Model
 
     public function getUnmodifiableMessage(): string
     {
-        return "Produk \"{$this->produk->nama}\" telah digunakan dalam operasi lain dan tak dapat dihapus sebelum operasi tersebut diubah.";
+        return "Item \"{$this->produk->nama}\" telah digunakan dalam operasi lain dan tak dapat diubah sebelum operasi tersebut diubah.";
     }
 
     public function rollbackStockTransaction()

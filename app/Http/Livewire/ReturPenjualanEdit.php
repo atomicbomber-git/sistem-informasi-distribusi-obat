@@ -30,6 +30,7 @@ class ReturPenjualanEdit extends Component
         return [
             "returPenjualan.nomor" => ["required", "integer", new ReturPenjualanNomorUnique($this->returPenjualan, $this->returPenjualan->nomor)],
             "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
+            "itemReturPenjualans.*.retur_penjualan_id" => ["required", Rule::exists(ReturPenjualan::class, "id")],
             "itemReturPenjualans.*.mutasi_stock_penjualan_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")],
             "itemReturPenjualans.*.jumlah" => [
                 "required",
@@ -60,11 +61,23 @@ class ReturPenjualanEdit extends Component
 
         DB::beginTransaction();
 
+        $deletedItemReturPenjualans = $this->returPenjualan
+            ->itemReturPenjualans()
+            ->whereNotIn("id", $this->itemReturPenjualans->pluck("id"))
+            ->get();
+
+        foreach ($deletedItemReturPenjualans as $deletedItemReturPenjualan) {
+            $deletedItemReturPenjualan->rollbackStockTransaction();
+            $deletedItemReturPenjualan->forceDelete();
+        }
+
         foreach ($this->itemReturPenjualans as $itemReturPenjualan) {
             if ($itemReturPenjualan->isDirty()) {
-                (clone $itemReturPenjualan)->forceFill(
-                    $itemReturPenjualan->getOriginal()
-                )->rollbackStockTransaction();
+                if ($itemReturPenjualan->exists) {
+                    (clone $itemReturPenjualan)->forceFill(
+                        $itemReturPenjualan->getOriginal()
+                    )->rollbackStockTransaction();
+                }
 
                 $itemReturPenjualan->save();
                 $itemReturPenjualan->commitStockTransaction();

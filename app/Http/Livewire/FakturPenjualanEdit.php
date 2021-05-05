@@ -74,7 +74,13 @@ class FakturPenjualanEdit extends Component
             $this->fakturPenjualan->save();
 
             foreach ($this->itemFakturPenjualans as $key => $itemFakturPenjualan) {
-                if ($itemFakturPenjualan->isModifiable() && $itemFakturPenjualan->isDirty()) {
+                if ($itemFakturPenjualan->isDirty()) {
+                    if (!$itemFakturPenjualan->isModifiable()) {
+                        throw $this->emitValidationExceptionErrors(ValidationException::withMessages([
+                            "itemFakturPenjualans.{$key}.jumlah" => $itemFakturPenjualan->getUnmodifiableMessage(),
+                        ]));
+                    }
+
                     $itemFakturPenjualan->rollbackStockTransaction();
                     $itemFakturPenjualan->save();
 
