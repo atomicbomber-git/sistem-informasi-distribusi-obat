@@ -17,6 +17,8 @@
         </li>
     </x-breadcrumb>
 
+    {{ $errors }}
+
     <form wire:submit.prevent="submit"
           class="card"
     >

@@ -28,6 +28,11 @@ class ItemReturPenjualan extends Model
         return $this->belongsTo(ReturPenjualan::class);
     }
 
+    public function mutasiStockPenjualan(): BelongsTo
+    {
+        return $this->belongsTo(MutasiStock::class);
+    }
+
     public function mutasiStock(): HasOne
     {
         return $this->hasOne(MutasiStock::class);
@@ -35,7 +40,7 @@ class ItemReturPenjualan extends Model
 
     public function commitStockTransaction(): void
     {
-        $stock = Stock::findOrFail($this->stock_id);
+        $stock = Stock::findOrFail($this->mutasiStockPenjualan->stock_id);
 
         if ($this->alasan === self::DAMAGED) {
             $stock = $stock->replicate([

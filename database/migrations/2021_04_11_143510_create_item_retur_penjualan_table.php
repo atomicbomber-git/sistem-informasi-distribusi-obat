@@ -15,12 +15,11 @@ class CreateItemReturPenjualanTable extends Migration
     {
         Schema::create('item_retur_penjualan', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('stock_id')->index();
+            $table->unsignedInteger('mutasi_stock_penjualan_id')->index();
             $table->string('jumlah');
             $table->string('alasan');
             $table->timestamps();
-
-            $table->foreign('stock_id')->references('id')->on('stock');
+            $table->foreign('mutasi_stock_penjualan_id')->references('id')->on('mutasi_stock');
         });
     }
 

@@ -14,6 +14,10 @@ class ReturPenjualan extends Model
     protected $table = "retur_penjualan";
     protected $guarded = [];
 
+    protected $casts = [
+        "waktu_pengembalian" => DatetimeInputCast::class
+    ];
+
     public function getPrefixedNomor(): string
     {
         return $this->getNomorPrefix() . '-' . $this->nomor;

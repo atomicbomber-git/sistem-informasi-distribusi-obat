@@ -18,6 +18,7 @@ class FakturPenjualan extends Model
     const NOMOR_PREFIX_CODE = "KM-";
     protected $table = "faktur_penjualan";
     protected $guarded = [];
+
     protected $casts = [
         "waktu_pengeluaran" => DatetimeInputCast::class
     ];

@@ -47,6 +47,10 @@
                             </a>
                         </td>
                         <x-td-control>
+                            <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)">
+                                @lang("application.edit")
+                            </x-button-edit>
+
                             <x-button-destroy :item="$returPenjualan"/>
                         </x-td-control>
                     </tr>

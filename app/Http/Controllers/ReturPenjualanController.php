@@ -34,18 +34,6 @@ class ReturPenjualanController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param FakturPenjualan $fakturPenjualan
-     * @param ReturPenjualan $returPenjualan
-     * @return Response
-     */
-    public function show(ReturPenjualan $returPenjualan)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param FakturPenjualan $fakturPenjualan
@@ -54,6 +42,8 @@ class ReturPenjualanController extends Controller
      */
     public function edit(ReturPenjualan $returPenjualan)
     {
-        //
+        return $this->responseFactory->view("retur-penjualan.edit", [
+            "returPenjualan" => $returPenjualan,
+        ]);
     }
 }

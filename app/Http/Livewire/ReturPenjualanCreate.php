@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
 use App\Models\FakturPenjualan;
+use App\Models\ItemFakturPenjualan;
 use App\Models\ItemReturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -39,21 +41,13 @@ class ReturPenjualanCreate extends Component
             // TODO: Validate against faktur that already has retur
             "returPenjualan.faktur_penjualan_id" => ["bail", "required", Rule::exists(
                 FakturPenjualan::class, "id")
-                ->where(function (Builder $query) {
-                })
             ],
 
             // TODO: Validate against faktur waktu_pengeluaran
             "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
 
             "draftItemReturPenjualans" => ["array", "required"],
-            "draftItemReturPenjualans.*.mutasi_stock_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")
-                ->where(function (Builder &$builder) {
-                    $builder = MutasiStock::query()
-                        ->whereHas("itemFakturPenjualan.fakturPenjualan", function (EloquentBuilder $builder) {
-                            $builder->where("id", $this->faktur_penjualan_id);
-                        });
-                })],
+            "draftItemReturPenjualans.*.mutasi_stock_penjualan_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")],
             "draftItemReturPenjualans.*.nama_produk" => ["required"],
             "draftItemReturPenjualans.*.jumlah_original" => ["required"],
             "draftItemReturPenjualans.*.produk_kode" => ["required"],
@@ -64,10 +58,10 @@ class ReturPenjualanCreate extends Component
                 "gt:0",
                 function ($attribute, $value, $fail) {
                     [$arrayName, $index,] = explode('.', $attribute);
-                    $mutasiStockIdAttribute = "{$arrayName}.{$index}.mutasi_stock_id";
+                    $mutasiStockPenjualanIdAttribute = "{$arrayName}.{$index}.mutasi_stock_penjualan_id";
 
                     $passes = MutasiStock::query()
-                        ->whereKey(data_get($this, $mutasiStockIdAttribute))
+                        ->whereKey(data_get($this, $mutasiStockPenjualanIdAttribute))
                         ->whereRaw("-jumlah >= ?", [$value])
                         ->exists();
 
@@ -84,6 +78,7 @@ class ReturPenjualanCreate extends Component
     {
         $validatedData = $this->validateAndEmitErrors();
 
+
         $this->validateInCaseOfDuplicatedItems($validatedData["draftItemReturPenjualans"]);
 
         DB::beginTransaction();
@@ -91,12 +86,8 @@ class ReturPenjualanCreate extends Component
         $this->returPenjualan->save();
 
         foreach ($validatedData["draftItemReturPenjualans"] as $draftItemReturPenjualan) {
-            /** @var MutasiStock $mutasiStock */
-            $mutasiStock = MutasiStock::query()
-                ->findOrFail($draftItemReturPenjualan["mutasi_stock_id"]);
-
             $itemReturPenjualan = $this->returPenjualan->itemReturPenjualans()->create([
-                "stock_id" => $mutasiStock->stock_id,
+                "mutasi_stock_penjualan_id" => $draftItemReturPenjualan["mutasi_stock_penjualan_id"],
                 "jumlah" => $draftItemReturPenjualan["jumlah"],
                 "alasan" => $draftItemReturPenjualan["alasan"],
             ]);
@@ -122,7 +113,7 @@ class ReturPenjualanCreate extends Component
     {
         $errorMessagesForDuplicatedDraftItems = collect($draftItemReturPenjualans)
             ->groupBy(
-                fn(array $draftItemReturPenjualan) => $draftItemReturPenjualan["mutasi_stock_id"] . "-" . $draftItemReturPenjualan["alasan"],
+                fn(array $draftItemReturPenjualan) => $draftItemReturPenjualan["mutasi_stock_penjualan_id"] . "-" . $draftItemReturPenjualan["alasan"],
                 true
             )
             ->filter(fn(Collection $group) => $group->count() > 1)
@@ -144,7 +135,7 @@ class ReturPenjualanCreate extends Component
             ->findOrFail($key);
 
         $this->draftItemReturPenjualans[] = [
-            "mutasi_stock_id" => $mutasiStock->id,
+            "mutasi_stock_penjualan_id" => $mutasiStock->id,
             "produk_kode" => $mutasiStock->itemFakturPenjualan->produk_kode,
             "nama_produk" => $mutasiStock->itemFakturPenjualan->produk->nama,
             "jumlah_original" => -$mutasiStock->jumlah,
