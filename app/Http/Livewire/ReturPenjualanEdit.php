@@ -58,6 +58,7 @@ class ReturPenjualanEdit extends Component
     {
         $this->validateAndEmitErrors();
         $this->validateInCaseOfDuplicatedItems();
+        $this->validateSumOfItemGroups();
 
         DB::beginTransaction();
 
@@ -148,5 +149,33 @@ class ReturPenjualanEdit extends Component
     {
         $this->pruneInvalidItems();
         return view('livewire.retur-penjualan-edit');
+    }
+
+    private function validateSumOfItemGroups(): void
+    {
+        $sumOfJumlahByMutasiStockPenjualanId = $this->itemReturPenjualans
+            ->groupBy("mutasi_stock_penjualan_id", true)
+            ->mapWithKeys(function (Collection $group, int $mutasi_stock_penjualan_id) {
+                return [$mutasi_stock_penjualan_id => $group->sum("jumlah")];
+            });
+
+        $errors = $this->itemReturPenjualans
+            ->filter(function (ItemReturPenjualan $itemReturPenjualan) use ($sumOfJumlahByMutasiStockPenjualanId) {
+                return
+                    (-$itemReturPenjualan->mutasiStockPenjualan->jumlah) <
+                    $sumOfJumlahByMutasiStockPenjualanId[$itemReturPenjualan->mutasi_stock_penjualan_id];
+            })->mapWithKeys(function (ItemReturPenjualan $itemReturPenjualan, int $key) {
+                return [
+                    "itemReturPenjualans.{$key}.jumlah" => sprintf(
+                        "Total jumlah untuk item dengan kode batch \"%s\" tidak boleh melebihi %d",
+                        $itemReturPenjualan->mutasiStockPenjualan->stock->kode_batch,
+                        -$itemReturPenjualan->mutasiStockPenjualan->jumlah,
+                    )
+                ];
+            });
+
+        if ($errors->isNotEmpty()) {
+            throw $this->emitValidationExceptionErrors(ValidationException::withMessages($errors->toArray()));
+        }
     }
 }
