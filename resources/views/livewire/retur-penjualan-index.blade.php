@@ -20,6 +20,15 @@
         </x-button-link>
     </x-control-bar>
 
+    <div>
+        <x-select-search
+                inline
+                label="Filter {{ __('application.customer') }}"
+                wire:model="pelanggan_id"
+                :searchUrl="route('pelanggan.search')"
+        />
+    </div>
+
     <x-messages></x-messages>
 
     @if($returPenjualans->isNotEmpty())
@@ -31,6 +40,7 @@
                         <th> @lang("application.code") </th>
                         <th> @lang("application.returned_at") </th>
                         <th> @lang("application.sales_invoice") </th>
+                        <th> @lang("application.customer") </th>
                         <x-th-control> @lang("application.controls") </x-th-control>
                     </tr>
                 </x-thead>
@@ -45,6 +55,9 @@
                             <a href="{{ route("faktur-penjualan.print", $returPenjualan->faktur_penjualan_id) }}">
                                 {{ $returPenjualan->fakturPenjualan->getPrefixedNomor() }}
                             </a>
+                        </td>
+                        <td>
+                            {{ $returPenjualan->fakturPenjualan->pelanggan->nama }}
                         </td>
                         <x-td-control>
                             <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)">

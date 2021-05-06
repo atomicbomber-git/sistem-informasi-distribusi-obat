@@ -11,12 +11,15 @@ use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
 use App\Support\WithFilter;
 use App\Support\WithSort;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ReturPenjualanIndex extends Component
 {
     use WithFilter, WithCustomPagination, WithSort, WithDestroy;
+
+    public $pelanggan_id = null;
 
     public function destroy(mixed $modelKey)
     {
@@ -50,6 +53,12 @@ class ReturPenjualanIndex extends Component
     {
         return view('livewire.retur-penjualan-index', [
             "returPenjualans" => ReturPenjualan::query()
+                ->when($this->pelanggan_id, function (Builder $builder, $pelanggan_id) {
+                    $builder->whereHas("fakturPenjualan", function (Builder $builder) {
+                        $builder->where("pelanggan_id", $this->pelanggan_id);
+                    });
+                })
+                ->with("fakturPenjualan.pelanggan")
                 ->orderByDesc("waktu_pengembalian")
                 ->paginate(),
         ]);

@@ -4,19 +4,14 @@ namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
 use App\Models\FakturPenjualan;
-use App\Models\ItemFakturPenjualan;
 use App\Models\ItemReturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
-use App\Rules\FakturPenjualanNomorUnique;
 use App\Rules\ReturPenjualanNomorUnique;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -25,7 +20,7 @@ class ReturPenjualanCreate extends Component
 {
     use HasValidatorThatEmitsErrors;
 
-    public ?int $faktur_penjualan_id = null;
+    public $faktur_penjualan_id = null;
     public mixed $waktu_pengembalian = null;
 
     /** @var array */

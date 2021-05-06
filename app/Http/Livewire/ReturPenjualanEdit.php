@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
-use App\Models\ItemFakturPenjualan;
 use App\Models\ItemReturPenjualan;
 use App\Models\MutasiStock;
 use App\Models\ReturPenjualan;
@@ -114,43 +113,6 @@ class ReturPenjualanEdit extends Component
         }
     }
 
-    public function mount(): void
-    {
-        $this->itemReturPenjualans = $this->returPenjualan
-            ->itemReturPenjualans()
-            ->get();
-    }
-
-    public function addItem(mixed $key)
-    {
-        MutasiStock::findOrFail($key);
-
-        $this->itemReturPenjualans->push(new ItemReturPenjualan([
-            "mutasi_stock_penjualan_id" => $key,
-            "retur_penjualan_id" => $this->returPenjualan->getKey(),
-            "jumlah" => 1,
-            "alasan" => ItemReturPenjualan::EXPIRED,
-        ]));
-    }
-
-    public function removeItem(mixed $key)
-    {
-        if ($this->itemReturPenjualans->has($key)) {
-            $this->itemReturPenjualans->forget($key);
-        }
-    }
-
-    private function pruneInvalidItems(): void
-    {
-        $this->itemReturPenjualans = $this->itemReturPenjualans->reject(fn(mixed $item) => !($item instanceof ItemReturPenjualan));
-    }
-
-    public function render()
-    {
-        $this->pruneInvalidItems();
-        return view('livewire.retur-penjualan-edit');
-    }
-
     private function validateSumOfItemGroups(): void
     {
         $sumOfJumlahByMutasiStockPenjualanId = $this->itemReturPenjualans
@@ -177,5 +139,42 @@ class ReturPenjualanEdit extends Component
         if ($errors->isNotEmpty()) {
             throw $this->emitValidationExceptionErrors(ValidationException::withMessages($errors->toArray()));
         }
+    }
+
+    public function mount(): void
+    {
+        $this->itemReturPenjualans = $this->returPenjualan
+            ->itemReturPenjualans()
+            ->get();
+    }
+
+    public function addItem(mixed $key)
+    {
+        MutasiStock::findOrFail($key);
+
+        $this->itemReturPenjualans->push(new ItemReturPenjualan([
+            "mutasi_stock_penjualan_id" => $key,
+            "retur_penjualan_id" => $this->returPenjualan->getKey(),
+            "jumlah" => 1,
+            "alasan" => ItemReturPenjualan::EXPIRED,
+        ]));
+    }
+
+    public function removeItem(mixed $key)
+    {
+        if ($this->itemReturPenjualans->has($key)) {
+            $this->itemReturPenjualans->forget($key);
+        }
+    }
+
+    public function render()
+    {
+        $this->pruneInvalidItems();
+        return view('livewire.retur-penjualan-edit');
+    }
+
+    private function pruneInvalidItems(): void
+    {
+        $this->itemReturPenjualans = $this->itemReturPenjualans->reject(fn(mixed $item) => !($item instanceof ItemReturPenjualan));
     }
 }
