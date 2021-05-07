@@ -1,1 +1,1 @@
-<i class="bi-arrow-90deg-down"></i>
+<i class="bi-arrow-90deg-up"></i>

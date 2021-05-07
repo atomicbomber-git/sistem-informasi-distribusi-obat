@@ -60,6 +60,13 @@
                 <h2 class="h5 mt-2"> @lang("application.return") </h2>
 
                 <x-dashboard-item>
+                    <a href="{{ route("retur-pembelian.index") }}" class="w-100 text-start btn btn-lg btn-dark">
+                        <x-icon-purchase-return/>
+                        @lang("application.purchase-return")
+                    </a>
+                </x-dashboard-item>
+
+                <x-dashboard-item>
                     <a href="{{ route("retur-penjualan.index") }}" class="w-100 text-start btn btn-lg btn-dark">
                         <x-icon-sales-return/>
                         @lang("application.sales-return")

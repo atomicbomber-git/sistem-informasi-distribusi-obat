@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class FakturPembelian extends Model
 {
@@ -21,6 +22,12 @@ class FakturPembelian extends Model
     ];
 
     protected $guarded = [];
+
+    public function returPembelian(): HasOne
+    {
+        return $this->hasOne(ReturPembelian::class);
+    }
+
 
     /** return \App\QueryBuilders\FakturPenjualanBuilder */
     public function newEloquentBuilder($query)

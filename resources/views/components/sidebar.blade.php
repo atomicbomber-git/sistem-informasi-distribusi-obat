@@ -27,11 +27,6 @@
         @lang("application.supplier")
     </x-menu-item>
 
-{{--    <x-menu-item :href="route('admin.user.edit')" routeIs='admin.user.*' >--}}
-{{--        <x-icon-user/>--}}
-{{--        @lang("application.admin_user")--}}
-{{--    </x-menu-item>--}}
-
     <x-menu-subtitle>
         @lang("application.invoice")
     </x-menu-subtitle>
@@ -53,5 +48,10 @@
     <x-menu-item :href="route('retur-penjualan.index')" routeIs='retur-penjualan.*' >
         <x-icon-sales-return/>
         @lang("application.sales-return")
+    </x-menu-item>
+
+    <x-menu-item :href="route('retur-pembelian.index')" routeIs='retur-pembelian.*' >
+        <x-icon-purchase-return/>
+        @lang("application.purchase-return")
     </x-menu-item>
 </nav>

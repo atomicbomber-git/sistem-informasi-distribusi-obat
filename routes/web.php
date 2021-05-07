@@ -15,6 +15,7 @@ use App\Http\Controllers\PemasokSearchController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
+use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UpdateAdminUserController;
@@ -59,6 +60,5 @@ Route::resource("faktur-penjualan", FakturPenjualanController::class);
 Route::get("faktur-penjualan/{faktur_penjualan}/search-item", ItemFakturPenjualanSearchController::class)->name("faktur-penjualan.search-item");
 Route::get("dashboard", DashboardController::class)->name("dashboard");
 Route::resource("retur-penjualan", ReturPenjualanController::class);
-
-
+Route::resource("retur-pembelian", ReturPembelianController::class);
 
