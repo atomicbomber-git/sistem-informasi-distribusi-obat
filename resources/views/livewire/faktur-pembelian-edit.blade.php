@@ -100,11 +100,10 @@
                             />
                         </td>
                         <td class="text-end">
-                            <x-lv-input-numeric
+                            <x-input-livewire-numeric
                                     inline small
                                     :label='__("application.unit_price") . " " . $item_faktur_pembelian["produk"]["nama"]'
-                                    :key='"harga_satuan_{$loop->index}"'
-                                    :field='"item_faktur_pembelians.{$key}.harga_satuan"'
+                                    wire:model.defer='item_faktur_pembelians.{{ $key }}.harga_satuan'
                             />
                         </td>
                         <td class="text-end">
@@ -113,7 +112,7 @@
                         <x-td-control>
                             <button
                                     x-data="{}"
-                                    x-on:click="@this.call('removeOrRestoreItem', '{{ $key }}')  "
+                                    x-on:click="@this.call('removeOrRestoreItem', '{{ $key }}')"
                                     type="button"
                                     class="btn btn-sm {{ $item_faktur_pembelian["is_removed"] ? "btn-success" : "btn-danger" }}"
                             >

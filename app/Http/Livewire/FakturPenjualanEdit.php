@@ -61,9 +61,9 @@ class FakturPenjualanEdit extends Component
     {
         foreach (array_keys($this->removedOriginalItemKeys) as $removedOriginalItemKey) {
             $item = $this->itemFakturPenjualans[$removedOriginalItemKey];
-            if ( ! $item->isModifiable() ) {
+            if ( ! $item->isModifiable() && $item->isDirty() ) {
                 throw $this->emitValidationExceptionErrors(ValidationException::withMessages([
-                    "itemFakturPenjualans.{$removedOriginalItemKey}.jumlah" => $item->getUnmodifiableMessage(),
+                    "itemFakturPenjualans.{$removedOriginalItemKey}.jumlah" => "XXXXX",
                 ]));
             }
         }
@@ -99,8 +99,6 @@ class FakturPenjualanEdit extends Component
             __("messages.update.success"),
             MessageState::STATE_SUCCESS,
         );
-
-        $this->redirect(route("faktur-penjualan.edit", $this->fakturPenjualan->refresh()));
     }
 
     public function mount()

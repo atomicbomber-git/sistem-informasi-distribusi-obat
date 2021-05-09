@@ -34,9 +34,8 @@
         <br>
         <br>
         <br>
-        TEGUH SAPUTRA
-        <div style="border-top: thin solid black">
-            19660719/SIKA_61.12/2018/1056
+        <div style="border-top: thin solid black; text-transform: uppercase">
+            Admin PT. Kuburaya Mediafarma
         </div>
     </div>
 </div>

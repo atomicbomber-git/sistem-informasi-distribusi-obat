@@ -98,7 +98,7 @@ class FakturPembelianEdit extends Component
             $itemFakturPembelian = ItemFakturPembelian::query()
                 ->findOrFail($existingItemData["current_id"]);
 
-            if (!$itemFakturPembelian->isModifiable()) {
+            if (!$itemFakturPembelian->isModifiable() && $itemFakturPembelian->isDirty() ) {
                 throw ValidationException::withMessages([
                     "item_faktur_pembelians.{$index}.kode_batch" => $itemFakturPembelian->getUnmodifiableMessage(),
                 ]);
@@ -151,8 +151,6 @@ class FakturPembelianEdit extends Component
             __("messages.update.success"),
             MessageState::STATE_SUCCESS,
         );
-
-        $this->redirect(route("faktur-pembelian.edit", $this->fakturPembelian));
     }
 
     public function mount()
@@ -216,6 +214,8 @@ class FakturPembelianEdit extends Component
 
     public function render()
     {
+        ray()->send($this->item_faktur_pembelians);
+        
         return view('livewire.faktur-pembelian-edit');
     }
 }
