@@ -19,7 +19,7 @@ class ReturPembelianNomorUnique implements Rule
      * @param ReturPembelian $returPembelian
      * @param int $ignore
      */
-    public function __construct(ReturPenjualan $returPembelian, $ignore = null)
+    public function __construct(ReturPembelian $returPembelian, $ignore = null)
     {
         $this->returPembelian = $returPembelian;
         $this->ignore = $ignore;
@@ -34,6 +34,8 @@ class ReturPembelianNomorUnique implements Rule
      */
     public function passes($attribute, $value): bool
     {
+        if ( ! $this->returPembelian->waktu_pengembalian) return false;
+
         $waktuPengembalian = Date::make($this->returPembelian->waktu_pengembalian);
 
         return ReturPembelian::query()

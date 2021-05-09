@@ -9,6 +9,7 @@ class ItemReturPembelian extends Model
 {
     const EXPIRED = "expired";
     const DAMAGED = "damaged";
+
     const REASONS = [
         self::EXPIRED,
         self::DAMAGED,
