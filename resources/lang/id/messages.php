@@ -1,8 +1,16 @@
 <?php
 
 return [
-    'errors' => [
-        'no_data' => 'Data tidak tersedia.'
+    'product' => [
+        'delete' => ['failure' => "Gagal menghapus data: Produk ini masih terdapat di faktur pembelian / penjualan ataupun retur pembelian  / penjualan.",],
+    ],
+
+    'supplier' => [
+        'delete' => ['failure' => "Gagal menghapus data: Pemasok ini masih terdapat di faktur pembelian.",],
+    ],
+
+    'customer' => [
+        'delete' => ['failure' => "Gagal menghapus data: Pelanggan ini masih terdapat di faktur penjualan.",],
     ],
 
     'create' => [
@@ -19,5 +27,4 @@ return [
         'success' => 'Data berhasil dihapus.',
         'failure' => 'Data gagal dihapus.',
     ]
-
 ];

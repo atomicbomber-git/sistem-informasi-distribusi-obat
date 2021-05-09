@@ -52,7 +52,9 @@
                         <td> {{ $returPenjualan->getPrefixedNomor() }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </td>
                         <td>
-                            <a href="{{ route("faktur-penjualan.print", $returPenjualan->faktur_penjualan_id) }}">
+                            <a href="{{ route("faktur-penjualan.print", $returPenjualan->faktur_penjualan_id) }}"
+                               target="_blank"
+                            >
                                 {{ $returPenjualan->fakturPenjualan->getPrefixedNomor() }}
                             </a>
                         </td>
@@ -60,7 +62,9 @@
                             {{ $returPenjualan->fakturPenjualan->pelanggan->nama }}
                         </td>
                         <x-td-control>
-                            <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)">
+                            <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)"
+                                           target="_blank"
+                            >
                                 @lang("application.edit")
                             </x-button-edit>
 

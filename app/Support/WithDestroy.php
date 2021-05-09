@@ -6,6 +6,7 @@ namespace App\Support;
 use App\Enums\MessageState;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Exception;
 
 /* @mixin Component */
 trait WithDestroy
@@ -15,6 +16,11 @@ trait WithDestroy
         $this->listeners = array_merge($this->listeners, [
             "destroy" => "destroy",
         ]);
+    }
+
+    public function deleteFailureMessage(Exception $exception): string
+    {
+        return __("messages.delete.failure");
     }
 
     public function destroy(mixed $modelKey)
@@ -32,9 +38,9 @@ trait WithDestroy
                 __("messages.delete.success"),
                 MessageState::STATE_SUCCESS,
             );
-        } catch (\Throwable $throwable) {
+        } catch (Exception $exception) {
             SessionHelper::flashMessage(
-                __("messages.delete.failure"),
+                $this->deleteFailureMessage($exception),
                 MessageState::STATE_DANGER,
             );
         }

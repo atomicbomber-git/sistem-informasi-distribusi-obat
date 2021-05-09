@@ -40,8 +40,7 @@ class ReturPembelian extends Model
 
     public function getNomorPrefix(): string
     {
-        // TODO: Fix this one
-        return "KM-RJB" . $this->getNomorYearMonthPrefixPart();
+        return "KM-RBB" . $this->getNomorYearMonthPrefixPart();
     }
 
     public function getNomorYearMonthPrefixPart(): string

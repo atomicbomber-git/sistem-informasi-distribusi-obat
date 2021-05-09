@@ -9,6 +9,8 @@
             <div class="card-body">
                 <x-form-post id="the-form">
                     <x-input
+                            autofocus
+                            autocomplete
                             field="username"
                             label="{{ __('application.username') }}"
                     />

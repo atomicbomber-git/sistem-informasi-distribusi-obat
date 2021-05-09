@@ -10,6 +10,7 @@
 
         <input
                 wire:model.debounce.500ms="filter"
+                autofocus
                 placeholder="@lang("application.filter")"
                 class="form-control"
                 id="filter"

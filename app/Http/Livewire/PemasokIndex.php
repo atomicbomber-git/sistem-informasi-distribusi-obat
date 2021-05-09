@@ -8,11 +8,17 @@ use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
 use App\Support\WithFilter;
 use App\Support\WithSort;
+use Exception;
 use Livewire\Component;
 
 class PemasokIndex extends Component
 {
     use WithCustomPagination, WithSort, WithFilter, WithDestroy;
+
+    public function deleteFailureMessage(Exception $exception): string
+    {
+        return __("messages.supplier.delete.failure");
+    }
 
     public function render()
     {

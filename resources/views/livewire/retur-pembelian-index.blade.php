@@ -1,14 +1,14 @@
 <article>
     <x-feature-title>
-        <x-icon-sales-return/>
-        @lang("application.sales-return")
+        <x-icon-purchase-return/>
+        @lang("application.purchase-return")
     </x-feature-title>
 
     <x-breadcrumb>
         <li class="breadcrumb-item active"
             aria-current="page"
         >
-            @lang("application.sales-return")
+            @lang("application.purchase-return")
         </li>
     </x-breadcrumb>
 
@@ -52,7 +52,9 @@
                         <td> {{ $returPembelian->getPrefixedNomor() }} </td>
                         <td> {{ \App\Support\Formatter::dayMonthYear($returPembelian->waktu_pengembalian) }} </td>
                         <td>
-                            <a href="{{ route("faktur-pembelian.print", $returPembelian->faktur_pembelian_kode) }}">
+                            <a href="{{ route("faktur-pembelian.print", $returPembelian->faktur_pembelian_kode) }}"
+                               target="_blank"
+                            >
                                 {{ $returPembelian->fakturPembelian->kode }}
                             </a>
                         </td>
