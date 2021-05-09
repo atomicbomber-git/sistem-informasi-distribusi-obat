@@ -8,7 +8,10 @@ use App\Models\ItemFakturPembelian;
 use App\Models\ItemFakturPenjualan;
 use App\Models\ItemReturPembelian;
 use App\Models\ReturPembelian;
+use App\Rules\ReturPembelianNomorUnique;
+use App\Rules\ReturPenjualanNomorUnique;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -22,6 +25,8 @@ class ReturPembelianCreate extends Component
     public function rules()
     {
         return [
+            "returPembelian.nomor" => ["required", "integer", new ReturPembelianNomorUnique($this->returPembelian)],
+            "returPembelian.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "returPembelian.faktur_pembelian_kode" => ["required", Rule::exists(FakturPembelian::class, "kode")],
             "itemReturPembelians.*.item_faktur_pembelian_id" => ["required", Rule::exists(ItemReturPembelian::class, "id")],
             "itemReturPembelians.*.jumlah" => ["required", "gt:0"],
@@ -50,11 +55,16 @@ class ReturPembelianCreate extends Component
         $this->itemReturPembelians = new Collection();
     }
 
+    public function removeItem(mixed $key)
+    {
+        $this->itemReturPembelians->forget($key);
+    }
+
     public function addItem(mixed $key)
     {
         $itemFakturPembelian = ItemFakturPembelian::query()->findOrFail($key);
 
-        $this->itemReturPembelians->push(
+        $this->itemReturPembelians->put($key,
             new ItemReturPembelian([
                 "item_faktur_pembelian_id" => $key,
                 "itemFakturPembelian" => $itemFakturPembelian,

@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'errors' => [
+        'no_data' => 'Tidak terdapat data sama sekali.',
+    ],
+
     'product' => [
         'delete' => ['failure' => "Gagal menghapus data: Produk ini masih terdapat di faktur pembelian / penjualan ataupun retur pembelian  / penjualan.",],
     ],
