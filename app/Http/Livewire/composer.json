@@ -1,0 +1,14 @@
+{
+  "name": "vendor_name/Livewire",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "atomicbomber",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}

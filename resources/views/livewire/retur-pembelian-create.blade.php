@@ -38,7 +38,7 @@
                     type="datetime-local"
             />
 
-            @error("draftItemReturPembelians")
+            @error("itemReturPembelians")
             <div class="alert alert-danger">
                 {{ $message }}
             </div>
@@ -58,27 +58,27 @@
                 </x-thead>
 
                 <tbody>
-                @foreach ($draftItemReturPembelians as $key => $draftItemReturPembelian)
+                @foreach ($itemReturPembelians as $key => $itemReturPembelian)
                     <tr wire:key="{{ $key }}">
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $draftItemReturPembelian["nama_produk"] ?? null }} </td>
-                        <td> {{ $draftItemReturPembelian["kode_batch"] ?? null }} </td>
-                        <td class="text-end"> {{ $draftItemReturPembelian["jumlah_original"] ?? null }} </td>
+                        <td> {{ $itemReturPembelian->itemFakturPembelian->produk->nama }} </td>
+                        <td> {{ $itemReturPembelian->itemFakturPembelian->kode_batch }} </td>
+                        <td class="text-end"> {{ \App\Support\Formatter::quantity($itemReturPembelian->itemFakturPembelian->jumlah) }} </td>
                         <td>
                             <x-input-livewire-numeric
                                     wire:key="input-{{ $key }}"
                                     inline small
-                                    :label='__("application.quantity") . " " . $draftItemReturPembelian["nama_produk"] ?? null . " batch " . $draftItemReturPembelian["kode_batch"] ?? null'
-                                    wire:model='draftItemReturPembelians.{{ $key }}.jumlah'
+                                    :label='__("application.quantity") . " " . $itemReturPembelian->itemFakturPembelian->produk->nama . " batch " . $itemReturPembelian->itemFakturPembelian->kode_batch ?? null'
+                                    wire:model='itemReturPembelians.{{ $key }}.jumlah'
                             />
                         </td>
                         <td>
                             <label for="alasan_{{ $key }}" class="visually-hidden">
-                                {{ __("application.alasan") . " " . ($draftItemReturPembelian["nama_produk"] ?? null) . " batch " . ($draftItemReturPembelian["kode_batch"] ?? null) }}
+                                {{ __("application.alasan") . " " . ($itemReturPembelian->itemFakturPembelian->produk->nama) . " batch " . ($itemReturPembelian->itemFakturPembelian->kode_batch) }}
                             </label>
                             <select
                                     class="form-select form-select-sm"
-                                    wire:model="draftItemReturPembelians.{{ $key }}.alasan"
+                                    wire:model="itemReturPembelians.{{ $key }}.alasan"
                                     name="alasan_{{ $key }}"
                                     id="alasan_{{ $key }}"
                             >
@@ -105,7 +105,7 @@
                 <label class="form-label"
                        for="item-add"
                 >
-                    @lang("application.sales_invoice")
+                    @lang("application.purchase_invoice")
                 </label>
                 <select
                         wire:ignore
