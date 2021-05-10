@@ -37,7 +37,7 @@ class ItemReturPembelian extends Model
         return $this->hasOne(MutasiStock::class);
     }
 
-    public function applyStockTransaction(): void
+    public function commitStockTransaction(): void
     {
         DB::beginTransaction();
 

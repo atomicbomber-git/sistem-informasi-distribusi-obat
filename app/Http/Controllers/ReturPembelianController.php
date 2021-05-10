@@ -12,6 +12,7 @@ class ReturPembelianController extends Controller
 
     public function __construct(ResponseFactory $responseFactory)
     {
+        $this->middleware("auth");
         $this->responseFactory = $responseFactory;
     }
 
@@ -36,28 +37,6 @@ class ReturPembelianController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ReturPembelian  $returPembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ReturPembelian $returPembelian)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\ReturPembelian  $returPembelian
@@ -65,29 +44,8 @@ class ReturPembelianController extends Controller
      */
     public function edit(ReturPembelian $returPembelian)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ReturPembelian  $returPembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ReturPembelian $returPembelian)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ReturPembelian  $returPembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ReturPembelian $returPembelian)
-    {
-        //
+        return $this->responseFactory->view("retur-pembelian.edit", [
+            "returPembelian" => $returPembelian,
+        ]);
     }
 }

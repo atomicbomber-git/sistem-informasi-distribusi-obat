@@ -41,6 +41,7 @@ class ReturPembelianCreate extends Component
     {
         if ($attribute === "returPembelian.faktur_pembelian_kode") {
             $this->emitFakturPembelianChangedEvent();
+            $this->itemReturPembelians = new Collection();
         }
     }
 
@@ -55,6 +56,7 @@ class ReturPembelianCreate extends Component
     public function mount()
     {
         $this->returPembelian = new ReturPembelian([
+            "waktu_pengembalian" => now()->format("Y-m-d\TH:i"),
             "nomor" => ReturPembelian::getNextNomor()
         ]);
 
@@ -91,7 +93,7 @@ class ReturPembelianCreate extends Component
 
         foreach ($this->itemReturPembelians as $itemReturPembelian) {
             $this->returPembelian->itemReturPembelians()->save($itemReturPembelian);
-            $itemReturPembelian->applyStockTransaction();
+            $itemReturPembelian->commitStockTransaction();
         }
 
         DB::commit();

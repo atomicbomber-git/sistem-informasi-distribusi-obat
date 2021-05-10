@@ -17,12 +17,12 @@ class ReturPembelianNomorUnique implements Rule
      * Create a new rule instance.
      *
      * @param ReturPembelian $returPembelian
-     * @param int $ignore
+     * @param int|null $nomorToBeIgnored
      */
-    public function __construct(ReturPembelian $returPembelian, $ignore = null)
+    public function __construct(ReturPembelian $returPembelian, int $nomorToBeIgnored = null)
     {
         $this->returPembelian = $returPembelian;
-        $this->ignore = $ignore;
+        $this->ignore = $nomorToBeIgnored;
     }
 
     /**

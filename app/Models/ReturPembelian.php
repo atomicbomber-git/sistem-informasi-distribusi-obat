@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Jenssegers\Date\Date;
 
 class ReturPembelian extends Model
@@ -15,6 +14,10 @@ class ReturPembelian extends Model
     use HasFactory;
     protected $table = "retur_pembelian";
     protected $guarded = [];
+
+    protected $casts = [
+        "waktu_pengembalian" => DatetimeInputCast::class
+    ];
 
     public function fakturPembelian(): BelongsTo
     {
