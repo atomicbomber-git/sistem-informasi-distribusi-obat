@@ -18,7 +18,9 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukInHandSearchController;
 use App\Http\Controllers\ProdukSearchController;
 use App\Http\Controllers\ReturPembelianController;
+use App\Http\Controllers\ReturPembelianPrintController;
 use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\ReturPenjualanPrintController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UpdateAdminUserController;
 use App\Http\Livewire\FakturPenjualanIndex;
@@ -64,5 +66,8 @@ Route::resource("faktur-penjualan", FakturPenjualanController::class);
 Route::get("faktur-penjualan/{faktur_penjualan}/search-item", ItemFakturPenjualanSearchController::class)->name("faktur-penjualan.search-item");
 Route::get("dashboard", DashboardController::class)->name("dashboard");
 Route::resource("retur-penjualan", ReturPenjualanController::class);
+Route::get("retur-penjualan/{retur_penjualan}/print", ReturPenjualanPrintController::class)->name("retur-penjualan.print");
 Route::resource("retur-pembelian", ReturPembelianController::class);
+Route::get("retur-pembelian/{retur_pembelian}/print", ReturPembelianPrintController::class)->name("retur-pembelian.print");
+
 

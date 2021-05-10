@@ -62,6 +62,11 @@
                             {{ $returPembelian->fakturPembelian->pemasok->nama }}
                         </td>
                         <x-td-control>
+                            <x-button-link small :href="route('retur-pembelian.print', $returPembelian)" target="_blank">
+                                @lang("application.print")
+                                <x-icon-print/>
+                            </x-button-link>
+
                             <x-button-edit :href="route('retur-pembelian.edit', $returPembelian)">
                                 @lang("application.edit")
                             </x-button-edit>

@@ -62,9 +62,12 @@
                             {{ $returPenjualan->fakturPenjualan->pelanggan->nama }}
                         </td>
                         <x-td-control>
-                            <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)"
-                                           target="_blank"
-                            >
+                            <x-button-link small :href="route('retur-penjualan.print', $returPenjualan)" target="_blank">
+                                @lang("application.print")
+                                <x-icon-print/>
+                            </x-button-link>
+
+                            <x-button-edit :href="route('retur-penjualan.edit', $returPenjualan)">
                                 @lang("application.edit")
                             </x-button-edit>
 
