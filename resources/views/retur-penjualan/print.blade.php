@@ -1,4 +1,4 @@
-<x-layouts.print :title="__('application.sales-return') . ' ' . $returPenjualan->getKey()">
+<x-layouts.print :title="__('application.sales-return') . ' ' . $returPenjualan->getPrefixedNomor()">
     @foreach ($itemReturPenjualanPages as $pageIndex => $itemReturPenjualans)
         <x-print-sheet>
             <h1 style="font-size: 18pt; text-align: center">

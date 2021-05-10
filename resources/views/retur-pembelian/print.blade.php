@@ -1,4 +1,4 @@
-<x-layouts.print :title="__('application.purchase-return') . ' ' . $returPembelian->getKey()">
+<x-layouts.print :title="__('application.purchase-return') . ' ' . $returPembelian->getPrefixedNomor()">
     @foreach ($itemReturPembelianPages as $pageIndex => $itemReturPembelians)
         <x-print-sheet>
             <h1 style="font-size: 18pt; text-align: center">
