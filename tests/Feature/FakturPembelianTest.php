@@ -77,7 +77,7 @@ test("Can create faktur pembelian", function () {
 
     $firstItem = $faktur->item_faktur_pembelians[0];
     expect($firstItem->isModifiable())->toBe(true);
-    expect($firstItem->mutasiStocks()->count())->toBe(1);
+    expect($firstItem->mutasiStock()->count())->toBe(1);
 
     $firstMutasiStock = $firstItem->mutasiStocks[0];
     expect($firstMutasiStock->tipe)->toBe(TipeMutasiStock::PEMBELIAN);
@@ -89,7 +89,7 @@ test("Can create faktur pembelian", function () {
 
     $secondItem = $faktur->item_faktur_pembelians[1];
     expect($secondItem->isModifiable())->toBe(true);
-    expect($secondItem->mutasiStocks()->count())->toBe(1);
+    expect($secondItem->mutasiStock()->count())->toBe(1);
 
     $secondMutasiStock = $secondItem->mutasiStocks[0];
     expect($secondMutasiStock->tipe)->toBe(TipeMutasiStock::PEMBELIAN);

@@ -10,11 +10,13 @@ class CreateItemReturPembelianTable extends Migration
     {
         Schema::create('item_retur_pembelian', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('retur_pembelian_id')->index();
             $table->unsignedInteger('item_faktur_pembelian_id')->index();
             $table->string('jumlah');
             $table->string('alasan');
             $table->timestamps();
             $table->foreign('item_faktur_pembelian_id')->references('id')->on('item_faktur_pembelian');
+            $table->foreign('retur_pembelian_id')->references('id')->on('retur_pembelian');
         });
     }
 

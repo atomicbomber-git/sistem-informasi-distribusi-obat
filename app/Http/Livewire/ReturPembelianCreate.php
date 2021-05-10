@@ -10,8 +10,8 @@ use App\Models\ReturPembelian;
 use App\Rules\ReturPembelianNomorUnique;
 use App\Support\HasValidatorThatEmitsErrors;
 use App\Support\SessionHelper;
-use DB;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -85,16 +85,16 @@ class ReturPembelianCreate extends Component
         $this->validateInCaseOfDuplicatedItems();
         $this->validateInCaseJumlahInEachLineExceedsJumlahInItemFakturPenjualan();
 
-        \Illuminate\Support\Facades\DB::beginTransaction();
+        DB::beginTransaction();
 
         $this->returPembelian->save();
 
-        // TODO: Implement stockTransaction logic
         foreach ($this->itemReturPembelians as $itemReturPembelian) {
-            $itemReturPembelian->save();
+            $this->returPembelian->itemReturPembelians()->save($itemReturPembelian);
+            $itemReturPembelian->applyStockTransaction();
         }
 
-        \Illuminate\Support\Facades\DB::commit();
+        DB::commit();
 
         SessionHelper::flashMessage(
             __("messages.create.success"),

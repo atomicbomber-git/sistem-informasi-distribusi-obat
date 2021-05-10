@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Jenssegers\Date\Date;
 
@@ -50,5 +51,10 @@ class ReturPembelian extends Model
         }
 
         return Date::make($this->waktu_pengembalian)->format("YM");
+    }
+
+    public function itemReturPembelians(): HasMany
+    {
+        return $this->hasMany(ItemReturPembelian::class);
     }
 }

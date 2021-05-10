@@ -109,8 +109,8 @@ class ItemFakturPembelian extends Model
         return $this->belongsTo(Produk::class, "produk_kode", "kode");
     }
 
-    public function mutasiStocks(): HasMany
+    public function mutasiStock(): hasOne
     {
-        return $this->HasMany(MutasiStock::class);
+        return $this->hasOne(MutasiStock::class);
     }
 }
