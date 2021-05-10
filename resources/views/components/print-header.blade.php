@@ -28,7 +28,7 @@
 
     <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
         <div> Via: {{ $fakturPenjualan->pelanggan->nama }} </div>
-        <div> No Faktur: {{ $fakturPenjualan->getNomorPrefix() }} </div>
+        <div> No Faktur: {{ $fakturPenjualan->getPrefixedNomor() }} </div>
         <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($fakturPenjualan->waktu_pengeluaran) }} </div>
     </div>
 </header>

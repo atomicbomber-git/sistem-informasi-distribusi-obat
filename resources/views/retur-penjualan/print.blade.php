@@ -5,6 +5,12 @@
                 RETUR PENJUALAN
             </h1>
 
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
+                <div> Via: {{ $returPenjualan->fakturPenjualan->pelanggan->nama }} </div>
+                <div> No Faktur: {{ $returPenjualan->getPrefixedNomor() }} </div>
+                <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </div>
+            </div>
+
             <table>
                 <thead>
                     <tr>
@@ -15,7 +21,6 @@
                         <th> Satuan </th>
                         <th class="numeric"> Quantity </th>
                         <th class="numeric"> Harga Satuan </th>
-                        <th class="numeric"> Jumlah Harga Rp. </th>
                     </tr>
                 </thead>
 
@@ -29,23 +34,9 @@
                             <td> {{ $itemReturPenjualan->mutasiStockPenjualan->itemFakturPenjualan->produk->satuan }} </td> {{-- Satuan--}}
                             <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemReturPenjualan->jumlah) }} </td> {{-- Quantity--}}
                             <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemReturPenjualan->mutasiStockPenjualan->itemFakturPenjualan->harga_satuan) }} </td> {{-- Harga Satuan--}}
-                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemReturPenjualan->mutasiStockPenjualan->itemFakturPenjualan->jumlah_harga_per_baris) }} </td> {{-- Jumlah Harga Rp.--}}
                         </tr>
                     @endforeach
                 </tbody>
-
-                @if($loop->last)
-                    <tr>
-                        <td colspan="7">  </td> {{-- KODE--}}
-                        {{-- Nama Barang--}}
-                        {{-- No. Batch--}}
-                        {{-- E.D.--}}
-                        {{-- Satuan--}}
-                        {{-- Quantity--}}
-                        {{-- Harga Satuan--}}
-                        <td style="text-align: right"> {{ \App\Support\Formatter::currency($total_harga ?? 0) }} </td> {{-- Jumlah Harga Rp.--}}
-                    </tr>
-                @endif
             </table>
         </x-print-sheet>
     @endforeach

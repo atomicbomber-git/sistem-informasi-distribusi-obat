@@ -1,9 +1,15 @@
-<x-layouts.print :title="__('application.purchase_invoice') . ' ' . $fakturPembelian->getKey()">
-    @foreach ($itemFakturPembelianPages as $pageIndex => $itemFakturPembelians)
+<x-layouts.print :title="__('application.purchase-return') . ' ' . $returPembelian->getKey()">
+    @foreach ($itemReturPembelianPages as $pageIndex => $itemReturPembelians)
         <x-print-sheet>
             <h1 style="font-size: 18pt; text-align: center">
-                FAKTUR PEMBELIAN
+                RETUR PEMBELIAN
             </h1>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
+                <div> Via: {{ $returPembelian->fakturPembelian->pemasok->nama }} </div>
+                <div> No Faktur: {{ $returPembelian->getPrefixedNomor() }} </div>
+                <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($returPembelian->waktu_pengembalian) }} </div>
+            </div>
 
             <table>
                 <thead>
@@ -15,37 +21,22 @@
                         <th> Satuan </th>
                         <th class="numeric"> Quantity </th>
                         <th class="numeric"> Harga Satuan </th>
-                        <th class="numeric"> Jumlah Harga Rp. </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach ($itemFakturPembelians as $itemFakturPembelian)
+                    @foreach ($itemReturPembelians as $itemReturPembelian)
                         <tr>
-                            <td> {{ $itemFakturPembelian->produk_kode }} </td> {{-- KODE--}}
-                            <td> {{ $itemFakturPembelian->produk->nama }} </td> {{-- Nama Barang--}}
-                            <td> {{ $itemFakturPembelian->kode_batch }} </td> {{-- No. Batch--}}
-                            <td> {{ \App\Support\Formatter::dayMonthYear($itemFakturPembelian->expired_at) }} </td> {{-- E.D.--}}
-                            <td> {{ $itemFakturPembelian->produk->satuan }} </td> {{-- Satuan--}}
-                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemFakturPembelian->jumlah) }} </td> {{-- Quantity--}}
-                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemFakturPembelian->harga_satuan) }} </td> {{-- Harga Satuan--}}
-                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemFakturPembelian->jumlah_harga_per_baris) }} </td> {{-- Jumlah Harga Rp.--}}
+                            <td> {{ $itemReturPembelian->itemFakturPembelian->produk_kode }} </td> {{-- KODE--}}
+                            <td> {{ $itemReturPembelian->itemFakturPembelian->produk->nama }} </td> {{-- Nama Barang--}}
+                            <td> {{ $itemReturPembelian->itemFakturPembelian->kode_batch }} </td> {{-- No. Batch--}}
+                            <td> {{ \App\Support\Formatter::dayMonthYear($itemReturPembelian->itemFakturPembelian->expired_at) }} </td> {{-- E.D.--}}
+                            <td> {{ $itemReturPembelian->itemFakturPembelian->produk->satuan }} </td> {{-- Satuan--}}
+                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemReturPembelian->jumlah) }} </td> {{-- Quantity--}}
+                            <td style="text-align: right"> {{ \App\Support\Formatter::currency($itemReturPembelian->itemFakturPembelian->harga_satuan) }} </td> {{-- Harga Satuan--}}
                         </tr>
                     @endforeach
                 </tbody>
-
-                @if($loop->last)
-                    <tr>
-                        <td colspan="7">  </td> {{-- KODE--}}
-                        {{-- Nama Barang--}}
-                        {{-- No. Batch--}}
-                        {{-- E.D.--}}
-                        {{-- Satuan--}}
-                        {{-- Quantity--}}
-                        {{-- Harga Satuan--}}
-                        <td style="text-align: right"> {{ \App\Support\Formatter::currency($total_harga) }} </td> {{-- Jumlah Harga Rp.--}}
-                    </tr>
-                @endif
             </table>
         </x-print-sheet>
     @endforeach
