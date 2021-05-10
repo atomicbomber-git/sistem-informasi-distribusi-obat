@@ -72,10 +72,8 @@ class ReturPenjualanCreate extends Component
     public function submit()
     {
         $validatedData = $this->validateAndEmitErrors();
-
-
         $this->validateInCaseOfDuplicatedItems($validatedData["draftItemReturPenjualans"]);
-
+        
         DB::beginTransaction();
 
         $this->returPenjualan->save();

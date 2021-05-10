@@ -132,6 +132,7 @@
                     @lang("application.add_item")
                 </label>
                 <select
+                        wire:key="add-item-select"
                         wire:ignore
                         style="width: 100%"
                         x-bind:disabled="searchUrl === null"

@@ -162,6 +162,9 @@ return [
         "itemReturPenjualans.*.jumlah" => "jumlah",
         "itemReturPenjualans.*.alasan" => "alasan",
 
+        "itemReturPembelians.*.jumlah" => "jumlah",
+        "itemReturPembelians.*.alasan" => "alasan",
+
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
         'document' => 'dokumen',

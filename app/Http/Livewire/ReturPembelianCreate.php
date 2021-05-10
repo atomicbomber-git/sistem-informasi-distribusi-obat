@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\MessageState;
 use App\Models\FakturPembelian;
 use App\Models\ItemFakturPembelian;
 use App\Models\ItemReturPembelian;
 use App\Models\ReturPembelian;
 use App\Rules\ReturPembelianNomorUnique;
 use App\Support\HasValidatorThatEmitsErrors;
+use App\Support\SessionHelper;
+use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +31,7 @@ class ReturPembelianCreate extends Component
             "returPembelian.nomor" => ["required", "integer", new ReturPembelianNomorUnique($this->returPembelian)],
             "returPembelian.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "returPembelian.faktur_pembelian_kode" => ["required", Rule::exists(FakturPembelian::class, "kode")],
-            "itemReturPembelians.*.item_faktur_pembelian_id" => ["required", Rule::exists(ItemReturPembelian::class, "id")],
+            "itemReturPembelians.*.item_faktur_pembelian_id" => ["required", Rule::exists(ItemFakturPembelian::class, "id")],
             "itemReturPembelians.*.jumlah" => ["required", "gt:0"],
             "itemReturPembelians.*.alasan" => ["required", Rule::in(ItemReturPembelian::REASONS)],
         ];
@@ -76,6 +79,31 @@ class ReturPembelianCreate extends Component
         );
     }
 
+    public function submit()
+    {
+        $this->validateAndEmitErrors();
+        $this->validateInCaseOfDuplicatedItems();
+        $this->validateInCaseJumlahInEachLineExceedsJumlahInItemFakturPenjualan();
+
+        \Illuminate\Support\Facades\DB::beginTransaction();
+
+        $this->returPembelian->save();
+
+        // TODO: Implement stockTransaction logic
+        foreach ($this->itemReturPembelians as $itemReturPembelian) {
+            $itemReturPembelian->save();
+        }
+
+        \Illuminate\Support\Facades\DB::commit();
+
+        SessionHelper::flashMessage(
+            __("messages.create.success"),
+            MessageState::STATE_SUCCESS,
+        );
+
+        $this->redirect(route("retur-pembelian.index"));
+    }
+
     private function validateInCaseOfDuplicatedItems(): void
     {
         $errorMessagesForDuplicatedDraftItems = $this->itemReturPembelians
@@ -85,7 +113,7 @@ class ReturPembelianCreate extends Component
             )
             ->filter(fn(\Illuminate\Support\Collection $group) => $group->count() > 1)
             ->collapse()
-            ->mapWithKeys(fn(ItemReturPembelian $itemReturPenjualan, int $index) => [
+            ->mapWithKeys(fn(ItemReturPembelian $itemReturPembelian, int $index) => [
                 "itemReturPembelians.{$index}.jumlah" => "Tidak boleh terdapat item ganda untuk pasangan item - kode batch - alasan",
                 "itemReturPembelians.{$index}.alasan" => "Tidak boleh terdapat item ganda untuk pasangan item - kode batch - alasan",
             ]);
@@ -95,10 +123,39 @@ class ReturPembelianCreate extends Component
         }
     }
 
-    public function submit()
+    private function validateInCaseJumlahInEachLineExceedsJumlahInItemFakturPenjualan(): void
     {
-        $validatedData = $this->validateAndEmitErrors();
-        $this->validateInCaseOfDuplicatedItems();
+        $sumOfJumlahByItemFakturPenjualanId = $this->itemReturPembelians
+            ->groupBy("item_faktur_pembelian_id", true)
+            ->mapWithKeys(function (\Illuminate\Support\Collection $group, int $item_faktur_pembelian_id) {
+                return [$item_faktur_pembelian_id => $group->sum("jumlah")];
+            });
+
+        $errors = $this->itemReturPembelians
+            ->filter(function (ItemReturPembelian $itemReturPembelian) use ($sumOfJumlahByItemFakturPenjualanId) {
+                return
+                    $sumOfJumlahByItemFakturPenjualanId[$itemReturPembelian->item_faktur_pembelian_id] >
+                    $itemReturPembelian->itemFakturPembelian->jumlah
+                    ;
+            })->mapWithKeys(function (ItemReturPembelian $itemReturPembelian, int $key) {
+                return [
+                    "itemReturPembelians.{$key}.jumlah" => sprintf(
+                        "Total jumlah untuk item dengan kode batch \"%s\" tidak boleh melebihi %d",
+                        $itemReturPembelian->itemFakturPembelian->kode_batch,
+                        $itemReturPembelian->itemFakturPembelian->jumlah,
+                    )
+                ];
+            });
+
+        if ($errors->isNotEmpty()) {
+            throw $this->emitValidationExceptionErrors(ValidationException::withMessages($errors->toArray()));
+        }
+    }
+
+    public function render()
+    {
+        $this->pruneInvalidData();
+        return view('livewire.retur-pembelian-create');
     }
 
     public function pruneInvalidData(): void
@@ -106,11 +163,5 @@ class ReturPembelianCreate extends Component
         $this->itemReturPembelians = $this->itemReturPembelians->filter(function (mixed $item) {
             return $item instanceof ItemReturPembelian;
         });
-    }
-
-    public function render()
-    {
-        $this->pruneInvalidData();
-        return view('livewire.retur-pembelian-create');
     }
 }
