@@ -1,17 +1,18 @@
 <x-layouts.print :title="__('application.sales-return') . ' ' . $returPenjualan->getPrefixedNomor()">
     @foreach ($itemReturPenjualanPages as $pageIndex => $itemReturPenjualans)
-        <x-print-sheet>
-            <h1 style="font-size: 18pt; text-align: center">
-                RETUR PENJUALAN
-            </h1>
+        <x-print-sheet style="display: flex; flex-direction: column">
+            <x-print-header
+                title="RETUR PENJUALAN"
+                :target="$returPenjualan->fakturPenjualan->pelanggan->nama"
+            >
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
+                    <div> Via: {{ $returPenjualan->fakturPenjualan->pelanggan->nama }} </div>
+                    <div> No Faktur: {{ $returPenjualan->getPrefixedNomor() }} </div>
+                    <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </div>
+                </div>
+            </x-print-header>
 
-            <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
-                <div> Via: {{ $returPenjualan->fakturPenjualan->pelanggan->nama }} </div>
-                <div> No Faktur: {{ $returPenjualan->getPrefixedNomor() }} </div>
-                <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($returPenjualan->waktu_pengembalian) }} </div>
-            </div>
-
-            <table>
+            <table style="flex: 1">
                 <thead>
                     <tr>
                         <th> KODE </th>
@@ -38,6 +39,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <x-print-footer
+                :hasLeftSide="false"
+            ></x-print-footer>
         </x-print-sheet>
     @endforeach
 </x-layouts.print>

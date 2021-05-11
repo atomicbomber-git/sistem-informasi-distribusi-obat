@@ -1,9 +1,10 @@
 <x-layouts.print :title="__('application.purchase-return') . ' ' . $returPembelian->getPrefixedNomor()">
     @foreach ($itemReturPembelianPages as $pageIndex => $itemReturPembelians)
-        <x-print-sheet>
-            <h1 style="font-size: 18pt; text-align: center">
-                RETUR PEMBELIAN
-            </h1>
+        <x-print-sheet style="display: flex; flex-direction: column ">
+            <x-print-header
+                    title="RETUR PEMBELIAN"
+                    :target="$returPembelian->fakturPembelian->pemasok->nama"
+            />
 
             <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
                 <div> Via: {{ $returPembelian->fakturPembelian->pemasok->nama }} </div>
@@ -11,7 +12,7 @@
                 <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($returPembelian->waktu_pengembalian) }} </div>
             </div>
 
-            <table>
+            <table style="flex: 1">
                 <thead>
                     <tr>
                         <th> KODE </th>
@@ -38,6 +39,11 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <x-print-footer
+                :hasLeftSide="false"
+            />
+
         </x-print-sheet>
     @endforeach
 </x-layouts.print>

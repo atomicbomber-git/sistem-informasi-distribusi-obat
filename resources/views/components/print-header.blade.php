@@ -1,5 +1,6 @@
 @props([
-    "fakturPenjualan" => new \App\Models\FakturPenjualan(),
+    "title" => "FAKTUR",
+    "target" => "",
 ])
 
 <header>
@@ -18,17 +19,16 @@
         </div>
         <div style="flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: space-between">
             <div></div>
-            <div style="font-size: 18pt"> FAKTUR </div>
+            <div style="font-size: 18pt"> {{ $title }} </div>
         </div>
         <div style="flex: 1; border: thin solid black; display: flex; flex-direction: column; justify-content: space-between; text-align: left">
-            <div> Kepada Yth: </div>
+            <div>
+                Kepada Yth:<br/>
+                {{ $target }}
+            </div>
             <div> NPWP: </div>
         </div>
     </div>
 
-    <div style="display: flex; justify-content: space-between; margin-top: 10px; margin-bottom: 10px">
-        <div> Via: {{ $fakturPenjualan->pelanggan->nama }} </div>
-        <div> No Faktur: {{ $fakturPenjualan->getPrefixedNomor() }} </div>
-        <div> Tgl. Faktur: {{ \App\Support\Formatter::dayMonthYear($fakturPenjualan->waktu_pengeluaran) }} </div>
-    </div>
+    {{ $slot }}
 </header>
