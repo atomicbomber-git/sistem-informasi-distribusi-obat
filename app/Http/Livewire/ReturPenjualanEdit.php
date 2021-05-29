@@ -27,7 +27,7 @@ class ReturPenjualanEdit extends Component
     public function rules(): array
     {
         return [
-            "returPenjualan.nomor" => ["required", "integer", new ReturPenjualanNomorUnique($this->returPenjualan, $this->returPenjualan->nomor)],
+            "returPenjualan.nomor" => ["required", "integer", new ReturPenjualanNomorUnique($this->returPenjualan, $this->returPenjualan->nomor ?: null)],
             "returPenjualan.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "itemReturPenjualans.*.retur_penjualan_id" => ["required", Rule::exists(ReturPenjualan::class, "id")],
             "itemReturPenjualans.*.mutasi_stock_penjualan_id" => ["bail", "required", Rule::exists(MutasiStock::class, "id")],

@@ -28,7 +28,7 @@ class ReturPembelianEdit extends Component
     public function rules()
     {
         return [
-            "returPembelian.nomor" => ["required", "integer", new ReturPembelianNomorUnique($this->returPembelian, $this->returPembelian->nomor) ],
+            "returPembelian.nomor" => ["required", "integer", new ReturPembelianNomorUnique($this->returPembelian, $this->returPembelian->nomor ?: null) ],
             "returPembelian.waktu_pengembalian" => ["required", "date_format:Y-m-d\TH:i"],
             "returPembelian.faktur_pembelian_kode" => ["required", Rule::exists(FakturPembelian::class, "kode")],
             "itemReturPembelians.*.item_faktur_pembelian_id" => ["required", Rule::exists(ItemFakturPembelian::class, "id")],
