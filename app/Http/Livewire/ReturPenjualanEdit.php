@@ -61,6 +61,8 @@ class ReturPenjualanEdit extends Component
 
         DB::beginTransaction();
 
+        $this->returPenjualan->save();
+
         $deletedItemReturPenjualans = $this->returPenjualan
             ->itemReturPenjualans()
             ->whereNotIn("id", $this->itemReturPenjualans->pluck("id"))
