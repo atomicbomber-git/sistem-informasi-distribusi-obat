@@ -36,7 +36,7 @@
 
                 <tbody>
                 @foreach ($pelanggans as $pelanggan)
-                    <tr>
+                    <tr wire:key={{ $pelanggan->getKey() }}>
                         <td> {{ $pelanggans->firstItem() + $loop->index }} </td>
                         <td> {{ $pelanggan->nama }} </td>
                         <td> {{ $pelanggan->alamat }} </td>
