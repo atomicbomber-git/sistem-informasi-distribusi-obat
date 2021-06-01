@@ -30,7 +30,7 @@ test("getPlannedFirstExpiredFirstOutMutations() works correctly", function () {
         $expectation->toArray()
     )->toEqualCanonicalizing(
         $produkA
-            ->getPlannedFirstExpiredFirstOutMutations(75)
+            ->getFirstExpiredFirstOutMutations(75)
             ->toArray()
     );
 });
@@ -44,7 +44,7 @@ test("getPlannedFirstExpiredFirstOutMutations() throws exception when not enough
     Stock::factory()->create(["produk_kode" => $produkA->kode, "jumlah" => 100, "expired_at" => $now->addWeeks(3), "status" => StockStatus::NORMAL]);
 
     $this->expectException(ApplicationException::class);
-    $produkA->getPlannedFirstExpiredFirstOutMutations(200);
+    $produkA->getFirstExpiredFirstOutMutations(200);
 });
 
 test("withQuantityInHand() works correctly", function () {

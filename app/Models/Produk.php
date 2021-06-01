@@ -33,18 +33,20 @@ class Produk extends Model
      * @param float $amount
      * @return Collection | PlannedStockMutation[]
      */
-    public function getPlannedFirstExpiredFirstOutMutations(float $amount): Collection
+    public function getFirstExpiredFirstOutMutations(float $amount): Collection
     {
-        // Check if has enough stock
+        // Cek jumlah stock yang ada dari Produk ini
         $quantityInHand = self::query()
             ->whereKey($this->getKey())
             ->withQuantityInHand()
             ->value("quantity_in_hand");
 
+        // Jika permintaan ($amount) > jumlah yang ada ($quantityInHand), maka error
         if (bccomp($quantityInHand, $amount) === -1) {
-            throw new ApplicationException("Not enough stock available for {$this->nama} ({$this->kode})");
+            throw new ApplicationException("Stock tidak cukup untuk produk {$this->nama} dengan kode ({$this->kode})");
         }
 
+        // Tarik data stock, diurutkan dari kolom expired_at, dengan syarat statusnya normal
         /** @var Collection | Stock[] $stocks */
         $stocks = $this->stocks()
             ->getQuery()
@@ -53,8 +55,8 @@ class Produk extends Model
             ->canBeSold()
             ->get();
 
+        // Tambahkan masing2 jumlah stock sampai totalnya sesuai permintaan
         $results = new Collection();
-
         $remainder = $amount;
         foreach ($stocks as $stock) {
             $amountToBeTaken = $remainder > $stock->jumlah ?

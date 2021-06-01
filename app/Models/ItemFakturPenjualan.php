@@ -73,7 +73,7 @@ class ItemFakturPenjualan extends Model
         $produk = Produk::query()->findOrFail($this->produk_kode);
 
         $produk
-            ->getPlannedFirstExpiredFirstOutMutations($this->jumlah)
+            ->getFirstExpiredFirstOutMutations($this->jumlah)
             ->each(function (PlannedStockMutation $plan) {
                 $stock = Stock::find($plan->stockId);
                 $stock->update(["jumlah" => DB::raw("jumlah - {$plan->amount}")]);
