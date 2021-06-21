@@ -3,6 +3,11 @@
 ])
 
 <dl>
+    @if($itemFakturPembelian->faktur_pembelian_kode)
+        <dt> Kode Faktur Pembelian </dt>
+        <dd> {{ $itemFakturPembelian->faktur_pembelian_kode }} </dd>
+    @endif
+
     @if($itemFakturPembelian->produk)
         <dt> Nama Produk</dt>
         <dd> {{ $itemFakturPembelian->produk?->nama }} </dd>
