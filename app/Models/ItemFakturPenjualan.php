@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Kirschbaum\PowerJoins\PowerJoins;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ItemFakturPenjualan extends Model
+class ItemFakturPenjualan extends Model implements Auditable
 {
-    use HasFactory, PowerJoins;
+    use HasFactory, PowerJoins, \OwenIt\Auditing\Auditable;
 
     protected $table = "item_faktur_penjualan";
     protected $connection = "mysql";

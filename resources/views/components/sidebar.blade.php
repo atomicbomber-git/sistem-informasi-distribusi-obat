@@ -8,6 +8,11 @@
         @lang("application.dashboard")
     </x-menu-item>
 
+    <x-menu-item :href="route('audit.index')" routeIs="audit" >
+        <x-icon-audit/>
+        @lang("application.audit")
+    </x-menu-item>
+
     <x-menu-subtitle>
         @lang("application.master-data")
     </x-menu-subtitle>

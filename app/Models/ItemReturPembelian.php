@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ItemReturPembelian extends Model
+class ItemReturPembelian extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     const EXPIRED = "expired";
     const DAMAGED = "damaged";
 

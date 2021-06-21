@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Kirschbaum\PowerJoins\PowerJoins;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ItemFakturPembelian extends Model
+class ItemFakturPembelian extends Model implements Auditable
 {
-    use HasFactory, PowerJoins;
+    use HasFactory, PowerJoins, \OwenIt\Auditing\Auditable;
 
     protected $table = "item_faktur_pembelian";
     protected $guarded = [];
@@ -101,7 +102,7 @@ class ItemFakturPembelian extends Model
             $stock->forceDelete();
         }
 
-        $this->forceDelete();
+        $this->delete();
     }
 
     public function produk(): BelongsTo

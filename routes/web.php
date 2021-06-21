@@ -46,6 +46,7 @@ Auth::routes([
 
 Route::redirect("/", "dashboard");
 
+Route::get("/audit", \App\Http\Controllers\AuditIndexController::class)->name("audit.index");
 Route::get("admin/user/edit", EditAdminUserController::class)->name("admin.user.edit");
 Route::patch("admin/user", UpdateAdminUserController::class)->name("admin.user.update");
 Route::get("produk/search", ProdukSearchController::class)->name("produk.search");

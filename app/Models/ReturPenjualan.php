@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Jenssegers\Date\Date;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ReturPenjualan extends Model
+class ReturPenjualan extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
+
     protected $table = "retur_penjualan";
     protected $guarded = [];
 

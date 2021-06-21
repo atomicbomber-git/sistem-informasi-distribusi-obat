@@ -214,8 +214,6 @@ class FakturPembelianEdit extends Component
 
     public function render()
     {
-        ray()->send($this->item_faktur_pembelians);
-        
         return view('livewire.faktur-pembelian-edit');
     }
 }

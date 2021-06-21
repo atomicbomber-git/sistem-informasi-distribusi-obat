@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Jenssegers\Date\Date;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class FakturPenjualan extends Model
+class FakturPenjualan extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     const NOMOR_PREFIX_CODE = "KM-";
     protected $table = "faktur_penjualan";

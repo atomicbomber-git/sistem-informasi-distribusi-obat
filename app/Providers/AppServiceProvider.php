@@ -5,6 +5,7 @@ namespace App\Providers;
 use Bezhanov\Faker\ProviderCollectionHelper;
 use Faker\Generator as Faker;
 use Illuminate\Support\ServiceProvider;
+use OwenIt\Auditing\Models\Audit;
 
 class AppServiceProvider extends ServiceProvider
 {
