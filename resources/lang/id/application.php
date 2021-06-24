@@ -6,7 +6,7 @@ return [
     "product" => "Produk",
     "product_code" => "Kode Produk",
     "product_name" => "Nama Produk",
-    "audit" => "Audit",
+    "audit" => "Log History",
     "sales_invoice" => "Faktur Penjualan",
     "purchase_invoice" => "Faktur Pembelian",
     "number" => "Nomor",
