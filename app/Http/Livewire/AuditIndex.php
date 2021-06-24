@@ -11,12 +11,15 @@ use App\Models\ItemReturPembelian;
 use App\Models\ItemReturPenjualan;
 use App\Models\ReturPembelian;
 use App\Models\ReturPenjualan;
+use App\Support\WithCustomPagination;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Livewire\Component;
 use OwenIt\Auditing\Models\Audit;
 
 class AuditIndex extends Component
 {
+    use WithCustomPagination;
+
     public function render()
     {
         return view('livewire.audit-index', [
