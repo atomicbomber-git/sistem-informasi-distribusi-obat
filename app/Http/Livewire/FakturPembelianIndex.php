@@ -6,23 +6,26 @@ use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPembelian;
 use App\QueryBuilders\FakturPembelianBuilder;
-use App\QueryBuilders\FakturPenjualanBuilder;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
 use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithTextFilter;
 use App\Support\WithSort;
-use Exception;
+use App\Support\WithTextFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use Throwable;
 
 class FakturPembelianIndex extends Component
 {
     use WithTextFilter, WithCustomPagination, WithSort, WithDateFilter, WithDestroy;
+
     public $pemasok_id = null;
+
+    public function updatedPemasokId()
+    {
+        $this->resetPage();
+    }
 
     public function destroy(mixed $modelKey)
     {

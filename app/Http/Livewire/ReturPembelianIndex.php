@@ -5,13 +5,12 @@ namespace App\Http\Livewire;
 use App\Enums\MessageState;
 use App\Models\ItemReturPembelian;
 use App\Models\ReturPembelian;
-use App\QueryBuilders\FakturPembelianBuilder;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
 use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithTextFilter;
 use App\Support\WithSort;
+use App\Support\WithTextFilter;
 use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +19,13 @@ use Livewire\Component;
 class ReturPembelianIndex extends Component
 {
     use WithTextFilter, WithDateFilter, WithCustomPagination, WithSort, WithDestroy;
+
     public $pemasok_id = null;
+
+    public function updatedPemasokId()
+    {
+        $this->resetPage();
+    }
 
     public function destroy(mixed $key): void
     {

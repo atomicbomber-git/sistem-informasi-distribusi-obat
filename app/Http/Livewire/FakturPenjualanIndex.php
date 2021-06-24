@@ -21,6 +21,11 @@ class FakturPenjualanIndex extends Component
 
     public mixed $pelangganId = null;
 
+    public function updatedPelangganId()
+    {
+        $this->resetPage();
+    }
+
     public function destroy(mixed $modelKey)
     {
         try {

@@ -4,14 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
-use App\Models\FakturPenjualan;
 use App\Models\ReturPenjualan;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
 use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithTextFilter;
 use App\Support\WithSort;
+use App\Support\WithTextFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -21,6 +20,11 @@ class ReturPenjualanIndex extends Component
     use WithTextFilter, WithDateFilter, WithCustomPagination, WithSort, WithDestroy;
 
     public $pelanggan_id = null;
+
+    public function updatedPelangganId()
+    {
+        $this->resetPage();
+    }
 
     public function destroy(mixed $modelKey)
     {
