@@ -18,6 +18,8 @@ class DatetimeInputCast implements CastsAttributes
 
     public function get($model, string $key, $value, array $attributes)
     {
+        if (!$value) return null;
+
         return Date::make($value)->format("Y-m-d\TH:i");
     }
 }

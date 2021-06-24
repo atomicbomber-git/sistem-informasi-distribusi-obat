@@ -71,6 +71,18 @@
                                             :itemReturPembelian="$audit->old_values"
                                     />
                                     @break
+
+                                    @case(\App\Models\ReturPenjualan::class)
+                                    <x-dl-retur-penjualan
+                                            :returPenjualan="$audit->old_values"
+                                    />
+                                    @break
+
+                                    @case(\App\Models\ItemReturPenjualan::class)
+                                    <x-dl-item-retur-penjualan
+                                            :itemReturPenjualan="$audit->old_values"
+                                    />
+                                    @break
                                 @endswitch
                             @endif
                         </td>
@@ -113,6 +125,16 @@
                                     />
                                     @break
 
+                                    @case(\App\Models\ReturPenjualan::class)
+                                    <x-dl-retur-penjualan
+                                            :returPenjualan="$audit->new_values"
+                                    />
+                                    @break
+
+                                    @case(\App\Models\ItemReturPenjualan::class)
+                                    <x-dl-item-retur-penjualan
+                                            :itemReturPenjualan="$audit->new_values"
+                                    />
                                     @break
                                 @endswitch
                             @endif

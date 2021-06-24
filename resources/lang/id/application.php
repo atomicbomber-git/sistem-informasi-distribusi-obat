@@ -16,6 +16,7 @@ return [
     "expired" => "Expired",
     "reason" => "Alasan",
     "sales-return" => "Retur Penjualan",
+    "sales-return-number" => "Nomor Retur Penjualan",
     "purchase-return" => "Retur Pembelian",
     "purchase-return-number" => "Nomor Retur Pembelian",
     "arrived_at" => "Waktu Penerimaan",
