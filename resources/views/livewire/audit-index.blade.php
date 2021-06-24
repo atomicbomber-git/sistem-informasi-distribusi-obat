@@ -59,6 +59,18 @@
                                             :itemFakturPenjualan="$audit->old_values"
                                     />
                                     @break
+
+                                    @case(\App\Models\ReturPembelian::class)
+                                    <x-dl-retur-pembelian
+                                            :returPembelian="$audit->old_values"
+                                    />
+                                    @break
+
+                                    @case(\App\Models\ItemReturPembelian::class)
+                                    <x-dl-item-retur-pembelian
+                                            :itemReturPembelian="$audit->old_values"
+                                    />
+                                    @break
                                 @endswitch
                             @endif
                         </td>
@@ -88,6 +100,19 @@
                                     <x-dl-item-faktur-penjualan
                                             :itemFakturPenjualan="$audit->new_values"
                                     />
+
+                                    @case(\App\Models\ReturPembelian::class)
+                                    <x-dl-retur-pembelian
+                                            :returPembelian="$audit->new_values"
+                                    />
+                                    @break
+
+                                    @case(\App\Models\ItemReturPembelian::class)
+                                    <x-dl-item-retur-pembelian
+                                            :itemReturPembelian="$audit->new_values"
+                                    />
+                                    @break
+
                                     @break
                                 @endswitch
                             @endif
