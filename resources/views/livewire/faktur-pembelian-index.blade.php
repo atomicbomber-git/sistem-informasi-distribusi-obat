@@ -14,6 +14,7 @@
 
     <x-control-bar>
         <x-filter-input/>
+        <x-filter-date/>
 
         <x-button-link :href="route('faktur-pembelian.create')">
             @lang("application.create")

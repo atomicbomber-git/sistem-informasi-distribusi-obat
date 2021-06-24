@@ -12,7 +12,6 @@ use App\Models\ItemReturPenjualan;
 use App\Models\ReturPembelian;
 use App\Models\ReturPenjualan;
 use App\Support\WithCustomPagination;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Livewire\Component;
 use OwenIt\Auditing\Models\Audit;
 

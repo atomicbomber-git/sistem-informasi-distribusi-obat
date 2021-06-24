@@ -8,8 +8,9 @@ use App\Models\FakturPenjualan;
 use App\Models\ReturPenjualan;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
+use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithFilter;
+use App\Support\WithTextFilter;
 use App\Support\WithSort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ use Livewire\Component;
 
 class ReturPenjualanIndex extends Component
 {
-    use WithFilter, WithCustomPagination, WithSort, WithDestroy;
+    use WithTextFilter, WithDateFilter, WithCustomPagination, WithSort, WithDestroy;
 
     public $pelanggan_id = null;
 
@@ -53,6 +54,12 @@ class ReturPenjualanIndex extends Component
     {
         return view('livewire.retur-penjualan-index', [
             "returPenjualans" => ReturPenjualan::query()
+                ->when($this->date_filter_begin, function ($builder, string $date_filter_begin) {
+                    $builder->whereDate("waktu_pengembalian", ">=", $date_filter_begin);
+                })
+                ->when($this->date_filter_end, function ($builder, string $date_filter_end) {
+                    $builder->whereDate("waktu_pengembalian", "<=", $date_filter_end);
+                })
                 ->when($this->pelanggan_id, function (Builder $builder, $pelanggan_id) {
                     $builder->whereHas("fakturPenjualan", function (Builder $builder) {
                         $builder->where("pelanggan_id", $this->pelanggan_id);

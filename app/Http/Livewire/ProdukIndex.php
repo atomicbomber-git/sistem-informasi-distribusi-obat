@@ -5,14 +5,14 @@ namespace App\Http\Livewire;
 use App\Models\Produk;
 use App\Support\WithCustomPagination;
 use App\Support\WithDestroy;
-use App\Support\WithFilter;
+use App\Support\WithTextFilter;
 use App\Support\WithSort;
 use Exception;
 use Livewire\Component;
 
 class ProdukIndex extends Component
 {
-    use WithFilter, WithCustomPagination, WithSort, WithDestroy;
+    use WithTextFilter, WithCustomPagination, WithSort, WithDestroy;
 
     public function deleteFailureMessage(Exception $exception): string
     {

@@ -5,13 +5,13 @@ namespace App\Http\Livewire;
 use App\Models\Produk;
 use App\Models\Stock;
 use App\Support\WithCustomPagination;
-use App\Support\WithFilter;
+use App\Support\WithTextFilter;
 use App\Support\WithSort;
 use Livewire\Component;
 
 class StockIndex extends Component
 {
-    use WithFilter, WithCustomPagination, WithSort;
+    use WithTextFilter, WithCustomPagination, WithSort;
     public Produk $produk;
 
     public function render()

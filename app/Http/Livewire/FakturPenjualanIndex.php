@@ -4,21 +4,20 @@ namespace App\Http\Livewire;
 
 use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
-use App\Models\FakturPembelian;
 use App\Models\FakturPenjualan;
-use App\Models\Pelanggan;
 use App\QueryBuilders\FakturPenjualanBuilder;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
+use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithFilter;
 use App\Support\WithSort;
+use App\Support\WithTextFilter;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class FakturPenjualanIndex extends Component
 {
-    use WithCustomPagination, WithSort, WithFilter, WithDestroy;
+    use WithCustomPagination, WithSort, WithTextFilter, WithDateFilter, WithDestroy;
 
     public mixed $pelangganId = null;
 
@@ -55,6 +54,12 @@ class FakturPenjualanIndex extends Component
     {
         return view('livewire.faktur-penjualan-index', [
             "fakturPenjualans" => FakturPenjualan::query()
+                ->when($this->date_filter_begin, function (FakturPenjualanBuilder $builder, string $date_filter_begin) {
+                    $builder->whereDate("waktu_pengeluaran", ">=", $date_filter_begin);
+                })
+                ->when($this->date_filter_end, function (FakturPenjualanBuilder $builder, string $date_filter_end) {
+                    $builder->whereDate("waktu_pengeluaran", "<=", $date_filter_end);
+                })
                 ->when($this->pelangganId, function (FakturPenjualanBuilder $builder) {
                     $builder->where("pelanggan_id", $this->pelangganId);
                 })

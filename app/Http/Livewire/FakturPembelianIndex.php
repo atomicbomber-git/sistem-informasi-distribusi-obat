@@ -5,10 +5,13 @@ namespace App\Http\Livewire;
 use App\Enums\MessageState;
 use App\Exceptions\ApplicationException;
 use App\Models\FakturPembelian;
+use App\QueryBuilders\FakturPembelianBuilder;
+use App\QueryBuilders\FakturPenjualanBuilder;
 use App\Support\SessionHelper;
 use App\Support\WithCustomPagination;
+use App\Support\WithDateFilter;
 use App\Support\WithDestroy;
-use App\Support\WithFilter;
+use App\Support\WithTextFilter;
 use App\Support\WithSort;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +21,7 @@ use Throwable;
 
 class FakturPembelianIndex extends Component
 {
-    use WithFilter, WithCustomPagination, WithSort, WithDestroy;
+    use WithTextFilter, WithCustomPagination, WithSort, WithDateFilter, WithDestroy;
     public $pemasok_id = null;
 
     public function destroy(mixed $modelKey)
@@ -62,6 +65,13 @@ class FakturPembelianIndex extends Component
                 ])
                 ->with("pemasok")
                 ->orderByDesc("waktu_penerimaan")
+                ->when($this->date_filter_begin, function (FakturPembelianBuilder $builder, string $date_filter_begin) {
+                    $builder->whereDate("waktu_penerimaan", ">=", $date_filter_begin);
+                })
+                ->when($this->date_filter_end, function (FakturPembelianBuilder $builder, string $date_filter_end) {
+                    $builder->whereDate("waktu_penerimaan", "<=", $date_filter_end);
+                })
+
                 ->when($this->pemasok_id, function (Builder $builder) {
                     $builder->where("pemasok_id", $this->pemasok_id);
                 })

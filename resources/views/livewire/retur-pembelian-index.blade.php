@@ -14,6 +14,7 @@
 
     <x-control-bar>
         <x-filter-input/>
+        <x-filter-date/>
         <x-button-link :href="route('retur-pembelian.create')">
             @lang("application.create")
             <x-icon-create/>
