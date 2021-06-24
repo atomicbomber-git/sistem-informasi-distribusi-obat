@@ -49,6 +49,16 @@
                                             :fakturPembelian="$audit->old_values"
                                     />
                                     @break
+                                    @case(\App\Models\FakturPenjualan::class)
+                                    <x-dl-faktur-penjualan
+                                            :fakturPenjualan="$audit->old_values"
+                                    />
+                                    @break
+                                    @case(\App\Models\ItemFakturPenjualan::class)
+                                    <x-dl-item-faktur-penjualan
+                                            :itemFakturPenjualan="$audit->old_values"
+                                    />
+                                    @break
                                 @endswitch
                             @endif
                         </td>
@@ -69,6 +79,16 @@
                                             :fakturPembelian="$audit->new_values"
                                     />
                                     @break
+                                    @case(\App\Models\FakturPenjualan::class)
+                                    <x-dl-faktur-penjualan
+                                            :fakturPenjualan="$audit->new_values"
+                                    />
+                                    @break
+                                    @case(\App\Models\ItemFakturPenjualan::class)
+                                    <x-dl-item-faktur-penjualan
+                                            :itemFakturPenjualan="$audit->new_values"
+                                    />
+                                    @break
                                 @endswitch
                             @endif
                         </td>
@@ -78,7 +98,6 @@
                 </tbody>
             </x-table>
         </div>
-
         <x-pagination-links-container>
             {{ $audits->links() }}
         </x-pagination-links-container>
